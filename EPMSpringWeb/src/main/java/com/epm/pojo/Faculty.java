@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Win11
+ * @author ACER
  */
 @Entity
 @Table(name = "faculty")
@@ -55,8 +54,8 @@ public class Faculty implements Serializable {
     private Date createdDate;
     @OneToMany(mappedBy = "facultyId")
     private Set<Activity> activitySet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "facultyId")
-    private Set<Class> classSet;
+    @OneToMany(mappedBy = "facultyId")
+    private Set<Classes> classSet;
 
     public Faculty() {
     }
@@ -104,11 +103,11 @@ public class Faculty implements Serializable {
     }
 
     @XmlTransient
-    public Set<Class> getClassSet() {
+    public Set<Classes> getClassSet() {
         return classSet;
     }
 
-    public void setClassSet(Set<Class> classSet) {
+    public void setClassSet(Set<Classes> classSet) {
         this.classSet = classSet;
     }
 

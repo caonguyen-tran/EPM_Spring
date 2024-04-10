@@ -18,15 +18,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Win11
+ * @author ACER
  */
 @Entity
 @Table(name = "account_student")
@@ -34,9 +34,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "AccountStudent.findAll", query = "SELECT a FROM AccountStudent a"),
     @NamedQuery(name = "AccountStudent.findById", query = "SELECT a FROM AccountStudent a WHERE a.id = :id"),
-    @NamedQuery(name = "AccountStudent.findByEmail", query = "SELECT a FROM AccountStudent a WHERE a.email = :email"),
     @NamedQuery(name = "AccountStudent.findByUsername", query = "SELECT a FROM AccountStudent a WHERE a.username = :username"),
     @NamedQuery(name = "AccountStudent.findByPassword", query = "SELECT a FROM AccountStudent a WHERE a.password = :password"),
+    @NamedQuery(name = "AccountStudent.findByEmail", query = "SELECT a FROM AccountStudent a WHERE a.email = :email"),
     @NamedQuery(name = "AccountStudent.findByAvatar", query = "SELECT a FROM AccountStudent a WHERE a.avatar = :avatar")})
 public class AccountStudent implements Serializable {
 
@@ -46,35 +46,27 @@ public class AccountStudent implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "email")
-    private String email;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 45)
     @Column(name = "username")
     private String username;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
+    @Size(max = 45)
     @Column(name = "password")
     private String password;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Size(max = 45)
+    @Column(name = "email")
+    private String email;
+    @Size(max = 80)
     @Column(name = "avatar")
     private String avatar;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudentId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudent")
     private Set<Like1> like1Set;
     @JoinColumn(name = "student_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     private Student studentId;
-    @OneToMany(mappedBy = "accountStudentId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudentId")
     private Set<Comment> commentSet;
-    @OneToMany(mappedBy = "accountStudentId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudentId")
     private Set<Register> registerSet;
 
     public AccountStudent() {
@@ -84,28 +76,12 @@ public class AccountStudent implements Serializable {
         this.id = id;
     }
 
-    public AccountStudent(Integer id, String email, String username, String password, String avatar) {
-        this.id = id;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.avatar = avatar;
-    }
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getUsername() {
@@ -122,6 +98,14 @@ public class AccountStudent implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getAvatar() {

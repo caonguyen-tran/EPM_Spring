@@ -5,7 +5,9 @@
 package com.epm.pojo;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,14 +15,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Win11
+ * @author ACER
  */
 @Entity
 @Table(name = "score")
@@ -28,8 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Score.findAll", query = "SELECT s FROM Score s"),
     @NamedQuery(name = "Score.findById", query = "SELECT s FROM Score s WHERE s.id = :id"),
-    @NamedQuery(name = "Score.findByScore", query = "SELECT s FROM Score s WHERE s.score = :score"),
-    @NamedQuery(name = "Score.findByNote", query = "SELECT s FROM Score s WHERE s.note = :note")})
+    @NamedQuery(name = "Score.findByScoreValue", query = "SELECT s FROM Score s WHERE s.scoreValue = :scoreValue"),
+    @NamedQuery(name = "Score.findByContent", query = "SELECT s FROM Score s WHERE s.content = :content")})
 public class Score implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,11 +44,13 @@ public class Score implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "score")
-    private int score;
-    @Size(max = 255)
-    @Column(name = "note")
-    private String note;
+    @Column(name = "score_value")
+    private int scoreValue;
+    @Size(max = 45)
+    @Column(name = "content")
+    private String content;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "scoreId")
+    private Set<Activity> activitySet;
 
     public Score() {
     }
@@ -53,9 +59,9 @@ public class Score implements Serializable {
         this.id = id;
     }
 
-    public Score(Integer id, int score) {
+    public Score(Integer id, int scoreValue) {
         this.id = id;
-        this.score = score;
+        this.scoreValue = scoreValue;
     }
 
     public Integer getId() {
@@ -66,20 +72,29 @@ public class Score implements Serializable {
         this.id = id;
     }
 
-    public int getScore() {
-        return score;
+    public int getScoreValue() {
+        return scoreValue;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setScoreValue(int scoreValue) {
+        this.scoreValue = scoreValue;
     }
 
-    public String getNote() {
-        return note;
+    public String getContent() {
+        return content;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    @XmlTransient
+    public Set<Activity> getActivitySet() {
+        return activitySet;
+    }
+
+    public void setActivitySet(Set<Activity> activitySet) {
+        this.activitySet = activitySet;
     }
 
     @Override

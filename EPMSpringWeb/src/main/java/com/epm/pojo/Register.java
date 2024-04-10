@@ -6,7 +6,6 @@ package com.epm.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,16 +17,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Win11
+ * @author ACER
  */
 @Entity
 @Table(name = "register")
@@ -35,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Register.findAll", query = "SELECT r FROM Register r"),
     @NamedQuery(name = "Register.findById", query = "SELECT r FROM Register r WHERE r.id = :id"),
-    @NamedQuery(name = "Register.findByDateRegister", query = "SELECT r FROM Register r WHERE r.dateRegister = :dateRegister")})
+    @NamedQuery(name = "Register.findByRegisterDate", query = "SELECT r FROM Register r WHERE r.registerDate = :registerDate")})
 public class Register implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,19 +42,17 @@ public class Register implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "date_register")
+    @Column(name = "register_date")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateRegister;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "registerId")
-    private Set<JoinActivity> joinActivitySet;
+    private Date registerDate;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "registerId")
+    private JoinActivity joinActivity;
     @JoinColumn(name = "account_student_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private AccountStudent accountStudentId;
-    @OneToMany(mappedBy = "activityId")
-    private Set<Register> registerSet;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
-    @ManyToOne
-    private Register activityId;
+    @ManyToOne(optional = false)
+    private Activity activityId;
 
     public Register() {
     }
@@ -73,21 +69,20 @@ public class Register implements Serializable {
         this.id = id;
     }
 
-    public Date getDateRegister() {
-        return dateRegister;
+    public Date getRegisterDate() {
+        return registerDate;
     }
 
-    public void setDateRegister(Date dateRegister) {
-        this.dateRegister = dateRegister;
+    public void setRegisterDate(Date registerDate) {
+        this.registerDate = registerDate;
     }
 
-    @XmlTransient
-    public Set<JoinActivity> getJoinActivitySet() {
-        return joinActivitySet;
+    public JoinActivity getJoinActivity() {
+        return joinActivity;
     }
 
-    public void setJoinActivitySet(Set<JoinActivity> joinActivitySet) {
-        this.joinActivitySet = joinActivitySet;
+    public void setJoinActivity(JoinActivity joinActivity) {
+        this.joinActivity = joinActivity;
     }
 
     public AccountStudent getAccountStudentId() {
@@ -98,20 +93,11 @@ public class Register implements Serializable {
         this.accountStudentId = accountStudentId;
     }
 
-    @XmlTransient
-    public Set<Register> getRegisterSet() {
-        return registerSet;
-    }
-
-    public void setRegisterSet(Set<Register> registerSet) {
-        this.registerSet = registerSet;
-    }
-
-    public Register getActivityId() {
+    public Activity getActivityId() {
         return activityId;
     }
 
-    public void setActivityId(Register activityId) {
+    public void setActivityId(Activity activityId) {
         this.activityId = activityId;
     }
 

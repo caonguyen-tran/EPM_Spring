@@ -10,12 +10,15 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -25,42 +28,34 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ACER
  */
 @Entity
-@Table(name = "semester")
+@Table(name = "class")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Semester.findAll", query = "SELECT s FROM Semester s"),
-    @NamedQuery(name = "Semester.findById", query = "SELECT s FROM Semester s WHERE s.id = :id"),
-    @NamedQuery(name = "Semester.findByName", query = "SELECT s FROM Semester s WHERE s.name = :name"),
-    @NamedQuery(name = "Semester.findByStudyYear", query = "SELECT s FROM Semester s WHERE s.studyYear = :studyYear")})
-public class Semester implements Serializable {
+    @NamedQuery(name = "Class.findAll", query = "SELECT c FROM Class c"),
+    @NamedQuery(name = "Class.findById", query = "SELECT c FROM Class c WHERE c.id = :id"),
+    @NamedQuery(name = "Class.findByName", query = "SELECT c FROM Class c WHERE c.name = :name")})
+public class Classes implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @Size(max = 45)
     @Column(name = "name")
     private String name;
-    @Size(max = 20)
-    @Column(name = "study_year")
-    private String studyYear;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "semesterId")
-    private Set<Activity> activitySet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
+    private Set<Student> studentSet;
+    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
+    @ManyToOne
+    private Faculty facultyId;
 
-    public Semester() {
+    public Classes() {
     }
 
-    public Semester(Integer id) {
+    public Classes(Integer id) {
         this.id = id;
-    }
-
-    public Semester(Integer id, String name) {
-        this.id = id;
-        this.name = name;
     }
 
     public Integer getId() {
@@ -79,21 +74,21 @@ public class Semester implements Serializable {
         this.name = name;
     }
 
-    public String getStudyYear() {
-        return studyYear;
-    }
-
-    public void setStudyYear(String studyYear) {
-        this.studyYear = studyYear;
-    }
-
     @XmlTransient
-    public Set<Activity> getActivitySet() {
-        return activitySet;
+    public Set<Student> getStudentSet() {
+        return studentSet;
     }
 
-    public void setActivitySet(Set<Activity> activitySet) {
-        this.activitySet = activitySet;
+    public void setStudentSet(Set<Student> studentSet) {
+        this.studentSet = studentSet;
+    }
+
+    public Faculty getFacultyId() {
+        return facultyId;
+    }
+
+    public void setFacultyId(Faculty facultyId) {
+        this.facultyId = facultyId;
     }
 
     @Override
@@ -106,10 +101,10 @@ public class Semester implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Semester)) {
+        if (!(object instanceof Classes)) {
             return false;
         }
-        Semester other = (Semester) object;
+        Classes other = (Classes) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -118,7 +113,7 @@ public class Semester implements Serializable {
 
     @Override
     public String toString() {
-        return "com.epm.pojo.Semester[ id=" + id + " ]";
+        return "com.epm.pojo.Class[ id=" + id + " ]";
     }
     
 }

@@ -17,14 +17,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Win11
+ * @author ACER
  */
 @Entity
 @Table(name = "term")
@@ -32,8 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Term.findAll", query = "SELECT t FROM Term t"),
     @NamedQuery(name = "Term.findById", query = "SELECT t FROM Term t WHERE t.id = :id"),
-    @NamedQuery(name = "Term.findByName", query = "SELECT t FROM Term t WHERE t.name = :name"),
-    @NamedQuery(name = "Term.findByContent", query = "SELECT t FROM Term t WHERE t.content = :content")})
+    @NamedQuery(name = "Term.findByName", query = "SELECT t FROM Term t WHERE t.name = :name")})
 public class Term implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,16 +40,9 @@ public class Term implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @Size(max = 45)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "content")
-    private String content;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "termId")
     private Set<Activity> activitySet;
 
@@ -60,12 +51,6 @@ public class Term implements Serializable {
 
     public Term(Integer id) {
         this.id = id;
-    }
-
-    public Term(Integer id, String name, String content) {
-        this.id = id;
-        this.name = name;
-        this.content = content;
     }
 
     public Integer getId() {
@@ -82,14 +67,6 @@ public class Term implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     @XmlTransient

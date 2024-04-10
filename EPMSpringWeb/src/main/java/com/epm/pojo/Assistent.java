@@ -25,24 +25,25 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ACER
  */
 @Entity
-@Table(name = "administrator")
+@Table(name = "assistent")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Administrator.findAll", query = "SELECT a FROM Administrator a"),
-    @NamedQuery(name = "Administrator.findById", query = "SELECT a FROM Administrator a WHERE a.id = :id"),
-    @NamedQuery(name = "Administrator.findByFirstname", query = "SELECT a FROM Administrator a WHERE a.firstname = :firstname"),
-    @NamedQuery(name = "Administrator.findByLastname", query = "SELECT a FROM Administrator a WHERE a.lastname = :lastname"),
-    @NamedQuery(name = "Administrator.findByGender", query = "SELECT a FROM Administrator a WHERE a.gender = :gender"),
-    @NamedQuery(name = "Administrator.findByPhoneNumber", query = "SELECT a FROM Administrator a WHERE a.phoneNumber = :phoneNumber"),
-    @NamedQuery(name = "Administrator.findByDayOfBirth", query = "SELECT a FROM Administrator a WHERE a.dayOfBirth = :dayOfBirth"),
-    @NamedQuery(name = "Administrator.findByAddress", query = "SELECT a FROM Administrator a WHERE a.address = :address"),
-    @NamedQuery(name = "Administrator.findByUsername", query = "SELECT a FROM Administrator a WHERE a.username = :username"),
-    @NamedQuery(name = "Administrator.findByPassword", query = "SELECT a FROM Administrator a WHERE a.password = :password"),
-    @NamedQuery(name = "Administrator.findByEmail", query = "SELECT a FROM Administrator a WHERE a.email = :email"),
-    @NamedQuery(name = "Administrator.findByCreatedDate", query = "SELECT a FROM Administrator a WHERE a.createdDate = :createdDate"),
-    @NamedQuery(name = "Administrator.findByActive", query = "SELECT a FROM Administrator a WHERE a.active = :active"),
-    @NamedQuery(name = "Administrator.findByAvatar", query = "SELECT a FROM Administrator a WHERE a.avatar = :avatar")})
-public class Administrator implements Serializable {
+    @NamedQuery(name = "Assistent.findAll", query = "SELECT a FROM Assistent a"),
+    @NamedQuery(name = "Assistent.findById", query = "SELECT a FROM Assistent a WHERE a.id = :id"),
+    @NamedQuery(name = "Assistent.findByFirstname", query = "SELECT a FROM Assistent a WHERE a.firstname = :firstname"),
+    @NamedQuery(name = "Assistent.findByLastname", query = "SELECT a FROM Assistent a WHERE a.lastname = :lastname"),
+    @NamedQuery(name = "Assistent.findByGender", query = "SELECT a FROM Assistent a WHERE a.gender = :gender"),
+    @NamedQuery(name = "Assistent.findByPhoneNumber", query = "SELECT a FROM Assistent a WHERE a.phoneNumber = :phoneNumber"),
+    @NamedQuery(name = "Assistent.findByAssistentcol", query = "SELECT a FROM Assistent a WHERE a.assistentcol = :assistentcol"),
+    @NamedQuery(name = "Assistent.findByDayOfBirth", query = "SELECT a FROM Assistent a WHERE a.dayOfBirth = :dayOfBirth"),
+    @NamedQuery(name = "Assistent.findByAddress", query = "SELECT a FROM Assistent a WHERE a.address = :address"),
+    @NamedQuery(name = "Assistent.findByUsername", query = "SELECT a FROM Assistent a WHERE a.username = :username"),
+    @NamedQuery(name = "Assistent.findByPassword", query = "SELECT a FROM Assistent a WHERE a.password = :password"),
+    @NamedQuery(name = "Assistent.findByEmail", query = "SELECT a FROM Assistent a WHERE a.email = :email"),
+    @NamedQuery(name = "Assistent.findByCreatedDate", query = "SELECT a FROM Assistent a WHERE a.createdDate = :createdDate"),
+    @NamedQuery(name = "Assistent.findByActive", query = "SELECT a FROM Assistent a WHERE a.active = :active"),
+    @NamedQuery(name = "Assistent.findByAvatar", query = "SELECT a FROM Assistent a WHERE a.avatar = :avatar")})
+public class Assistent implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -62,10 +63,13 @@ public class Administrator implements Serializable {
     @Size(max = 20)
     @Column(name = "phone_number")
     private String phoneNumber;
+    @Size(max = 45)
+    @Column(name = "assistentcol")
+    private String assistentcol;
     @Column(name = "day_of_birth")
     @Temporal(TemporalType.DATE)
     private Date dayOfBirth;
-    @Size(max = 255)
+    @Size(max = 45)
     @Column(name = "address")
     private String address;
     @Size(max = 45)
@@ -87,10 +91,10 @@ public class Administrator implements Serializable {
     @Column(name = "avatar")
     private String avatar;
 
-    public Administrator() {
+    public Assistent() {
     }
 
-    public Administrator(Integer id) {
+    public Assistent(Integer id) {
         this.id = id;
     }
 
@@ -132,6 +136,14 @@ public class Administrator implements Serializable {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getAssistentcol() {
+        return assistentcol;
+    }
+
+    public void setAssistentcol(String assistentcol) {
+        this.assistentcol = assistentcol;
     }
 
     public Date getDayOfBirth() {
@@ -208,10 +220,10 @@ public class Administrator implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Administrator)) {
+        if (!(object instanceof Assistent)) {
             return false;
         }
-        Administrator other = (Administrator) object;
+        Assistent other = (Assistent) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -220,7 +232,7 @@ public class Administrator implements Serializable {
 
     @Override
     public String toString() {
-        return "com.epm.pojo.Administrator[ id=" + id + " ]";
+        return "com.epm.pojo.Assistent[ id=" + id + " ]";
     }
     
 }

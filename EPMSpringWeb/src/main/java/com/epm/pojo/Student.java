@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Win11
+ * @author ACER
  */
 @Entity
 @Table(name = "student")
@@ -40,7 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Student.findByFirstname", query = "SELECT s FROM Student s WHERE s.firstname = :firstname"),
     @NamedQuery(name = "Student.findByLastname", query = "SELECT s FROM Student s WHERE s.lastname = :lastname"),
     @NamedQuery(name = "Student.findByGender", query = "SELECT s FROM Student s WHERE s.gender = :gender"),
-    @NamedQuery(name = "Student.findByBirth", query = "SELECT s FROM Student s WHERE s.birth = :birth"),
+    @NamedQuery(name = "Student.findByDayOfBirth", query = "SELECT s FROM Student s WHERE s.dayOfBirth = :dayOfBirth"),
     @NamedQuery(name = "Student.findByPhoneNumber", query = "SELECT s FROM Student s WHERE s.phoneNumber = :phoneNumber"),
     @NamedQuery(name = "Student.findByAddress", query = "SELECT s FROM Student s WHERE s.address = :address"),
     @NamedQuery(name = "Student.findByEmail", query = "SELECT s FROM Student s WHERE s.email = :email")})
@@ -54,42 +53,36 @@ public class Student implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
+    @Size(min = 1, max = 45)
     @Column(name = "firstname")
     private String firstname;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
+    @Size(min = 1, max = 45)
     @Column(name = "lastname")
     private String lastname;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 3)
+    @Size(max = 10)
     @Column(name = "gender")
     private String gender;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "birth")
+    @Column(name = "day_of_birth")
     @Temporal(TemporalType.DATE)
-    private Date birth;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
+    private Date dayOfBirth;
+    @Size(max = 20)
     @Column(name = "phone_number")
     private String phoneNumber;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 255)
     @Column(name = "address")
     private String address;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Size(max = 50)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "email")
     private String email;
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Class classId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
+    private Classes classId;
+    @OneToMany(mappedBy = "studentId")
     private Set<AccountStudent> accountStudentSet;
 
     public Student() {
@@ -99,14 +92,11 @@ public class Student implements Serializable {
         this.id = id;
     }
 
-    public Student(Integer id, String firstname, String lastname, String gender, Date birth, String phoneNumber, String address) {
+    public Student(Integer id, String firstname, String lastname, String email) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.gender = gender;
-        this.birth = birth;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
+        this.email = email;
     }
 
     public Integer getId() {
@@ -141,12 +131,12 @@ public class Student implements Serializable {
         this.gender = gender;
     }
 
-    public Date getBirth() {
-        return birth;
+    public Date getDayOfBirth() {
+        return dayOfBirth;
     }
 
-    public void setBirth(Date birth) {
-        this.birth = birth;
+    public void setDayOfBirth(Date dayOfBirth) {
+        this.dayOfBirth = dayOfBirth;
     }
 
     public String getPhoneNumber() {
@@ -173,11 +163,11 @@ public class Student implements Serializable {
         this.email = email;
     }
 
-    public Class getClassId() {
+    public Classes getClassId() {
         return classId;
     }
 
-    public void setClassId(Class classId) {
+    public void setClassId(Classes classId) {
         this.classId = classId;
     }
 

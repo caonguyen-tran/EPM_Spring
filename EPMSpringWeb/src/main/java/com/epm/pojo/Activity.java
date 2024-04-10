@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Win11
+ * @author ACER
  */
 @Entity
 @Table(name = "activity")
@@ -38,10 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Activity.findAll", query = "SELECT a FROM Activity a"),
     @NamedQuery(name = "Activity.findById", query = "SELECT a FROM Activity a WHERE a.id = :id"),
     @NamedQuery(name = "Activity.findByName", query = "SELECT a FROM Activity a WHERE a.name = :name"),
-    @NamedQuery(name = "Activity.findByCreatedDate", query = "SELECT a FROM Activity a WHERE a.createdDate = :createdDate"),
     @NamedQuery(name = "Activity.findByStartDate", query = "SELECT a FROM Activity a WHERE a.startDate = :startDate"),
     @NamedQuery(name = "Activity.findByEndDate", query = "SELECT a FROM Activity a WHERE a.endDate = :endDate"),
-    @NamedQuery(name = "Activity.findByStartTime", query = "SELECT a FROM Activity a WHERE a.startTime = :startTime"),
     @NamedQuery(name = "Activity.findByDescription", query = "SELECT a FROM Activity a WHERE a.description = :description"),
     @NamedQuery(name = "Activity.findByActive", query = "SELECT a FROM Activity a WHERE a.active = :active")})
 public class Activity implements Serializable {
@@ -57,19 +55,15 @@ public class Activity implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
-    @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
     @Column(name = "start_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
     @Column(name = "end_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
-    @Column(name = "start_time")
-    @Temporal(TemporalType.TIME)
-    private Date startTime;
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "description")
     private String description;
     @Column(name = "active")
@@ -77,16 +71,21 @@ public class Activity implements Serializable {
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
     @ManyToOne
     private Faculty facultyId;
+    @JoinColumn(name = "score_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Score scoreId;
     @JoinColumn(name = "semester_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Semester semesterId;
     @JoinColumn(name = "term_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Term termId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activity")
     private Set<Like1> like1Set;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<Comment> commentSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    private Set<Register> registerSet;
 
     public Activity() {
     }
@@ -95,9 +94,10 @@ public class Activity implements Serializable {
         this.id = id;
     }
 
-    public Activity(Integer id, String name) {
+    public Activity(Integer id, String name, String description) {
         this.id = id;
         this.name = name;
+        this.description = description;
     }
 
     public Integer getId() {
@@ -116,14 +116,6 @@ public class Activity implements Serializable {
         this.name = name;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
     public Date getStartDate() {
         return startDate;
     }
@@ -138,14 +130,6 @@ public class Activity implements Serializable {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
     }
 
     public String getDescription() {
@@ -170,6 +154,14 @@ public class Activity implements Serializable {
 
     public void setFacultyId(Faculty facultyId) {
         this.facultyId = facultyId;
+    }
+
+    public Score getScoreId() {
+        return scoreId;
+    }
+
+    public void setScoreId(Score scoreId) {
+        this.scoreId = scoreId;
     }
 
     public Semester getSemesterId() {
@@ -204,6 +196,15 @@ public class Activity implements Serializable {
 
     public void setCommentSet(Set<Comment> commentSet) {
         this.commentSet = commentSet;
+    }
+
+    @XmlTransient
+    public Set<Register> getRegisterSet() {
+        return registerSet;
+    }
+
+    public void setRegisterSet(Set<Register> registerSet) {
+        this.registerSet = registerSet;
     }
 
     @Override

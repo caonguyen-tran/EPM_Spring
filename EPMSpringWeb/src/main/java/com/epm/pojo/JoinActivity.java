@@ -5,7 +5,6 @@
 package com.epm.pojo;
 
 import java.io.Serializable;
-import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,18 +13,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Win11
+ * @author ACER
  */
 @Entity
 @Table(name = "join_activity")
@@ -34,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "JoinActivity.findAll", query = "SELECT j FROM JoinActivity j"),
     @NamedQuery(name = "JoinActivity.findById", query = "SELECT j FROM JoinActivity j WHERE j.id = :id"),
     @NamedQuery(name = "JoinActivity.findByJoinProof", query = "SELECT j FROM JoinActivity j WHERE j.joinProof = :joinProof"),
-    @NamedQuery(name = "JoinActivity.findByType", query = "SELECT j FROM JoinActivity j WHERE j.type = :type")})
+    @NamedQuery(name = "JoinActivity.findByActive", query = "SELECT j FROM JoinActivity j WHERE j.active = :active")})
 public class JoinActivity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,16 +40,16 @@ public class JoinActivity implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 255)
+    @Size(max = 125)
     @Column(name = "join_proof")
     private String joinProof;
-    @Column(name = "type")
-    private Boolean type;
+    @Column(name = "active")
+    private Boolean active;
     @JoinColumn(name = "register_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     private Register registerId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "joinActivityId")
-    private Set<ResultJoin> resultJoinSet;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "joinId")
+    private ResultJoin resultJoin;
 
     public JoinActivity() {
     }
@@ -77,12 +74,12 @@ public class JoinActivity implements Serializable {
         this.joinProof = joinProof;
     }
 
-    public Boolean getType() {
-        return type;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setType(Boolean type) {
-        this.type = type;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public Register getRegisterId() {
@@ -93,13 +90,12 @@ public class JoinActivity implements Serializable {
         this.registerId = registerId;
     }
 
-    @XmlTransient
-    public Set<ResultJoin> getResultJoinSet() {
-        return resultJoinSet;
+    public ResultJoin getResultJoin() {
+        return resultJoin;
     }
 
-    public void setResultJoinSet(Set<ResultJoin> resultJoinSet) {
-        this.resultJoinSet = resultJoinSet;
+    public void setResultJoin(ResultJoin resultJoin) {
+        this.resultJoin = resultJoin;
     }
 
     @Override
