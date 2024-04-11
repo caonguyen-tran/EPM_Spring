@@ -22,7 +22,7 @@ public class StudentServiceImp implements StudentService{
     
     @Override
     public List<Student> getStudents() {
-        return studentRepository.getStudents();
+        return this.studentRepository.getStudents();
     }
     
 }

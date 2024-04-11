@@ -10,13 +10,11 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  *
  * @author Win11
  */
-public class DispatcherServletInit extends AbstractAnnotationConfigDispatcherServletInitializer{
+public class DispatcherServletInit extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{
-            HibernateConfig.class
-        };
+        return new Class[]{HibernateConfig.class};
     }
 
     @Override
@@ -28,7 +26,7 @@ public class DispatcherServletInit extends AbstractAnnotationConfigDispatcherSer
 
     @Override
     protected String[] getServletMappings() {
-        return new String[] {"/"};
+        return new String[]{"/"};
     }
-    
+
 }
