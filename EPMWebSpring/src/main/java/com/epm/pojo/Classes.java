@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Class.findAll", query = "SELECT c FROM Class c"),
     @NamedQuery(name = "Class.findById", query = "SELECT c FROM Class c WHERE c.id = :id"),
     @NamedQuery(name = "Class.findByName", query = "SELECT c FROM Class c WHERE c.name = :name")})
-public class Class implements Serializable {
+public class Classes implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,10 +51,10 @@ public class Class implements Serializable {
     @ManyToOne
     private Faculty facultyId;
 
-    public Class() {
+    public Classes() {
     }
 
-    public Class(Integer id) {
+    public Classes(Integer id) {
         this.id = id;
     }
 
@@ -101,10 +101,10 @@ public class Class implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Class)) {
+        if (!(object instanceof Classes)) {
             return false;
         }
-        Class other = (Class) object;
+        Classes other = (Classes) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

@@ -80,7 +80,7 @@ public class Student implements Serializable {
     private String email;
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Class classId;
+    private Classes classId;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "studentId")
     private AccountStudent accountStudent;
 
@@ -162,11 +162,11 @@ public class Student implements Serializable {
         this.email = email;
     }
 
-    public Class getClassId() {
+    public Classes getClassId() {
         return classId;
     }
 
-    public void setClassId(Class classId) {
+    public void setClassId(Classes classId) {
         this.classId = classId;
     }
 
