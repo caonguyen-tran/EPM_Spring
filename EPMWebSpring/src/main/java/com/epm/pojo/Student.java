@@ -6,8 +6,8 @@ package com.epm.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,14 +17,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -81,9 +80,9 @@ public class Student implements Serializable {
     private String email;
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Classes classId;
-    @OneToMany(mappedBy = "studentId")
-    private Set<AccountStudent> accountStudentSet;
+    private Class classId;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "studentId")
+    private AccountStudent accountStudent;
 
     public Student() {
     }
@@ -163,21 +162,20 @@ public class Student implements Serializable {
         this.email = email;
     }
 
-    public Classes getClassId() {
+    public Class getClassId() {
         return classId;
     }
 
-    public void setClassId(Classes classId) {
+    public void setClassId(Class classId) {
         this.classId = classId;
     }
 
-    @XmlTransient
-    public Set<AccountStudent> getAccountStudentSet() {
-        return accountStudentSet;
+    public AccountStudent getAccountStudent() {
+        return accountStudent;
     }
 
-    public void setAccountStudentSet(Set<AccountStudent> accountStudentSet) {
-        this.accountStudentSet = accountStudentSet;
+    public void setAccountStudent(AccountStudent accountStudent) {
+        this.accountStudent = accountStudent;
     }
 
     @Override

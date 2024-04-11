@@ -22,9 +22,7 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
-    "com.epm.controllers",
-    "com.epm.repositories",
-    "com.epm.services",
+    "com.epm.controllers"
 })
 public class WebAppContextConfig implements WebMvcConfigurer{
 
@@ -39,7 +37,6 @@ public class WebAppContextConfig implements WebMvcConfigurer{
         r.setViewClass(JstlView.class);
         r.setPrefix("/WEB-INF/pages/");
         r.setSuffix(".jsp");
-        
         return r;
     }
     

@@ -55,7 +55,7 @@ public class Faculty implements Serializable {
     @OneToMany(mappedBy = "facultyId")
     private Set<Activity> activitySet;
     @OneToMany(mappedBy = "facultyId")
-    private Set<Classes> classSet;
+    private Set<Class> classSet;
 
     public Faculty() {
     }
@@ -103,11 +103,11 @@ public class Faculty implements Serializable {
     }
 
     @XmlTransient
-    public Set<Classes> getClassSet() {
+    public Set<Class> getClassSet() {
         return classSet;
     }
 
-    public void setClassSet(Set<Classes> classSet) {
+    public void setClassSet(Set<Class> classSet) {
         this.classSet = classSet;
     }
 

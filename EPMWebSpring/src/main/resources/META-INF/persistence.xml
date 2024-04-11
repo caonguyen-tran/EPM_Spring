@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+  <!-- Define Persistence Unit -->
+  <persistence-unit name="my_persistence_unit">
+    <class>com.epm.pojo.Like1</class>
+    <class>com.epm.pojo.Student</class>
+    <class>com.epm.pojo.Comment</class>
+    <class>com.epm.pojo.JoinActivity</class>
+    <class>com.epm.pojo.ResultJoin</class>
+    <class>com.epm.pojo.Activity</class>
+    <class>com.epm.pojo.Faculty</class>
+    <class>com.epm.pojo.Score</class>
+    <class>com.epm.pojo.Assistent</class>
+    <class>com.epm.pojo.Semester</class>
+    <class>com.epm.pojo.AccountStudent</class>
+    <class>com.epm.pojo.Class</class>
+    <class>com.epm.pojo.Administrator</class>
+    <class>com.epm.pojo.Term</class>
+    <class>com.epm.pojo.Register</class>
+  </persistence-unit>
+</persistence>
