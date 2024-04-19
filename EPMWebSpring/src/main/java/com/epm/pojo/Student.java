@@ -10,8 +10,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -40,27 +38,28 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Student.findByGender", query = "SELECT s FROM Student s WHERE s.gender = :gender"),
     @NamedQuery(name = "Student.findByDayOfBirth", query = "SELECT s FROM Student s WHERE s.dayOfBirth = :dayOfBirth"),
     @NamedQuery(name = "Student.findByPhoneNumber", query = "SELECT s FROM Student s WHERE s.phoneNumber = :phoneNumber"),
-    @NamedQuery(name = "Student.findByAddress", query = "SELECT s FROM Student s WHERE s.address = :address"),
-    @NamedQuery(name = "Student.findByEmail", query = "SELECT s FROM Student s WHERE s.email = :email")})
+    @NamedQuery(name = "Student.findByAddress", query = "SELECT s FROM Student s WHERE s.address = :address")})
 public class Student implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 80)
     @Column(name = "firstname")
     private String firstname;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 80)
     @Column(name = "lastname")
     private String lastname;
-    @Size(max = 10)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
     @Column(name = "gender")
     private String gender;
     @Column(name = "day_of_birth")
@@ -69,17 +68,11 @@ public class Student implements Serializable {
     @Size(max = 20)
     @Column(name = "phone_number")
     private String phoneNumber;
-    @Size(max = 255)
+    @Size(max = 80)
     @Column(name = "address")
     private String address;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "email")
-    private String email;
     @JoinColumn(name = "class_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Classes classId;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "studentId")
     private AccountStudent accountStudent;
@@ -91,11 +84,11 @@ public class Student implements Serializable {
         this.id = id;
     }
 
-    public Student(Integer id, String firstname, String lastname, String email) {
+    public Student(Integer id, String firstname, String lastname, String gender) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.email = email;
+        this.gender = gender;
     }
 
     public Integer getId() {
@@ -152,14 +145,6 @@ public class Student implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public Classes getClassId() {

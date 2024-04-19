@@ -5,18 +5,21 @@
 package com.epm.pojo;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -30,26 +33,37 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "JoinActivity.findAll", query = "SELECT j FROM JoinActivity j"),
     @NamedQuery(name = "JoinActivity.findById", query = "SELECT j FROM JoinActivity j WHERE j.id = :id"),
-    @NamedQuery(name = "JoinActivity.findByJoinProof", query = "SELECT j FROM JoinActivity j WHERE j.joinProof = :joinProof"),
-    @NamedQuery(name = "JoinActivity.findByActive", query = "SELECT j FROM JoinActivity j WHERE j.active = :active")})
+    @NamedQuery(name = "JoinActivity.findByDateRegister", query = "SELECT j FROM JoinActivity j WHERE j.dateRegister = :dateRegister"),
+    @NamedQuery(name = "JoinActivity.findByRollup", query = "SELECT j FROM JoinActivity j WHERE j.rollup = :rollup"),
+    @NamedQuery(name = "JoinActivity.findByProofJoining", query = "SELECT j FROM JoinActivity j WHERE j.proofJoining = :proofJoining"),
+    @NamedQuery(name = "JoinActivity.findByNote", query = "SELECT j FROM JoinActivity j WHERE j.note = :note")})
 public class JoinActivity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
-    @Size(max = 125)
-    @Column(name = "join_proof")
-    private String joinProof;
-    @Column(name = "active")
-    private Boolean active;
-    @JoinColumn(name = "register_id", referencedColumnName = "id")
-    @OneToOne(optional = false)
-    private Register registerId;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "joinId")
-    private ResultJoin resultJoin;
+    @Column(name = "date_register")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateRegister;
+    @Column(name = "rollup")
+    private Boolean rollup;
+    @Size(max = 80)
+    @Column(name = "proof_joining")
+    private String proofJoining;
+    @Size(max = 80)
+    @Column(name = "note")
+    private String note;
+    @JoinColumn(name = "account_student", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private AccountStudent accountStudent;
+    @JoinColumn(name = "activity_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Activity activityId;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "joinActivityId")
+    private ScoreStudent scoreStudent;
 
     public JoinActivity() {
     }
@@ -66,36 +80,60 @@ public class JoinActivity implements Serializable {
         this.id = id;
     }
 
-    public String getJoinProof() {
-        return joinProof;
+    public Date getDateRegister() {
+        return dateRegister;
     }
 
-    public void setJoinProof(String joinProof) {
-        this.joinProof = joinProof;
+    public void setDateRegister(Date dateRegister) {
+        this.dateRegister = dateRegister;
     }
 
-    public Boolean getActive() {
-        return active;
+    public Boolean getRollup() {
+        return rollup;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setRollup(Boolean rollup) {
+        this.rollup = rollup;
     }
 
-    public Register getRegisterId() {
-        return registerId;
+    public String getProofJoining() {
+        return proofJoining;
     }
 
-    public void setRegisterId(Register registerId) {
-        this.registerId = registerId;
+    public void setProofJoining(String proofJoining) {
+        this.proofJoining = proofJoining;
     }
 
-    public ResultJoin getResultJoin() {
-        return resultJoin;
+    public String getNote() {
+        return note;
     }
 
-    public void setResultJoin(ResultJoin resultJoin) {
-        this.resultJoin = resultJoin;
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public AccountStudent getAccountStudent() {
+        return accountStudent;
+    }
+
+    public void setAccountStudent(AccountStudent accountStudent) {
+        this.accountStudent = accountStudent;
+    }
+
+    public Activity getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(Activity activityId) {
+        this.activityId = activityId;
+    }
+
+    public ScoreStudent getScoreStudent() {
+        return scoreStudent;
+    }
+
+    public void setScoreStudent(ScoreStudent scoreStudent) {
+        this.scoreStudent = scoreStudent;
     }
 
     @Override

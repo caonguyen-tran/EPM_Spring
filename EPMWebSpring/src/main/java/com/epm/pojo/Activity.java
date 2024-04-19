@@ -11,8 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -41,23 +39,29 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Activity.findByStartDate", query = "SELECT a FROM Activity a WHERE a.startDate = :startDate"),
     @NamedQuery(name = "Activity.findByEndDate", query = "SELECT a FROM Activity a WHERE a.endDate = :endDate"),
     @NamedQuery(name = "Activity.findByDescription", query = "SELECT a FROM Activity a WHERE a.description = :description"),
-    @NamedQuery(name = "Activity.findByActive", query = "SELECT a FROM Activity a WHERE a.active = :active")})
+    @NamedQuery(name = "Activity.findByActive", query = "SELECT a FROM Activity a WHERE a.active = :active"),
+    @NamedQuery(name = "Activity.findBySlots", query = "SELECT a FROM Activity a WHERE a.slots = :slots"),
+    @NamedQuery(name = "Activity.findByClosed", query = "SELECT a FROM Activity a WHERE a.closed = :closed")})
 public class Activity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
+    @Size(min = 1, max = 80)
     @Column(name = "name")
     private String name;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "start_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "end_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
@@ -68,24 +72,31 @@ public class Activity implements Serializable {
     private String description;
     @Column(name = "active")
     private Boolean active;
-    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
-    @ManyToOne
-    private Faculty facultyId;
-    @JoinColumn(name = "score_id", referencedColumnName = "id")
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "slots")
+    private int slots;
+    @Column(name = "closed")
+    private Boolean closed;
+    @JoinColumn(name = "assistant_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Score scoreId;
+    private Assistant assistantId;
     @JoinColumn(name = "semester_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Semester semesterId;
     @JoinColumn(name = "term_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Term termId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activity")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<Like1> like1Set;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    private Set<JoinActivity> joinActivitySet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    private Set<Score> scoreSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<Comment> commentSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
-    private Set<Register> registerSet;
+    private Set<MissingReport> missingReportSet;
 
     public Activity() {
     }
@@ -94,10 +105,13 @@ public class Activity implements Serializable {
         this.id = id;
     }
 
-    public Activity(Integer id, String name, String description) {
+    public Activity(Integer id, String name, Date startDate, Date endDate, String description, int slots) {
         this.id = id;
         this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.description = description;
+        this.slots = slots;
     }
 
     public Integer getId() {
@@ -148,20 +162,28 @@ public class Activity implements Serializable {
         this.active = active;
     }
 
-    public Faculty getFacultyId() {
-        return facultyId;
+    public int getSlots() {
+        return slots;
     }
 
-    public void setFacultyId(Faculty facultyId) {
-        this.facultyId = facultyId;
+    public void setSlots(int slots) {
+        this.slots = slots;
     }
 
-    public Score getScoreId() {
-        return scoreId;
+    public Boolean getClosed() {
+        return closed;
     }
 
-    public void setScoreId(Score scoreId) {
-        this.scoreId = scoreId;
+    public void setClosed(Boolean closed) {
+        this.closed = closed;
+    }
+
+    public Assistant getAssistantId() {
+        return assistantId;
+    }
+
+    public void setAssistantId(Assistant assistantId) {
+        this.assistantId = assistantId;
     }
 
     public Semester getSemesterId() {
@@ -190,6 +212,24 @@ public class Activity implements Serializable {
     }
 
     @XmlTransient
+    public Set<JoinActivity> getJoinActivitySet() {
+        return joinActivitySet;
+    }
+
+    public void setJoinActivitySet(Set<JoinActivity> joinActivitySet) {
+        this.joinActivitySet = joinActivitySet;
+    }
+
+    @XmlTransient
+    public Set<Score> getScoreSet() {
+        return scoreSet;
+    }
+
+    public void setScoreSet(Set<Score> scoreSet) {
+        this.scoreSet = scoreSet;
+    }
+
+    @XmlTransient
     public Set<Comment> getCommentSet() {
         return commentSet;
     }
@@ -199,12 +239,12 @@ public class Activity implements Serializable {
     }
 
     @XmlTransient
-    public Set<Register> getRegisterSet() {
-        return registerSet;
+    public Set<MissingReport> getMissingReportSet() {
+        return missingReportSet;
     }
 
-    public void setRegisterSet(Set<Register> registerSet) {
-        this.registerSet = registerSet;
+    public void setMissingReportSet(Set<MissingReport> missingReportSet) {
+        this.missingReportSet = missingReportSet;
     }
 
     @Override

@@ -10,9 +10,9 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -32,25 +32,37 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Score.findAll", query = "SELECT s FROM Score s"),
     @NamedQuery(name = "Score.findById", query = "SELECT s FROM Score s WHERE s.id = :id"),
+    @NamedQuery(name = "Score.findByScoreName", query = "SELECT s FROM Score s WHERE s.scoreName = :scoreName"),
     @NamedQuery(name = "Score.findByScoreValue", query = "SELECT s FROM Score s WHERE s.scoreValue = :scoreValue"),
-    @NamedQuery(name = "Score.findByContent", query = "SELECT s FROM Score s WHERE s.content = :content")})
+    @NamedQuery(name = "Score.findByDescription", query = "SELECT s FROM Score s WHERE s.description = :description"),
+    @NamedQuery(name = "Score.findByNumberOfScore", query = "SELECT s FROM Score s WHERE s.numberOfScore = :numberOfScore")})
 public class Score implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
+    @Size(max = 45)
+    @Column(name = "score_name")
+    private String scoreName;
     @Basic(optional = false)
     @NotNull
     @Column(name = "score_value")
     private int scoreValue;
-    @Size(max = 45)
-    @Column(name = "content")
-    private String content;
+    @Size(max = 80)
+    @Column(name = "description")
+    private String description;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "number_of_score")
+    private int numberOfScore;
+    @JoinColumn(name = "activity_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Activity activityId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "scoreId")
-    private Set<Activity> activitySet;
+    private Set<ScoreStudent> scoreStudentSet;
 
     public Score() {
     }
@@ -59,9 +71,10 @@ public class Score implements Serializable {
         this.id = id;
     }
 
-    public Score(Integer id, int scoreValue) {
+    public Score(Integer id, int scoreValue, int numberOfScore) {
         this.id = id;
         this.scoreValue = scoreValue;
+        this.numberOfScore = numberOfScore;
     }
 
     public Integer getId() {
@@ -72,6 +85,14 @@ public class Score implements Serializable {
         this.id = id;
     }
 
+    public String getScoreName() {
+        return scoreName;
+    }
+
+    public void setScoreName(String scoreName) {
+        this.scoreName = scoreName;
+    }
+
     public int getScoreValue() {
         return scoreValue;
     }
@@ -80,21 +101,37 @@ public class Score implements Serializable {
         this.scoreValue = scoreValue;
     }
 
-    public String getContent() {
-        return content;
+    public String getDescription() {
+        return description;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getNumberOfScore() {
+        return numberOfScore;
+    }
+
+    public void setNumberOfScore(int numberOfScore) {
+        this.numberOfScore = numberOfScore;
+    }
+
+    public Activity getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(Activity activityId) {
+        this.activityId = activityId;
     }
 
     @XmlTransient
-    public Set<Activity> getActivitySet() {
-        return activitySet;
+    public Set<ScoreStudent> getScoreStudentSet() {
+        return scoreStudentSet;
     }
 
-    public void setActivitySet(Set<Activity> activitySet) {
-        this.activitySet = activitySet;
+    public void setScoreStudentSet(Set<ScoreStudent> scoreStudentSet) {
+        this.scoreStudentSet = scoreStudentSet;
     }
 
     @Override

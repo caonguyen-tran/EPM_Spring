@@ -10,8 +10,6 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -40,22 +38,20 @@ public class Faculty implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 80)
     @Column(name = "name")
     private String name;
     @Column(name = "created_date")
     @Temporal(TemporalType.DATE)
     private Date createdDate;
     @OneToMany(mappedBy = "facultyId")
-    private Set<Activity> activitySet;
-    @OneToMany(mappedBy = "facultyId")
-    private Set<Classes> classSet;
+    private Set<Classes> classesSet;
 
     public Faculty() {
     }
@@ -94,21 +90,12 @@ public class Faculty implements Serializable {
     }
 
     @XmlTransient
-    public Set<Activity> getActivitySet() {
-        return activitySet;
+    public Set<Classes> getClassesSet() {
+        return classesSet;
     }
 
-    public void setActivitySet(Set<Activity> activitySet) {
-        this.activitySet = activitySet;
-    }
-
-    @XmlTransient
-    public Set<Classes> getClassSet() {
-        return classSet;
-    }
-
-    public void setClassSet(Set<Classes> classSet) {
-        this.classSet = classSet;
+    public void setClassesSet(Set<Classes> classesSet) {
+        this.classesSet = classesSet;
     }
 
     @Override

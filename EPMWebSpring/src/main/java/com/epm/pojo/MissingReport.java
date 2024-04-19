@@ -6,38 +6,36 @@ package com.epm.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author ACER
  */
 @Entity
-@Table(name = "comment")
+@Table(name = "missing_report")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c"),
-    @NamedQuery(name = "Comment.findById", query = "SELECT c FROM Comment c WHERE c.id = :id"),
-    @NamedQuery(name = "Comment.findByCreatedDate", query = "SELECT c FROM Comment c WHERE c.createdDate = :createdDate"),
-    @NamedQuery(name = "Comment.findByImage", query = "SELECT c FROM Comment c WHERE c.image = :image")})
-public class Comment implements Serializable {
+    @NamedQuery(name = "MissingReport.findAll", query = "SELECT m FROM MissingReport m"),
+    @NamedQuery(name = "MissingReport.findById", query = "SELECT m FROM MissingReport m WHERE m.id = :id"),
+    @NamedQuery(name = "MissingReport.findByProofJoining", query = "SELECT m FROM MissingReport m WHERE m.proofJoining = :proofJoining"),
+    @NamedQuery(name = "MissingReport.findByStatus", query = "SELECT m FROM MissingReport m WHERE m.status = :status"),
+    @NamedQuery(name = "MissingReport.findByCreatedDate", query = "SELECT m FROM MissingReport m WHERE m.createdDate = :createdDate"),
+    @NamedQuery(name = "MissingReport.findByNote", query = "SELECT m FROM MissingReport m WHERE m.note = :note")})
+public class MissingReport implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,38 +45,35 @@ public class Comment implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Lob
-    @Size(min = 1, max = 2147483647)
-    @Column(name = "content")
-    private String content;
+    @Size(min = 1, max = 80)
+    @Column(name = "proof_joining")
+    private String proofJoining;
+    @Size(max = 20)
+    @Column(name = "status")
+    private String status;
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @Size(max = 80)
-    @Column(name = "image")
-    private String image;
+    @Column(name = "note")
+    private String note;
     @JoinColumn(name = "account_student", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private AccountStudent accountStudent;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Activity activityId;
-    @OneToMany(mappedBy = "commentParent")
-    private Set<Comment> commentSet;
-    @JoinColumn(name = "comment_parent", referencedColumnName = "id")
-    @ManyToOne
-    private Comment commentParent;
 
-    public Comment() {
+    public MissingReport() {
     }
 
-    public Comment(Integer id) {
+    public MissingReport(Integer id) {
         this.id = id;
     }
 
-    public Comment(Integer id, String content) {
+    public MissingReport(Integer id, String proofJoining) {
         this.id = id;
-        this.content = content;
+        this.proofJoining = proofJoining;
     }
 
     public Integer getId() {
@@ -89,12 +84,20 @@ public class Comment implements Serializable {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
+    public String getProofJoining() {
+        return proofJoining;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setProofJoining(String proofJoining) {
+        this.proofJoining = proofJoining;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Date getCreatedDate() {
@@ -105,12 +108,12 @@ public class Comment implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public String getImage() {
-        return image;
+    public String getNote() {
+        return note;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public AccountStudent getAccountStudent() {
@@ -129,23 +132,6 @@ public class Comment implements Serializable {
         this.activityId = activityId;
     }
 
-    @XmlTransient
-    public Set<Comment> getCommentSet() {
-        return commentSet;
-    }
-
-    public void setCommentSet(Set<Comment> commentSet) {
-        this.commentSet = commentSet;
-    }
-
-    public Comment getCommentParent() {
-        return commentParent;
-    }
-
-    public void setCommentParent(Comment commentParent) {
-        this.commentParent = commentParent;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -156,10 +142,10 @@ public class Comment implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Comment)) {
+        if (!(object instanceof MissingReport)) {
             return false;
         }
-        Comment other = (Comment) object;
+        MissingReport other = (MissingReport) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -168,7 +154,7 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "com.epm.pojo.Comment[ id=" + id + " ]";
+        return "com.epm.pojo.MissingReport[ id=" + id + " ]";
     }
     
 }

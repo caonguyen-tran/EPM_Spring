@@ -42,10 +42,10 @@ public class Semester implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 80)
     @Column(name = "name")
     private String name;
-    @Size(max = 20)
+    @Size(max = 10)
     @Column(name = "study_year")
     private String studyYear;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "semesterId")

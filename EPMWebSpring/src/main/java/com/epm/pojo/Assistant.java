@@ -5,18 +5,19 @@
 package com.epm.pojo;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,16 +28,19 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ACER
  */
 @Entity
-@Table(name = "account_student")
+@Table(name = "assistant")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "AccountStudent.findAll", query = "SELECT a FROM AccountStudent a"),
-    @NamedQuery(name = "AccountStudent.findById", query = "SELECT a FROM AccountStudent a WHERE a.id = :id"),
-    @NamedQuery(name = "AccountStudent.findByUsername", query = "SELECT a FROM AccountStudent a WHERE a.username = :username"),
-    @NamedQuery(name = "AccountStudent.findByPassword", query = "SELECT a FROM AccountStudent a WHERE a.password = :password"),
-    @NamedQuery(name = "AccountStudent.findByEmail", query = "SELECT a FROM AccountStudent a WHERE a.email = :email"),
-    @NamedQuery(name = "AccountStudent.findByAvatar", query = "SELECT a FROM AccountStudent a WHERE a.avatar = :avatar")})
-public class AccountStudent implements Serializable {
+    @NamedQuery(name = "Assistant.findAll", query = "SELECT a FROM Assistant a"),
+    @NamedQuery(name = "Assistant.findById", query = "SELECT a FROM Assistant a WHERE a.id = :id"),
+    @NamedQuery(name = "Assistant.findByUsername", query = "SELECT a FROM Assistant a WHERE a.username = :username"),
+    @NamedQuery(name = "Assistant.findByPassword", query = "SELECT a FROM Assistant a WHERE a.password = :password"),
+    @NamedQuery(name = "Assistant.findByEmail", query = "SELECT a FROM Assistant a WHERE a.email = :email"),
+    @NamedQuery(name = "Assistant.findByAvatar", query = "SELECT a FROM Assistant a WHERE a.avatar = :avatar"),
+    @NamedQuery(name = "Assistant.findByActive", query = "SELECT a FROM Assistant a WHERE a.active = :active"),
+    @NamedQuery(name = "Assistant.findByCreatedDate", query = "SELECT a FROM Assistant a WHERE a.createdDate = :createdDate"),
+    @NamedQuery(name = "Assistant.findByAddress", query = "SELECT a FROM Assistant a WHERE a.address = :address")})
+public class Assistant implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,41 +59,34 @@ public class AccountStudent implements Serializable {
     @Column(name = "password")
     private String password;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @Size(max = 45)
     @Column(name = "email")
     private String email;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @Size(max = 45)
     @Column(name = "avatar")
     private String avatar;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudentId")
-    private Set<Like1> like1Set;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudent")
-    private Set<JoinActivity> joinActivitySet;
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
-    @OneToOne(optional = false)
-    private Student studentId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudent")
-    private Set<Comment> commentSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudent")
-    private Set<MissingReport> missingReportSet;
+    @Column(name = "active")
+    private Boolean active;
+    @Column(name = "created_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
+    @Size(max = 80)
+    @Column(name = "address")
+    private String address;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "assistantId")
+    private Set<Activity> activitySet;
 
-    public AccountStudent() {
+    public Assistant() {
     }
 
-    public AccountStudent(Integer id) {
+    public Assistant(Integer id) {
         this.id = id;
     }
 
-    public AccountStudent(Integer id, String username, String password, String email, String avatar) {
+    public Assistant(Integer id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.email = email;
-        this.avatar = avatar;
     }
 
     public Integer getId() {
@@ -132,48 +129,37 @@ public class AccountStudent implements Serializable {
         this.avatar = avatar;
     }
 
-    @XmlTransient
-    public Set<Like1> getLike1Set() {
-        return like1Set;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setLike1Set(Set<Like1> like1Set) {
-        this.like1Set = like1Set;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
-    @XmlTransient
-    public Set<JoinActivity> getJoinActivitySet() {
-        return joinActivitySet;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setJoinActivitySet(Set<JoinActivity> joinActivitySet) {
-        this.joinActivitySet = joinActivitySet;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public Student getStudentId() {
-        return studentId;
+    public String getAddress() {
+        return address;
     }
 
-    public void setStudentId(Student studentId) {
-        this.studentId = studentId;
-    }
-
-    @XmlTransient
-    public Set<Comment> getCommentSet() {
-        return commentSet;
-    }
-
-    public void setCommentSet(Set<Comment> commentSet) {
-        this.commentSet = commentSet;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @XmlTransient
-    public Set<MissingReport> getMissingReportSet() {
-        return missingReportSet;
+    public Set<Activity> getActivitySet() {
+        return activitySet;
     }
 
-    public void setMissingReportSet(Set<MissingReport> missingReportSet) {
-        this.missingReportSet = missingReportSet;
+    public void setActivitySet(Set<Activity> activitySet) {
+        this.activitySet = activitySet;
     }
 
     @Override
@@ -186,10 +172,10 @@ public class AccountStudent implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof AccountStudent)) {
+        if (!(object instanceof Assistant)) {
             return false;
         }
-        AccountStudent other = (AccountStudent) object;
+        Assistant other = (Assistant) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -198,7 +184,7 @@ public class AccountStudent implements Serializable {
 
     @Override
     public String toString() {
-        return "com.epm.pojo.AccountStudent[ id=" + id + " ]";
+        return "com.epm.pojo.Assistant[ id=" + id + " ]";
     }
     
 }
