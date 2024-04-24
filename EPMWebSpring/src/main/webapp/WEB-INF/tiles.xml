@@ -13,4 +13,12 @@
         <put-attribute name="title" value="Trang chủ quản trị" />
         <put-attribute name="content" value="/WEB-INF/pages/index.jsp" />
     </definition>
+    <definition name="register" extends="baseLayout">
+        <put-attribute name="title" value="Tạo hoạt động" />
+        <put-attribute name="content" value="/WEB-INF/pages/register.jsp" />
+    </definition>
+    <definition name="report" extends="baseLayout">
+        <put-attribute name="title" value="Missing Report" />
+        <put-attribute name="content" value="/WEB-INF/pages/missing_report.jsp" />
+    </definition>
 </tiles-definitions>

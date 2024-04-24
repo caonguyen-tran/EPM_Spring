@@ -4,6 +4,7 @@
  */
 package com.epm.controllers;
 
+import com.epm.pojo.Activity;
 import com.epm.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,5 +25,10 @@ public class HomeController {
         model.addAttribute("students", this.studentService.getStudents());
         
         return "index";
+    }
+    
+    @RequestMapping("/report")
+    public String missingReport(Model model){
+        return "report";
     }
 }

@@ -20,10 +20,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -70,6 +72,11 @@ public class Activity implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "description")
     private String description;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "image")
+    private String image;
     @Column(name = "active")
     private Boolean active;
     @Basic(optional = false)
@@ -97,6 +104,16 @@ public class Activity implements Serializable {
     private Set<Comment> commentSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<MissingReport> missingReportSet;
+    @Transient
+    private MultipartFile file;
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
 
     public Activity() {
     }
@@ -152,6 +169,14 @@ public class Activity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Boolean getActive() {
@@ -271,5 +296,5 @@ public class Activity implements Serializable {
     public String toString() {
         return "com.epm.pojo.Activity[ id=" + id + " ]";
     }
-    
+
 }
