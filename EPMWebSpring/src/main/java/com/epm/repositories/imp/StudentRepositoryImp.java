@@ -26,7 +26,7 @@ public class StudentRepositoryImp implements StudentRepository{
     
     @Override
     public List<Student> getStudents() {
-        Session s = sessionFactory.getObject().getCurrentSession();
+        Session s = this.sessionFactory.getObject().getCurrentSession();
         Query q = s.createNamedQuery("Student.findAll");
         return q.getResultList();
     }
