@@ -54,10 +54,10 @@ public class ApiAssistantController {
         
         this.assistantService.addAssistant(u);
     }
-    
-    @GetMapping(path="/assist", produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
-    public ResponseEntity<List<Assistant>> list(){
-        return new ResponseEntity<>(this.assistantService.getAssistants(), HttpStatus.OK);
-    }
+//    
+//    @GetMapping(path="/assistant", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @CrossOrigin
+//    public ResponseEntity<List<Assistant>> list(){
+//        return new ResponseEntity<>(this.assistantService.getAssistants(), HttpStatus.OK);
+//    }
 }

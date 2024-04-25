@@ -42,7 +42,7 @@ public class AssistantServiceImp implements AssistantService{
 
     @Override
     public List<Assistant> getAssistants() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.assistantRepository.getAssistants();
     }
 
     @Override

@@ -13,6 +13,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -99,19 +100,19 @@ public class Activity implements Serializable {
     @ManyToOne(optional = false)
     @JsonIgnore
     private Term termId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Like1> like1Set;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<JoinActivity> joinActivitySet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Score> scoreSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Comment> commentSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<MissingReport> missingReportSet;
     @Transient
