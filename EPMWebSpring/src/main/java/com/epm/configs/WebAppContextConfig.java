@@ -4,6 +4,8 @@
  */
 package com.epm.configs;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -52,5 +54,18 @@ public class WebAppContextConfig implements WebMvcConfigurer{
     @Override
     public Validator getValidator() {
         return validator();
+    }
+    
+    
+    @Bean
+    public Cloudinary cloudinary() {
+        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "dndakokcz",
+                "api_key", "654943155445479",
+                "api_secret", "Orf7PiRmpS7T3HPdEUl36nQUraU",
+                "secure", true
+        ));
+
+        return cloudinary;
     }
 }

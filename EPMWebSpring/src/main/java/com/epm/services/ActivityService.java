@@ -2,12 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.epm.controllers;
+package com.epm.services;
+
+import com.epm.pojo.Activity;
+import java.util.List;
 
 /**
  *
  * @author ACER
  */
-public class AssistantController {
-    
+public interface ActivityService {
+    List<Activity> getActivities();
 }

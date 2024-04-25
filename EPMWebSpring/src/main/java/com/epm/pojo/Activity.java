@@ -4,6 +4,8 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -87,22 +89,30 @@ public class Activity implements Serializable {
     private Boolean closed;
     @JoinColumn(name = "assistant_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Assistant assistantId;
     @JoinColumn(name = "semester_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Semester semesterId;
     @JoinColumn(name = "term_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Term termId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @JsonIgnore
     private Set<Like1> like1Set;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @JsonIgnore
     private Set<JoinActivity> joinActivitySet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @JsonIgnore
     private Set<Score> scoreSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @JsonIgnore
     private Set<Comment> commentSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @JsonIgnore
     private Set<MissingReport> missingReportSet;
     @Transient
     private MultipartFile file;
