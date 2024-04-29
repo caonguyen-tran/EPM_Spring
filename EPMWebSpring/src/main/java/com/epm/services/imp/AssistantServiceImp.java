@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
  *
  * @author ACER
  */
-@Service("assistantSevice")
+@Service("userDetailsService")
 public class AssistantServiceImp implements AssistantService{
     @Autowired
     private AssistantRepository assistantRepository;
@@ -60,15 +60,15 @@ public class AssistantServiceImp implements AssistantService{
 
     @Override
     public void addAssistant(Assistant assist) {
-        if (!assist.getFile().isEmpty()) {
-            try {
-                Map res = this.cloudinary.uploader().upload(assist.getFile().getBytes(), ObjectUtils.asMap("resource_type", "auto"));
-                assist.setAvatar(res.get("secure_url").toString());
-            } catch (IOException ex) {
-                Logger.getLogger(AssistantServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
+//        if (!assist.getFile().isEmpty()) {
+//            try {
+//                Map res = this.cloudinary.uploader().upload(assist.getFile().getBytes(), ObjectUtils.asMap("resource_type", "auto"));
+//                assist.setAvatar(res.get("secure_url").toString());
+//            } catch (IOException ex) {
+//                Logger.getLogger(AssistantServiceImp.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+
         this.assistantRepository.addAssistant(assist);
     }
     

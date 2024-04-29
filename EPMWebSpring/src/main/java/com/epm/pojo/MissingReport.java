@@ -9,6 +9,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -39,8 +41,8 @@ public class MissingReport implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -48,18 +50,18 @@ public class MissingReport implements Serializable {
     @Size(min = 1, max = 80)
     @Column(name = "proof_joining")
     private String proofJoining;
-    @Size(max = 20)
+    @Size(max = 45)
     @Column(name = "status")
     private String status;
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
-    @Size(max = 80)
+    @Size(max = 120)
     @Column(name = "note")
     private String note;
-    @JoinColumn(name = "account_student", referencedColumnName = "id")
+    @JoinColumn(name = "account_student_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private AccountStudent accountStudent;
+    private AccountStudent accountStudentId;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Activity activityId;
@@ -116,12 +118,12 @@ public class MissingReport implements Serializable {
         this.note = note;
     }
 
-    public AccountStudent getAccountStudent() {
-        return accountStudent;
+    public AccountStudent getAccountStudentId() {
+        return accountStudentId;
     }
 
-    public void setAccountStudent(AccountStudent accountStudent) {
-        this.accountStudent = accountStudent;
+    public void setAccountStudentId(AccountStudent accountStudentId) {
+        this.accountStudentId = accountStudentId;
     }
 
     public Activity getActivityId() {

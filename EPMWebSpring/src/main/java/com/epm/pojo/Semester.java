@@ -10,6 +10,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -31,13 +33,14 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Semester.findAll", query = "SELECT s FROM Semester s"),
     @NamedQuery(name = "Semester.findById", query = "SELECT s FROM Semester s WHERE s.id = :id"),
     @NamedQuery(name = "Semester.findByName", query = "SELECT s FROM Semester s WHERE s.name = :name"),
-    @NamedQuery(name = "Semester.findByStudyYear", query = "SELECT s FROM Semester s WHERE s.studyYear = :studyYear")})
+    @NamedQuery(name = "Semester.findByDescription", query = "SELECT s FROM Semester s WHERE s.description = :description"),
+    @NamedQuery(name = "Semester.findByYearStudy", query = "SELECT s FROM Semester s WHERE s.yearStudy = :yearStudy")})
 public class Semester implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -45,9 +48,12 @@ public class Semester implements Serializable {
     @Size(min = 1, max = 80)
     @Column(name = "name")
     private String name;
-    @Size(max = 10)
-    @Column(name = "study_year")
-    private String studyYear;
+    @Size(max = 255)
+    @Column(name = "description")
+    private String description;
+    @Size(max = 6)
+    @Column(name = "year_study")
+    private String yearStudy;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "semesterId")
     private Set<Activity> activitySet;
 
@@ -79,12 +85,20 @@ public class Semester implements Serializable {
         this.name = name;
     }
 
-    public String getStudyYear() {
-        return studyYear;
+    public String getDescription() {
+        return description;
     }
 
-    public void setStudyYear(String studyYear) {
-        this.studyYear = studyYear;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getYearStudy() {
+        return yearStudy;
+    }
+
+    public void setYearStudy(String yearStudy) {
+        this.yearStudy = yearStudy;
     }
 
     @XmlTransient

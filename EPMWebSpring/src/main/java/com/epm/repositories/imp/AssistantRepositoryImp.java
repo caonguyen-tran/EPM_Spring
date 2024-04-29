@@ -29,6 +29,7 @@ public class AssistantRepositoryImp implements AssistantRepository {
     public Assistant getAssistantByUsername(String username) {
         Session s = this.sessionFactory.getObject().getCurrentSession();
         Query query = s.createQuery("FROM Assistant WHERE username = :username");
+        query.setParameter("username", username);
         return (Assistant) query.getSingleResult();
     }
 

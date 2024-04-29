@@ -10,6 +10,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -33,27 +35,31 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Score.findAll", query = "SELECT s FROM Score s"),
     @NamedQuery(name = "Score.findById", query = "SELECT s FROM Score s WHERE s.id = :id"),
     @NamedQuery(name = "Score.findByScoreName", query = "SELECT s FROM Score s WHERE s.scoreName = :scoreName"),
-    @NamedQuery(name = "Score.findByScoreValue", query = "SELECT s FROM Score s WHERE s.scoreValue = :scoreValue"),
     @NamedQuery(name = "Score.findByDescription", query = "SELECT s FROM Score s WHERE s.description = :description"),
+    @NamedQuery(name = "Score.findByScoreValue", query = "SELECT s FROM Score s WHERE s.scoreValue = :scoreValue"),
     @NamedQuery(name = "Score.findByNumberOfScore", query = "SELECT s FROM Score s WHERE s.numberOfScore = :numberOfScore")})
 public class Score implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
-    @Size(max = 45)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "score_name")
     private String scoreName;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "score_value")
-    private int scoreValue;
-    @Size(max = 80)
+    @Size(min = 1, max = 120)
     @Column(name = "description")
     private String description;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "score_value")
+    private int scoreValue;
     @Basic(optional = false)
     @NotNull
     @Column(name = "number_of_score")
@@ -71,8 +77,10 @@ public class Score implements Serializable {
         this.id = id;
     }
 
-    public Score(Integer id, int scoreValue, int numberOfScore) {
+    public Score(Integer id, String scoreName, String description, int scoreValue, int numberOfScore) {
         this.id = id;
+        this.scoreName = scoreName;
+        this.description = description;
         this.scoreValue = scoreValue;
         this.numberOfScore = numberOfScore;
     }
@@ -93,20 +101,20 @@ public class Score implements Serializable {
         this.scoreName = scoreName;
     }
 
-    public int getScoreValue() {
-        return scoreValue;
-    }
-
-    public void setScoreValue(int scoreValue) {
-        this.scoreValue = scoreValue;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getScoreValue() {
+        return scoreValue;
+    }
+
+    public void setScoreValue(int scoreValue) {
+        this.scoreValue = scoreValue;
     }
 
     public int getNumberOfScore() {

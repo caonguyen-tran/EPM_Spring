@@ -10,6 +10,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,7 +21,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -41,8 +42,8 @@ public class JoinActivity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Column(name = "date_register")
@@ -53,14 +54,14 @@ public class JoinActivity implements Serializable {
     @Size(max = 80)
     @Column(name = "proof_joining")
     private String proofJoining;
-    @Size(max = 80)
+    @Size(max = 120)
     @Column(name = "note")
     private String note;
-    @JoinColumn(name = "account_student", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private AccountStudent accountStudent;
+    @JoinColumn(name = "account_student_id", referencedColumnName = "id")
+    @ManyToOne
+    private AccountStudent accountStudentId;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Activity activityId;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "joinActivityId")
     private ScoreStudent scoreStudent;
@@ -112,12 +113,12 @@ public class JoinActivity implements Serializable {
         this.note = note;
     }
 
-    public AccountStudent getAccountStudent() {
-        return accountStudent;
+    public AccountStudent getAccountStudentId() {
+        return accountStudentId;
     }
 
-    public void setAccountStudent(AccountStudent accountStudent) {
-        this.accountStudent = accountStudent;
+    public void setAccountStudentId(AccountStudent accountStudentId) {
+        this.accountStudentId = accountStudentId;
     }
 
     public Activity getActivityId() {

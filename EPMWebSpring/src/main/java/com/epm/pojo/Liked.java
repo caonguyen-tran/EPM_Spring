@@ -8,13 +8,14 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -22,18 +23,18 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ACER
  */
 @Entity
-@Table(name = "like")
+@Table(name = "liked")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Like1.findAll", query = "SELECT l FROM Like1 l"),
-    @NamedQuery(name = "Like1.findById", query = "SELECT l FROM Like1 l WHERE l.id = :id"),
-    @NamedQuery(name = "Like1.findByActive", query = "SELECT l FROM Like1 l WHERE l.active = :active")})
-public class Like1 implements Serializable {
+    @NamedQuery(name = "Liked.findAll", query = "SELECT l FROM Liked l"),
+    @NamedQuery(name = "Liked.findById", query = "SELECT l FROM Liked l WHERE l.id = :id"),
+    @NamedQuery(name = "Liked.findByActive", query = "SELECT l FROM Liked l WHERE l.active = :active")})
+public class Liked implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Column(name = "active")
@@ -45,10 +46,10 @@ public class Like1 implements Serializable {
     @ManyToOne(optional = false)
     private Activity activityId;
 
-    public Like1() {
+    public Liked() {
     }
 
-    public Like1(Integer id) {
+    public Liked(Integer id) {
         this.id = id;
     }
 
@@ -94,10 +95,10 @@ public class Like1 implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Like1)) {
+        if (!(object instanceof Liked)) {
             return false;
         }
-        Like1 other = (Like1) object;
+        Liked other = (Liked) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -106,7 +107,7 @@ public class Like1 implements Serializable {
 
     @Override
     public String toString() {
-        return "com.epm.pojo.Like1[ id=" + id + " ]";
+        return "com.epm.pojo.Liked[ id=" + id + " ]";
     }
     
 }

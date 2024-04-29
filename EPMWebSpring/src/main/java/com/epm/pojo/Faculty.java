@@ -8,8 +8,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -38,18 +41,22 @@ public class Faculty implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 80)
+    @Size(min = 1, max = 120)
     @Column(name = "name")
     private String name;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "created_date")
     @Temporal(TemporalType.DATE)
     private Date createdDate;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "facultyId")
+    private Set<Activity> activitySet;
     @OneToMany(mappedBy = "facultyId")
     private Set<Classes> classesSet;
 
@@ -60,9 +67,10 @@ public class Faculty implements Serializable {
         this.id = id;
     }
 
-    public Faculty(Integer id, String name) {
+    public Faculty(Integer id, String name, Date createdDate) {
         this.id = id;
         this.name = name;
+        this.createdDate = createdDate;
     }
 
     public Integer getId() {
@@ -87,6 +95,15 @@ public class Faculty implements Serializable {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    @XmlTransient
+    public Set<Activity> getActivitySet() {
+        return activitySet;
+    }
+
+    public void setActivitySet(Set<Activity> activitySet) {
+        this.activitySet = activitySet;
     }
 
     @XmlTransient

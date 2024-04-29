@@ -6,22 +6,26 @@ package com.epm.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -43,39 +47,45 @@ public class Student implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 80)
+    @Size(min = 1, max = 45)
     @Column(name = "firstname")
     private String firstname;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 80)
+    @Size(min = 1, max = 45)
     @Column(name = "lastname")
     private String lastname;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 16)
     @Column(name = "gender")
     private String gender;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "day_of_birth")
     @Temporal(TemporalType.DATE)
     private Date dayOfBirth;
-    @Size(max = 20)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 16)
     @Column(name = "phone_number")
     private String phoneNumber;
-    @Size(max = 80)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 120)
     @Column(name = "address")
     private String address;
     @JoinColumn(name = "class_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Classes classId;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "studentId")
-    private AccountStudent accountStudent;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
+    private Set<AccountStudent> accountStudentSet;
 
     public Student() {
     }
@@ -84,11 +94,14 @@ public class Student implements Serializable {
         this.id = id;
     }
 
-    public Student(Integer id, String firstname, String lastname, String gender) {
+    public Student(Integer id, String firstname, String lastname, String gender, Date dayOfBirth, String phoneNumber, String address) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.gender = gender;
+        this.dayOfBirth = dayOfBirth;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
     }
 
     public Integer getId() {
@@ -155,12 +168,13 @@ public class Student implements Serializable {
         this.classId = classId;
     }
 
-    public AccountStudent getAccountStudent() {
-        return accountStudent;
+    @XmlTransient
+    public Set<AccountStudent> getAccountStudentSet() {
+        return accountStudentSet;
     }
 
-    public void setAccountStudent(AccountStudent accountStudent) {
-        this.accountStudent = accountStudent;
+    public void setAccountStudentSet(Set<AccountStudent> accountStudentSet) {
+        this.accountStudentSet = accountStudentSet;
     }
 
     @Override

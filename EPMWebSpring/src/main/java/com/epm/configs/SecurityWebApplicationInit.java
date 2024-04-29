@@ -10,6 +10,6 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
  *
  * @author ACER
  */
-public class SecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer{
+public class SecurityWebApplicationInit extends AbstractSecurityWebApplicationInitializer{
     
 }

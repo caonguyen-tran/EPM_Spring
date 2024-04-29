@@ -13,9 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -30,34 +32,34 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api")
 public class ApiAssistantController {
+
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-    
+
     @Autowired
     private AssistantService assistantService;
-    
-    @PostMapping(path = "/assist", consumes = {
+
+    @PostMapping(path = "/assistant", consumes = {
         MediaType.APPLICATION_JSON_VALUE,
         MediaType.MULTIPART_FORM_DATA_VALUE
     })
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestParam Map<String, String> params, @RequestPart MultipartFile[] file){
-        Assistant u = new Assistant();
-        u.setUsername(params.get("username"));
-        u.setEmail(params.get("email"));
+    public void create(@RequestParam Map<String, String> params) {
+        String username = params.get("username");
         String password = params.get("password");
-        u.setPassword(this.passwordEncoder.encode(password));
-        if (file.length > 0)
-        {
-            u.setFile(file[0]);
-        }
+        String email = params.get("email");
+
+        Assistant assistant = new Assistant();
+        assistant.setUsername(username);
+        assistant.setPassword(this.passwordEncoder.encode(password));
+        assistant.setEmail(email);
         
-        this.assistantService.addAssistant(u);
+        this.assistantService.addAssistant(assistant);
     }
 //    
-//    @GetMapping(path="/assistant", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @CrossOrigin
-//    public ResponseEntity<List<Assistant>> list(){
-//        return new ResponseEntity<>(this.assistantService.getAssistants(), HttpStatus.OK);
-//    }
+    @GetMapping(path="/assistant", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<List<Assistant>> list(){
+        return new ResponseEntity<>(this.assistantService.getAssistants(), HttpStatus.OK);
+    }
 }
