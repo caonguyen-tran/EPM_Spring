@@ -17,7 +17,7 @@
     <form:errors path="*" element="div" cssClass="alert alert-danger" />
 
     <div class="form-floating mb-3 mt-3">
-        <form:input class="form-control"  id="name"  placeholder="Tên hoạt động" path="name" />
+        <form:input class="form-control"  id="name"  placeholder="Tên hoạt động" path="name"/>
         <label for="name">Tên hoạt động</label>
     </div>
     <div class="form-floating mb-3 mt-3">
@@ -29,28 +29,36 @@
         <label for="name">Ngày kết thúc</label>
     </div>
     <div class="form-floating mb-3 mt-3">
-        <form:input class="form-control"  id="description"  placeholder="Tên hoạt động" path="description" />
+        <form:textarea class="form-control"  id="description"  placeholder="Tên hoạt động" path="description" style="height: 150px"/>
         <label for="name">Mô tả hoạt động</label>
     </div>
     <div class="form-floating mb-3 mt-3">
-        <form:input class="form-control"  id="slots" type="number" placeholder="Số lượng tham gia" path="slots" />
+        <form:input class="form-control"  id="slots" type="number" placeholder="Số lượng tham gia" path="slots"/>
         <label for="name">Số lượng tham gia</label>
     </div>
-    <div class="form-floating">
+    <div class="form-floating" style="margin-bottom: 12px">
         <form:select class="form-select" id="semesterId"  path="semesterId">
             <c:forEach items="${semesters}" var="c">
-                <option value="${c.id}">${c.name}</option>
+                <option value="${c.id}">${c.description}</option>
             </c:forEach>
         </form:select>
         <label for="semesterId" class="form-label">Kì Học:</label>
     </div>
     <div class="form-floating" style="margin-bottom: 12px">
         <form:select class="form-select" id="termId"  path="termId">
-            <c:forEach items="${terms}" var="c">
-                <option value="${c.id}">${c.name}</option>
+            <c:forEach items="${terms}" var="t">
+                <option value="${t.id}">${t.name} - ${t.description}</option>
             </c:forEach>
         </form:select>
         <label for="categoryId" class="form-label">Điều:</label>
+    </div>
+    <div class="form-floating" style="margin-bottom: 12px">
+        <form:select class="form-select" id="facultyId"  path="facultyId">
+            <c:forEach items="${faculties}" var="f">
+                <option value="${f.id}">${f.name}</option>
+            </c:forEach>
+        </form:select>
+        <label for="categoryId" class="form-label">Khoa tổ chức:</label>
     </div>
     <div class="form-floating mb-3 mt-3">
         <form:input type="file" class="form-control"  id="image" path="file" />
