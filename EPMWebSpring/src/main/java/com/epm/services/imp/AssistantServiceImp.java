@@ -53,7 +53,7 @@ public class AssistantServiceImp implements AssistantService{
         }
       
         Set<GrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority("ASSISTANT"));
+        authorities.add(new SimpleGrantedAuthority("ROLE_ASSISTANT"));
         
         return new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(), authorities);
     }

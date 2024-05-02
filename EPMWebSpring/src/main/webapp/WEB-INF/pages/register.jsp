@@ -12,56 +12,54 @@
     Tạo 1 hoạt động
 </h1>
 <c:url value="/register" var="action" />
-<form:form method="post" action="${action}" modelAttribute="activity" enctype="multipart/form-data">
-
-    <form:errors path="*" element="div" cssClass="alert alert-danger" />
+<form method="post" action="${action}" enctype="multipart/form-data">
 
     <div class="form-floating mb-3 mt-3">
-        <form:input class="form-control"  id="name"  placeholder="Tên hoạt động" path="name"/>
+        <input class="form-control"  id="name"  placeholder="Tên hoạt động" name="name"/>
         <label for="name">Tên hoạt động</label>
     </div>
     <div class="form-floating mb-3 mt-3">
-        <form:input type="datetime-local" class="form-control" value="2024-05-01T08:30" id="startDate"  placeholder="Ngày bắt đầu" path="startDate" />
-        <label for="name">Ngày bắt đầu</label>
+        <input type="datetime-local" class="form-control" value="2024-05-01T08:30" id="startDate"  placeholder="Ngày bắt đầu" name="startDate"/>
+        <label for="startDate">Ngày bắt đầu</label>
     </div>
     <div class="form-floating mb-3 mt-3">
-        <form:input type="datetime-local" class="form-control" value="2024-05-01T08:30" id="endDate"  placeholder="Ngày kết thúc" path="endDate" />
-        <label for="name">Ngày kết thúc</label>
+        <input type="datetime-local" class="form-control" value="2024-05-01T08:30" id="endDate"  placeholder="Ngày kết thúc" name="endDate"/>
+        <label for="endDate">Ngày kết thúc</label>
     </div>
     <div class="form-floating mb-3 mt-3">
-        <form:textarea class="form-control"  id="description"  placeholder="Tên hoạt động" path="description" style="height: 150px"/>
-        <label for="name">Mô tả hoạt động</label>
+        <textarea class="form-control"  id="description"  placeholder="Tên hoạt động" style="height: 150px" name="description"></textarea>
+        <label for="description">Mô tả hoạt động</label>
     </div>
     <div class="form-floating mb-3 mt-3">
-        <form:input class="form-control"  id="slots" type="number" placeholder="Số lượng tham gia" path="slots"/>
-        <label for="name">Số lượng tham gia</label>
+        <input class="form-control"  id="slots" type="number" placeholder="Số lượng tham gia" name="slots"/>
+        <label for="slots">Số lượng tham gia</label>
     </div>
     <div class="form-floating" style="margin-bottom: 12px">
-        <form:select class="form-select" id="semesterId"  path="semesterId">
-            <c:forEach items="${semesters}" var="c">
-                <option value="${c.id}">${c.description}</option>
+        <select class="form-select" id="semesterId" name="semesterId">
+            <c:forEach items="${semesters}" var="s">
+                <option value="${s.id}">${s.description}</option>
             </c:forEach>
-        </form:select>
+        </select>
         <label for="semesterId" class="form-label">Kì Học:</label>
     </div>
     <div class="form-floating" style="margin-bottom: 12px">
-        <form:select class="form-select" id="termId"  path="termId">
+        <select class="form-select" aria-label="Default select example" name="termId">
             <c:forEach items="${terms}" var="t">
                 <option value="${t.id}">${t.name} - ${t.description}</option>
             </c:forEach>
-        </form:select>
+        </select>
         <label for="categoryId" class="form-label">Điều:</label>
     </div>
     <div class="form-floating" style="margin-bottom: 12px">
-        <form:select class="form-select" id="facultyId"  path="facultyId">
+        <select class="form-select" aria-label="Default select example" name="facultyId">
             <c:forEach items="${faculties}" var="f">
                 <option value="${f.id}">${f.name}</option>
             </c:forEach>
-        </form:select>
+        </select>
         <label for="categoryId" class="form-label">Khoa tổ chức:</label>
     </div>
     <div class="form-floating mb-3 mt-3">
-        <form:input type="file" class="form-control"  id="image" path="file" />
+        <input type="file" class="form-control"  id="image" name="file"/>
         <label for="image">Ảnh của hoạt động</label>
 
         <c:if test="${activity.id > 0}">
@@ -75,6 +73,5 @@
                 <c:otherwise> Thêm hoạt động</c:otherwise>
             </c:choose>
         </button>
-        <form:hidden path="id" />
     </div>
-</form:form>
+</form>

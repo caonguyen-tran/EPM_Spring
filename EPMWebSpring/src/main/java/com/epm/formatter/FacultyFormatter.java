@@ -4,7 +4,7 @@
  */
 package com.epm.formatter;
 
-import com.epm.pojo.Semester;
+import com.epm.pojo.Faculty;
 import java.text.ParseException;
 import java.util.Locale;
 import org.springframework.format.Formatter;
@@ -13,18 +13,18 @@ import org.springframework.format.Formatter;
  *
  * @author ACER
  */
-public class SemesterFormatter implements Formatter<Semester>{
+public class FacultyFormatter implements Formatter<Faculty> {
 
     @Override
-    public String print(Semester s, Locale locale) {
-        return String.valueOf(s.getId());
+    public String print(Faculty faculty, Locale locale) {
+        return String.valueOf(faculty.getId());
     }
 
     @Override
-    public Semester parse(String id, Locale locale) throws ParseException {
-        Semester s = new Semester();
-        
-        s.setId(Integer.parseInt(id));
-        return s;
+    public Faculty parse(String id, Locale locale) throws ParseException {
+        Faculty f = new Faculty();
+        f.setId(Integer.parseInt(id));
+
+        return f;
     }
 }
