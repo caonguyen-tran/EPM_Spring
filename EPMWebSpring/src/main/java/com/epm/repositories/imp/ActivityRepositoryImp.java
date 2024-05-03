@@ -30,4 +30,10 @@ public class ActivityRepositoryImp implements ActivityRepository {
         Query q = s.createNamedQuery("Activity.findAll");
         return q.getResultList();
     }
+
+    @Override
+    public void createActivity(Activity activity) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        s.save(activity);
+    }
 }

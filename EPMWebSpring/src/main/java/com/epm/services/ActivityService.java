@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface ActivityService {
     List<Activity> getActivities();
+    public void createActivity(Activity activity);
 }

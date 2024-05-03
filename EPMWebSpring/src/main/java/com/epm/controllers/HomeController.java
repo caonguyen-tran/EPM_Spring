@@ -5,6 +5,7 @@
 package com.epm.controllers;
 
 import com.epm.pojo.Activity;
+import com.epm.services.ActivityService;
 import com.epm.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,13 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
     @Autowired
-    private StudentService studentService;
+    private ActivityService activityService;
     
     @RequestMapping("/")
     public String index(Model model){
-        model.addAttribute("students", this.studentService.getStudents());
-        
-        return "index";
+        model.addAttribute("activities", this.activityService.getActivities());
+        System.out.println("hello");
+        return "index";  
     }
     
     @RequestMapping("/report")

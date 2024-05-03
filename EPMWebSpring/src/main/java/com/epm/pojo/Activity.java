@@ -6,6 +6,7 @@ package com.epm.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
@@ -13,6 +14,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -61,32 +63,14 @@ public class Activity implements Serializable {
     @Column(name = "name")
     private String name;
     @Column(name = "start_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startDate;
+    private Timestamp startDate;
     @Column(name = "end_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date endDate;
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+    private Timestamp endDate;
     @Size(max = 255)
     @Column(name = "description")
     private String description;
     @Column(name = "active")
-    private Boolean active;
+    private Boolean active = true;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 120)
@@ -97,18 +81,18 @@ public class Activity implements Serializable {
     @Column(name = "slots")
     private int slots;
     @Column(name = "close")
-    private Boolean close;
+    private Boolean close = false;
     @JsonIgnore
     @JoinColumn(name = "assistant_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Assistant assistantId;
     @JsonIgnore
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Faculty facultyId;
     @JsonIgnore
     @JoinColumn(name = "semester_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Semester semesterId;
     @JsonIgnore
     @JoinColumn(name = "term_id", referencedColumnName = "id")
@@ -139,8 +123,7 @@ public class Activity implements Serializable {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-    
-    
+
     public Activity() {
     }
 
@@ -160,6 +143,22 @@ public class Activity implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Timestamp getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
+    }
+
+    public Timestamp getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
     }
 
     public String getName() {
@@ -311,5 +310,5 @@ public class Activity implements Serializable {
     public String toString() {
         return "com.epm.pojo.Activity[ id=" + id + " ]";
     }
-    
+
 }

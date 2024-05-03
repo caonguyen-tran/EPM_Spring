@@ -12,4 +12,6 @@ import com.epm.pojo.Activity;
  */
 public interface ActivityRepository {
     List<Activity> getActivities();
+
+    public void createActivity(Activity activity);
 }

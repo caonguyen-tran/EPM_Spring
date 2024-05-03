@@ -10,12 +10,26 @@
 <h1>Trang nay cua Admin</h1>
 
 
-<p>Danh sach sinh vien</p>
+<table class="table table-striped mt-1">
+    <tr>
+        <th>Mã</th>
+        <th>Tên hoạt động</th>
+        <th>Ngày bắt đầu</th>
+        <th>Ngày kết thúc</th>
+        <th>Mô tả</th>
+        <th>Hình ảnh</th>
+        <th>Điều</th>
+    </tr>
 
-<ul>
-    <c:forEach items="${students}" var="s">
-        <li>
-            ${s.firstname}
-        </li>
+    <c:forEach items="${activities}" var="a">
+        <tr>
+            <td>${a.id}</td>
+            <td>${a.name}</td>
+            <td>${a.startDate}</td>
+            <td>${a.endDate}</td>
+            <td>${a.description}</td>
+            <td style="width: 240px"> <img class="card-img-top" src="${a.image}" alt="${a.name}" style="width:200px;"></td>
+            <td style="width: 80px">${a.termId.name}</td>
+        </tr>
     </c:forEach>
-</ul>
+</table>
