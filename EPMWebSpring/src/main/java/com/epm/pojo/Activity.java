@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ACER
+ * @author Win11
  */
 @Entity
 @Table(name = "activity")
@@ -40,47 +42,48 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Activity.findByEndDate", query = "SELECT a FROM Activity a WHERE a.endDate = :endDate"),
     @NamedQuery(name = "Activity.findByDescription", query = "SELECT a FROM Activity a WHERE a.description = :description"),
     @NamedQuery(name = "Activity.findByActive", query = "SELECT a FROM Activity a WHERE a.active = :active"),
+    @NamedQuery(name = "Activity.findByImage", query = "SELECT a FROM Activity a WHERE a.image = :image"),
     @NamedQuery(name = "Activity.findBySlots", query = "SELECT a FROM Activity a WHERE a.slots = :slots"),
-    @NamedQuery(name = "Activity.findByClosed", query = "SELECT a FROM Activity a WHERE a.closed = :closed")})
+    @NamedQuery(name = "Activity.findByClose", query = "SELECT a FROM Activity a WHERE a.close = :close")})
 public class Activity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 80)
+    @Size(max = 255)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "start_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "end_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 255)
     @Column(name = "description")
     private String description;
     @Column(name = "active")
     private Boolean active;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 80)
+    @Column(name = "image")
+    private String image;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "slots")
     private int slots;
-    @Column(name = "closed")
-    private Boolean closed;
+    @Column(name = "close")
+    private Boolean close;
     @JoinColumn(name = "assistant_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Assistant assistantId;
+    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Faculty facultyId;
     @JoinColumn(name = "semester_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Semester semesterId;
@@ -88,8 +91,8 @@ public class Activity implements Serializable {
     @ManyToOne(optional = false)
     private Term termId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
-    private Set<Like1> like1Set;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    private Set<Liked> likedSet;
+    @OneToMany(mappedBy = "activityId")
     private Set<JoinActivity> joinActivitySet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<Score> scoreSet;
@@ -105,12 +108,9 @@ public class Activity implements Serializable {
         this.id = id;
     }
 
-    public Activity(Integer id, String name, Date startDate, Date endDate, String description, int slots) {
+    public Activity(Integer id, String image, int slots) {
         this.id = id;
-        this.name = name;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.description = description;
+        this.image = image;
         this.slots = slots;
     }
 
@@ -162,6 +162,14 @@ public class Activity implements Serializable {
         this.active = active;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public int getSlots() {
         return slots;
     }
@@ -170,12 +178,12 @@ public class Activity implements Serializable {
         this.slots = slots;
     }
 
-    public Boolean getClosed() {
-        return closed;
+    public Boolean getClose() {
+        return close;
     }
 
-    public void setClosed(Boolean closed) {
-        this.closed = closed;
+    public void setClose(Boolean close) {
+        this.close = close;
     }
 
     public Assistant getAssistantId() {
@@ -184,6 +192,14 @@ public class Activity implements Serializable {
 
     public void setAssistantId(Assistant assistantId) {
         this.assistantId = assistantId;
+    }
+
+    public Faculty getFacultyId() {
+        return facultyId;
+    }
+
+    public void setFacultyId(Faculty facultyId) {
+        this.facultyId = facultyId;
     }
 
     public Semester getSemesterId() {
@@ -203,12 +219,12 @@ public class Activity implements Serializable {
     }
 
     @XmlTransient
-    public Set<Like1> getLike1Set() {
-        return like1Set;
+    public Set<Liked> getLikedSet() {
+        return likedSet;
     }
 
-    public void setLike1Set(Set<Like1> like1Set) {
-        this.like1Set = like1Set;
+    public void setLikedSet(Set<Liked> likedSet) {
+        this.likedSet = likedSet;
     }
 
     @XmlTransient

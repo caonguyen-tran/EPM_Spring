@@ -10,9 +10,10 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -27,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ACER
+ * @author Win11
  */
 @Entity
 @Table(name = "comment")
@@ -35,20 +36,20 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c"),
     @NamedQuery(name = "Comment.findById", query = "SELECT c FROM Comment c WHERE c.id = :id"),
+    @NamedQuery(name = "Comment.findByContent", query = "SELECT c FROM Comment c WHERE c.content = :content"),
     @NamedQuery(name = "Comment.findByCreatedDate", query = "SELECT c FROM Comment c WHERE c.createdDate = :createdDate"),
     @NamedQuery(name = "Comment.findByImage", query = "SELECT c FROM Comment c WHERE c.image = :image")})
 public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Lob
-    @Size(min = 1, max = 2147483647)
+    @Size(min = 1, max = 255)
     @Column(name = "content")
     private String content;
     @Column(name = "created_date")
@@ -57,9 +58,9 @@ public class Comment implements Serializable {
     @Size(max = 80)
     @Column(name = "image")
     private String image;
-    @JoinColumn(name = "account_student", referencedColumnName = "id")
+    @JoinColumn(name = "account_student_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private AccountStudent accountStudent;
+    private AccountStudent accountStudentId;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Activity activityId;
@@ -113,12 +114,12 @@ public class Comment implements Serializable {
         this.image = image;
     }
 
-    public AccountStudent getAccountStudent() {
-        return accountStudent;
+    public AccountStudent getAccountStudentId() {
+        return accountStudentId;
     }
 
-    public void setAccountStudent(AccountStudent accountStudent) {
-        this.accountStudent = accountStudent;
+    public void setAccountStudentId(AccountStudent accountStudentId) {
+        this.accountStudentId = accountStudentId;
     }
 
     public Activity getActivityId() {

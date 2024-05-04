@@ -12,7 +12,7 @@ import com.epm.pojo.Classes;
 import com.epm.pojo.Comment;
 import com.epm.pojo.Faculty;
 import com.epm.pojo.JoinActivity;
-import com.epm.pojo.Like1;
+import com.epm.pojo.Liked;
 import com.epm.pojo.MissingReport;
 import com.epm.pojo.Score;
 import com.epm.pojo.ScoreStudent;
@@ -52,7 +52,7 @@ public class HibernateUtils {
         conf.addAnnotatedClass(Comment.class);
         conf.addAnnotatedClass(Faculty.class);
         conf.addAnnotatedClass(JoinActivity.class);
-        conf.addAnnotatedClass(Like1.class);
+        conf.addAnnotatedClass(Liked.class);
         conf.addAnnotatedClass(MissingReport.class);
         conf.addAnnotatedClass(Score.class);
         conf.addAnnotatedClass(ScoreStudent.class);

@@ -5,19 +5,18 @@
 package com.epm.pojo;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -25,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ACER
+ * @author Win11
  */
 @Entity
 @Table(name = "assistant")
@@ -33,21 +32,27 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Assistant.findAll", query = "SELECT a FROM Assistant a"),
     @NamedQuery(name = "Assistant.findById", query = "SELECT a FROM Assistant a WHERE a.id = :id"),
+    @NamedQuery(name = "Assistant.findByFirstname", query = "SELECT a FROM Assistant a WHERE a.firstname = :firstname"),
+    @NamedQuery(name = "Assistant.findByLastname", query = "SELECT a FROM Assistant a WHERE a.lastname = :lastname"),
     @NamedQuery(name = "Assistant.findByUsername", query = "SELECT a FROM Assistant a WHERE a.username = :username"),
     @NamedQuery(name = "Assistant.findByPassword", query = "SELECT a FROM Assistant a WHERE a.password = :password"),
-    @NamedQuery(name = "Assistant.findByEmail", query = "SELECT a FROM Assistant a WHERE a.email = :email"),
     @NamedQuery(name = "Assistant.findByAvatar", query = "SELECT a FROM Assistant a WHERE a.avatar = :avatar"),
-    @NamedQuery(name = "Assistant.findByActive", query = "SELECT a FROM Assistant a WHERE a.active = :active"),
-    @NamedQuery(name = "Assistant.findByCreatedDate", query = "SELECT a FROM Assistant a WHERE a.createdDate = :createdDate"),
-    @NamedQuery(name = "Assistant.findByAddress", query = "SELECT a FROM Assistant a WHERE a.address = :address")})
+    @NamedQuery(name = "Assistant.findByEmail", query = "SELECT a FROM Assistant a WHERE a.email = :email"),
+    @NamedQuery(name = "Assistant.findByActive", query = "SELECT a FROM Assistant a WHERE a.active = :active")})
 public class Assistant implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
+    @Size(max = 45)
+    @Column(name = "firstname")
+    private String firstname;
+    @Size(max = 45)
+    @Column(name = "lastname")
+    private String lastname;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -58,21 +63,15 @@ public class Assistant implements Serializable {
     @Size(min = 1, max = 80)
     @Column(name = "password")
     private String password;
+    @Size(max = 80)
+    @Column(name = "avatar")
+    private String avatar;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 45)
     @Column(name = "email")
     private String email;
-    @Size(max = 45)
-    @Column(name = "avatar")
-    private String avatar;
     @Column(name = "active")
     private Boolean active;
-    @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
-    @Size(max = 80)
-    @Column(name = "address")
-    private String address;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "assistantId")
     private Set<Activity> activitySet;
 
@@ -97,6 +96,22 @@ public class Assistant implements Serializable {
         this.id = id;
     }
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -113,14 +128,6 @@ public class Assistant implements Serializable {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getAvatar() {
         return avatar;
     }
@@ -129,28 +136,20 @@ public class Assistant implements Serializable {
         this.avatar = avatar;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Boolean getActive() {
         return active;
     }
 
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     @XmlTransient

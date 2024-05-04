@@ -5,23 +5,22 @@
 package com.epm.pojo;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ACER
+ * @author Win11
  */
 @Entity
 @Table(name = "admin")
@@ -29,21 +28,26 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Admin.findAll", query = "SELECT a FROM Admin a"),
     @NamedQuery(name = "Admin.findById", query = "SELECT a FROM Admin a WHERE a.id = :id"),
+    @NamedQuery(name = "Admin.findByFirstname", query = "SELECT a FROM Admin a WHERE a.firstname = :firstname"),
+    @NamedQuery(name = "Admin.findByLastname", query = "SELECT a FROM Admin a WHERE a.lastname = :lastname"),
     @NamedQuery(name = "Admin.findByUsername", query = "SELECT a FROM Admin a WHERE a.username = :username"),
     @NamedQuery(name = "Admin.findByPassword", query = "SELECT a FROM Admin a WHERE a.password = :password"),
-    @NamedQuery(name = "Admin.findByAvatar", query = "SELECT a FROM Admin a WHERE a.avatar = :avatar"),
     @NamedQuery(name = "Admin.findByEmail", query = "SELECT a FROM Admin a WHERE a.email = :email"),
-    @NamedQuery(name = "Admin.findByActive", query = "SELECT a FROM Admin a WHERE a.active = :active"),
-    @NamedQuery(name = "Admin.findByCreatedDate", query = "SELECT a FROM Admin a WHERE a.createdDate = :createdDate"),
-    @NamedQuery(name = "Admin.findByAddress", query = "SELECT a FROM Admin a WHERE a.address = :address")})
+    @NamedQuery(name = "Admin.findByActive", query = "SELECT a FROM Admin a WHERE a.active = :active")})
 public class Admin implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
+    @Size(max = 45)
+    @Column(name = "firstname")
+    private String firstname;
+    @Size(max = 45)
+    @Column(name = "lastname")
+    private String lastname;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -54,21 +58,12 @@ public class Admin implements Serializable {
     @Size(min = 1, max = 80)
     @Column(name = "password")
     private String password;
-    @Size(max = 45)
-    @Column(name = "avatar")
-    private String avatar;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 45)
     @Column(name = "email")
     private String email;
     @Column(name = "active")
     private Boolean active;
-    @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
-    @Size(max = 80)
-    @Column(name = "address")
-    private String address;
 
     public Admin() {
     }
@@ -91,6 +86,22 @@ public class Admin implements Serializable {
         this.id = id;
     }
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -107,14 +118,6 @@ public class Admin implements Serializable {
         this.password = password;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -129,22 +132,6 @@ public class Admin implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     @Override
