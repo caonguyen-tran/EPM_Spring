@@ -10,6 +10,10 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+<<<<<<< HEAD
+=======
+import javax.persistence.FetchType;
+>>>>>>> 8be9e7de6c94e9291fa6a4d3ff1645283d8d46a3
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,7 +55,7 @@ public class Classes implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
     private Set<Student> studentSet;
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Faculty facultyId;
 
     public Classes() {

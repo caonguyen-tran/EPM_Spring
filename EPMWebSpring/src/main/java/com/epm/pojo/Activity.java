@@ -4,13 +4,20 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+<<<<<<< HEAD
+=======
+import javax.persistence.FetchType;
+>>>>>>> 8be9e7de6c94e9291fa6a4d3ff1645283d8d46a3
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,10 +29,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -57,16 +66,27 @@ public class Activity implements Serializable {
     @Column(name = "name")
     private String name;
     @Column(name = "start_date")
+<<<<<<< HEAD
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
     @Column(name = "end_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
+=======
+    private Timestamp startDate;
+    @Column(name = "end_date")
+    private Timestamp endDate;
+>>>>>>> 8be9e7de6c94e9291fa6a4d3ff1645283d8d46a3
     @Size(max = 255)
     @Column(name = "description")
     private String description;
     @Column(name = "active")
-    private Boolean active;
+    private Boolean active = true;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 120)
+    @Column(name = "image")
+    private String image;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
@@ -77,29 +97,61 @@ public class Activity implements Serializable {
     @Column(name = "slots")
     private int slots;
     @Column(name = "close")
+<<<<<<< HEAD
     private Boolean close;
+=======
+    private Boolean close = false;
+    @JsonIgnore
+>>>>>>> 8be9e7de6c94e9291fa6a4d3ff1645283d8d46a3
     @JoinColumn(name = "assistant_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Assistant assistantId;
+<<<<<<< HEAD
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Faculty facultyId;
+=======
+    @JsonIgnore
+    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Faculty facultyId;
+    @JsonIgnore
+>>>>>>> 8be9e7de6c94e9291fa6a4d3ff1645283d8d46a3
     @JoinColumn(name = "semester_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Semester semesterId;
+    @JsonIgnore
     @JoinColumn(name = "term_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Term termId;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<Liked> likedSet;
+<<<<<<< HEAD
+=======
+    @JsonIgnore
+>>>>>>> 8be9e7de6c94e9291fa6a4d3ff1645283d8d46a3
     @OneToMany(mappedBy = "activityId")
     private Set<JoinActivity> joinActivitySet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<Score> scoreSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<Comment> commentSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<MissingReport> missingReportSet;
+    @Transient
+    private MultipartFile file;
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
 
     public Activity() {
     }
@@ -122,28 +174,28 @@ public class Activity implements Serializable {
         this.id = id;
     }
 
+    public Timestamp getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
+    }
+
+    public Timestamp getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
     }
 
     public String getDescription() {
@@ -287,5 +339,5 @@ public class Activity implements Serializable {
     public String toString() {
         return "com.epm.pojo.Activity[ id=" + id + " ]";
     }
-    
+
 }

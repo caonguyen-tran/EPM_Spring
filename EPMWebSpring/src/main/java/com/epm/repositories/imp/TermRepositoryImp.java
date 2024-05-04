@@ -4,8 +4,8 @@
  */
 package com.epm.repositories.imp;
 
-import com.epm.pojo.Student;
-import com.epm.repositories.StudentRepository;
+import com.epm.pojo.Term;
+import com.epm.repositories.TermRepository;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -20,14 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class StudentRepositoryImp implements StudentRepository{
+public class TermRepositoryImp implements TermRepository{
     @Autowired
-    private LocalSessionFactoryBean sessionFactory;
+    private LocalSessionFactoryBean localSessionFactoryBean;
     
     @Override
-    public List<Student> getStudents() {
-        Session s = this.sessionFactory.getObject().getCurrentSession();
-        Query q = s.createNamedQuery("Student.findAll");
-        return q.getResultList();
+    public List<Term> getTerms() {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+        Query query = s.createNamedQuery("Term.findAll");
+        return query.getResultList();
     }
 }

@@ -6,13 +6,30 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World! Im Nguyen</h1>
-    </body>
-</html>
+
+<h1>Trang nay cua Admin</h1>
+
+
+<table class="table table-striped mt-1">
+    <tr>
+        <th>Mã</th>
+        <th>Tên hoạt động</th>
+        <th>Ngày bắt đầu</th>
+        <th>Ngày kết thúc</th>
+        <th>Mô tả</th>
+        <th>Hình ảnh</th>
+        <th>Điều</th>
+    </tr>
+
+    <c:forEach items="${activities}" var="a">
+        <tr>
+            <td>${a.id}</td>
+            <td>${a.name}</td>
+            <td>${a.startDate}</td>
+            <td>${a.endDate}</td>
+            <td>${a.description}</td>
+            <td style="width: 240px"> <img class="card-img-top" src="${a.image}" alt="${a.name}" style="width:200px;"></td>
+            <td style="width: 80px">${a.termId.name}</td>
+        </tr>
+    </c:forEach>
+</table>
