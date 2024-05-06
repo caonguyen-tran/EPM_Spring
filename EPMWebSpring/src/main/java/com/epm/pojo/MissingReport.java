@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,7 +48,7 @@ public class MissingReport implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 80)
+    @Size(min = 1, max = 160)
     @Column(name = "proof_joining")
     private String proofJoining;
     @Size(max = 45)
@@ -60,10 +61,10 @@ public class MissingReport implements Serializable {
     @Column(name = "note")
     private String note;
     @JoinColumn(name = "account_student_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private AccountStudent accountStudentId;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Activity activityId;
 
     public MissingReport() {

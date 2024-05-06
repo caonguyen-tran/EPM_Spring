@@ -11,22 +11,16 @@ import com.epm.pojo.Semester;
 import com.epm.pojo.Term;
 import com.epm.services.ActivityService;
 import com.epm.services.AssistantService;
-import com.epm.services.FacultyService;
-import com.epm.services.SemesterService;
-import com.epm.services.TermService;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -44,20 +38,6 @@ public class RegisterController {
 
     @Autowired
     private ActivityService activityService;
-
-    @Autowired
-    private TermService termService;
-    @Autowired
-    private FacultyService facultyService;
-    @Autowired
-    private SemesterService semesterService;
-
-    @ModelAttribute
-    public void commonAttributes(Model model) {
-        model.addAttribute("terms", termService.getTerms());
-        model.addAttribute("faculties", facultyService.getFaculties());
-        model.addAttribute("semesters", semesterService.getSemesters());
-    }
 
     @GetMapping("/register")
     public String registerSite(Model model) {

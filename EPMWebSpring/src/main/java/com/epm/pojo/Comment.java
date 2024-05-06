@@ -55,7 +55,7 @@ public class Comment implements Serializable {
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
-    @Size(max = 80)
+    @Size(max = 160)
     @Column(name = "image")
     private String image;
     @JoinColumn(name = "account_student_id", referencedColumnName = "id")

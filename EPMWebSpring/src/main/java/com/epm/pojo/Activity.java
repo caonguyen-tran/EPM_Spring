@@ -24,8 +24,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -73,7 +71,7 @@ public class Activity implements Serializable {
     private Boolean active = true;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 120)
+    @Size(min = 1, max = 160)
     @Column(name = "image")
     private String image;
     @Basic(optional = false)
@@ -96,7 +94,7 @@ public class Activity implements Serializable {
     private Semester semesterId;
     @JsonIgnore
     @JoinColumn(name = "term_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Term termId;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")

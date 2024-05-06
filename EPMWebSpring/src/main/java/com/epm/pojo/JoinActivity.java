@@ -50,8 +50,8 @@ public class JoinActivity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegister;
     @Column(name = "rollup")
-    private Boolean rollup;
-    @Size(max = 80)
+    private Boolean rollup = false;
+    @Size(max = 160)
     @Column(name = "proof_joining")
     private String proofJoining;
     @Size(max = 120)

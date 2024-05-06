@@ -64,7 +64,7 @@ public class AccountStudent implements Serializable {
     private String email;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 80)
+    @Size(min = 1, max = 160)
     @Column(name = "avatar")
     private String avatar;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudentId")
