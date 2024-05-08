@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author ACER
  */
 @Controller
-public class RegisterController {
-    @GetMapping(value="/register")
-    public String registerSite(){
+public class JoiningController {
+    @GetMapping(value="/join")
+    public String listJoining(){
         
-        return "register";
+        return "join";
     }
 }

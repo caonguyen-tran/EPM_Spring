@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <h1>
-    Missing Report
+    Danh sách báo thiếu
 </h1>
 <c:url value="/report" var="action" />
 <form action="${action}" method="get">
@@ -41,10 +41,10 @@
             <td>${r[0].id}</td>
             <td>${r[1].name}</td>
             <td>${r[3].id}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>${r[4].lastname} ${r[4].firstname}</td>
+            <td>${r[6].name}</td>
+            <td>${r[0].createdDate}</td>
+            <td style="width: 150px"><img class="card-img-top" src="${r[0].proofJoining}" style="width:200px;"></td>
             <td></td>
         </tr>
     </c:forEach>

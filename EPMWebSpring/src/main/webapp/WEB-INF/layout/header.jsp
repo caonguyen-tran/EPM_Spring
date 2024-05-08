@@ -14,13 +14,24 @@
                 <a class="nav-link active" href="<c:url value="/" />">E-Point</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<c:url value="/register" />">Tạo hoạt động</a>
+                <a class="nav-link" href="<c:url value="/" />">Danh sách hoạt động</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<c:url value="/report" />">Báo thiếu hoạt động</a>
+                <a class="nav-link" href="<c:url value="/report" />">Báo thiếu</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
+                <a class="nav-link" href="<c:url value="/join" />">Danh sách tham gia</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<c:url value="/register" />">Danh sách đăng ký</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<c:url value="/activity"/>">Tạo hoạt động</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">
+                    disabled
+                </a>
             </li>
             
         </ul><c:choose>

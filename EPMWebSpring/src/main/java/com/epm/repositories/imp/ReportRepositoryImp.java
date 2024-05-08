@@ -39,37 +39,27 @@ public class ReportRepositoryImp implements ReportRepository {
     private LocalSessionFactoryBean localSessionFactoryBean;
 
     @Override
-    public List<MissingReport> getListReports() {
-        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
-
-        Query query = s.createNamedQuery("MissingReport.findAll");
-
-        return query.getResultList();
-    }
-
-    @Override
-    public List<MissingReport> getListReportsByFaculty(int facultyId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public List<Object[]> getLists() {
+    public List<Object[]> getListReports(int facultyId) {
         Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
         CriteriaBuilder criteriaBuilder = s.getCriteriaBuilder();
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
 
-        Root<MissingReport> rootA = criteriaQuery.from(MissingReport.class);
-        Join<MissingReport, Activity> joinB = rootA.join("activityId", JoinType.INNER);
-        Join<MissingReport, AccountStudent> joinC = rootA.join("accountStudentId", JoinType.INNER);
-        Join<Activity, Term> joinD = joinB.join("termId", JoinType.INNER);
-        Join<AccountStudent, Student> joinE = joinC.join("studentId", JoinType.INNER);
+        Root<MissingReport> missingReport = criteriaQuery.from(MissingReport.class);
+        Join<MissingReport, Activity> activity = missingReport.join("activityId", JoinType.INNER);
+        Join<MissingReport, AccountStudent> accountStudent = missingReport.join("accountStudentId", JoinType.INNER);
+        Join<Activity, Term> term = activity.join("termId", JoinType.INNER);
+        Join<AccountStudent, Student> student = accountStudent.join("studentId", JoinType.INNER);
+        Join<Student, Classes> classes = student.join("classId", JoinType.INNER);
+        Join<Classes, Faculty> faculty = classes.join("facultyId", JoinType.INNER);
         
+        criteriaQuery.select(criteriaBuilder.array(missingReport, activity, accountStudent, term, student, classes, faculty));
         
-        criteriaQuery.select(criteriaBuilder.array(rootA, joinB, joinC, joinD, joinE));
+        if(facultyId != 0){
+            criteriaQuery.where(criteriaBuilder.equal(faculty.get("id"), facultyId));
+        }
         
         Query q = s.createQuery(criteriaQuery);
 
         return q.getResultList();
     }
-
 }

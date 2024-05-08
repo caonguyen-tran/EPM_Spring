@@ -94,7 +94,7 @@ public class Activity implements Serializable {
     private Semester semesterId;
     @JsonIgnore
     @JoinColumn(name = "term_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Term termId;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")

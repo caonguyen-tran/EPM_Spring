@@ -7,7 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<h1>Trang nay cua Admin</h1>
+<h1>Các hoạt động đang diễn ra</h1>
 
 
 <table class="table table-striped mt-1">

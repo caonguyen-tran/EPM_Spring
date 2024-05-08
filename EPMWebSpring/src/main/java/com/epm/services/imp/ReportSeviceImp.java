@@ -21,18 +21,7 @@ public class ReportSeviceImp implements ReportService{
     private ReportRepository reportRepository;
     
     @Override
-    public List<MissingReport> getListReports() {
-        return this.reportRepository.getListReports();
+    public List<Object[]> getListReports(int facultyId) {
+        return this.reportRepository.getListReports(facultyId);
     }
-
-    @Override
-    public List<MissingReport> getListReportsByFaculty(int facultyId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public List<Object[]> getLists() {
-        return this.reportRepository.getLists();
-    }
-    
 }
