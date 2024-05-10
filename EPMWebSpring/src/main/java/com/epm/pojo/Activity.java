@@ -14,10 +14,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-<<<<<<< HEAD
-=======
 import javax.persistence.FetchType;
->>>>>>> 8be9e7de6c94e9291fa6a4d3ff1645283d8d46a3
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,7 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author Win11
+ * @author ACER
  */
 @Entity
 @Table(name = "activity")
@@ -66,17 +63,9 @@ public class Activity implements Serializable {
     @Column(name = "name")
     private String name;
     @Column(name = "start_date")
-<<<<<<< HEAD
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startDate;
-    @Column(name = "end_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date endDate;
-=======
     private Timestamp startDate;
     @Column(name = "end_date")
     private Timestamp endDate;
->>>>>>> 8be9e7de6c94e9291fa6a4d3ff1645283d8d46a3
     @Size(max = 255)
     @Column(name = "description")
     private String description;
@@ -89,34 +78,19 @@ public class Activity implements Serializable {
     private String image;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 80)
-    @Column(name = "image")
-    private String image;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "slots")
     private int slots;
     @Column(name = "close")
-<<<<<<< HEAD
-    private Boolean close;
-=======
     private Boolean close = false;
     @JsonIgnore
->>>>>>> 8be9e7de6c94e9291fa6a4d3ff1645283d8d46a3
     @JoinColumn(name = "assistant_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Assistant assistantId;
-<<<<<<< HEAD
-    @JoinColumn(name = "faculty_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Faculty facultyId;
-=======
     @JsonIgnore
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Faculty facultyId;
     @JsonIgnore
->>>>>>> 8be9e7de6c94e9291fa6a4d3ff1645283d8d46a3
     @JoinColumn(name = "semester_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Semester semesterId;
@@ -127,10 +101,7 @@ public class Activity implements Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<Liked> likedSet;
-<<<<<<< HEAD
-=======
     @JsonIgnore
->>>>>>> 8be9e7de6c94e9291fa6a4d3ff1645283d8d46a3
     @OneToMany(mappedBy = "activityId")
     private Set<JoinActivity> joinActivitySet;
     @JsonIgnore

@@ -24,6 +24,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,5 +49,11 @@ public class ApiActivityController {
     @CrossOrigin
     public ResponseEntity<List<Activity>> list() {
         return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
+    }
+    
+    @GetMapping(path = "/{accountStudentId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<List<Activity>> listActivityJoining(@PathVariable(value = "accountStudentId") int accountStudentId){
+        return new ResponseEntity<>(this.activityService.getActivitiesJoining(accountStudentId), HttpStatus.OK);
     }
 }

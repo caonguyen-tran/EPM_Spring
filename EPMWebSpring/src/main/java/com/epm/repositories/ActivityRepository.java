@@ -14,4 +14,6 @@ public interface ActivityRepository {
     List<Activity> getActivities();
 
     public void createActivity(Activity activity);
+    
+    List<Activity> getActivitiesJoining(int accountStudentId);
 }

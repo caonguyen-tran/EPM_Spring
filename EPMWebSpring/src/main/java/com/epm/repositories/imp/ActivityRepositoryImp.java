@@ -5,8 +5,15 @@
 package com.epm.repositories.imp;
 
 import com.epm.pojo.Activity;
+import com.epm.pojo.JoinActivity;
 import com.epm.repositories.ActivityRepository;
 import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +42,20 @@ public class ActivityRepositoryImp implements ActivityRepository {
     public void createActivity(Activity activity) {
         Session s = this.sessionFactory.getObject().getCurrentSession();
         s.save(activity);
+    }
+
+    @Override
+    public List<Activity> getActivitiesJoining(int accountStudentId) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery q = b.createQuery(Activity.class);
+        Root r = q.from(Activity.class);
+        q.select(r);
+        
+        Join<Activity, JoinActivity> joiningActivities = r.join("joinActivitySet");
+        
+        q.where(b.equal(joiningActivities.get("accountStudentId").as(Integer.class), accountStudentId));
+        
+        return s.createQuery(q).getResultList();
     }
 }

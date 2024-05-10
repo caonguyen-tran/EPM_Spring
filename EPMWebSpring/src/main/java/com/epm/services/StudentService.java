@@ -6,10 +6,13 @@ package com.epm.services;
 
 import java.util.List;
 import com.epm.pojo.Student;
+
 /**
  *
  * @author ACER
  */
 public interface StudentService {
     List<Student> getStudents();
+
+    void registerStudent(Student student);
 }

@@ -6,6 +6,7 @@ package com.epm.configs;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.epm.formatter.ActivityFormatter;
 import com.epm.formatter.FacultyFormatter;
 import com.epm.formatter.SemesterFormatter;
 import com.epm.formatter.TermFormatter;
@@ -73,6 +74,7 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         registry.addFormatter(new FacultyFormatter());
         registry.addFormatter(new SemesterFormatter());
         registry.addFormatter(new TermFormatter());
+        registry.addFormatter(new ActivityFormatter());
     }
 
 }

@@ -4,6 +4,7 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -26,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Win11
+ * @author ACER
  */
 @Entity
 @Table(name = "join_activity")
@@ -59,11 +60,14 @@ public class JoinActivity implements Serializable {
     private String note;
     @JoinColumn(name = "account_student_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private AccountStudent accountStudentId;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Activity activityId;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "joinActivityId")
+    @JsonIgnore
     private ScoreStudent scoreStudent;
 
     public JoinActivity() {

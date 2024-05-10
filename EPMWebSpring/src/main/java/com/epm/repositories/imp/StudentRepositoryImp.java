@@ -30,4 +30,9 @@ public class StudentRepositoryImp implements StudentRepository{
         Query q = s.createNamedQuery("Student.findAll");
         return q.getResultList();
     }
+
+    @Override
+    public void registerStudent(Student student) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
