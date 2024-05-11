@@ -4,14 +4,13 @@
  */
 package com.epm.repositories;
 
-import com.epm.pojo.JoinActivity;
+import com.epm.pojo.Classes;
 import java.util.List;
 
 /**
  *
  * @author ACER
  */
-public interface JoinRepository {
-    public List<Object[]> getParticipates(String activityId, String facultyId, String classId, String semesterId);
-    public List<JoinActivity> getParticipateByFaculty(int facultyId);
+public interface ClassesRepository {
+    public List<Classes> getClasses();
 }

@@ -26,9 +26,6 @@
                 <a class="nav-link" href="<c:url value="/register" />">Danh sách đăng ký</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<c:url value="/activity"/>">Tạo hoạt động</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link disabled" href="#">
                     disabled
                 </a>

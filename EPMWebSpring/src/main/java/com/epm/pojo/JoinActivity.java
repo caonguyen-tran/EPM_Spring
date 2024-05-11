@@ -10,6 +10,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,6 +24,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  *
@@ -58,13 +60,13 @@ public class JoinActivity implements Serializable {
     @Column(name = "note")
     private String note;
     @JoinColumn(name = "account_student_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private AccountStudent accountStudentId;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Activity activityId;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "joinActivityId")
-    private ScoreStudent scoreStudent;
+//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "joinActivityId", fetch = FetchType.LAZY)
+//    private ScoreStudent scoreStudent;
 
     public JoinActivity() {
     }
@@ -129,13 +131,13 @@ public class JoinActivity implements Serializable {
         this.activityId = activityId;
     }
 
-    public ScoreStudent getScoreStudent() {
-        return scoreStudent;
-    }
-
-    public void setScoreStudent(ScoreStudent scoreStudent) {
-        this.scoreStudent = scoreStudent;
-    }
+//    public ScoreStudent getScoreStudent() {
+//        return scoreStudent;
+//    }
+//
+//    public void setScoreStudent(ScoreStudent scoreStudent) {
+//        this.scoreStudent = scoreStudent;
+//    }
 
     @Override
     public int hashCode() {

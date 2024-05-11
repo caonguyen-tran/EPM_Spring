@@ -4,7 +4,11 @@
  */
 package com.epm.controllers;
 
+import com.epm.services.RegisterService;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -13,8 +17,12 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class RegisterController {
+    @Autowired
+    private RegisterService registerService;
+    
     @GetMapping(value="/register")
-    public String registerSite(){
+    public String registerSite(Model model){
+        model.addAttribute("registers", this.registerService.getRegisters());
         
         return "register";
     }

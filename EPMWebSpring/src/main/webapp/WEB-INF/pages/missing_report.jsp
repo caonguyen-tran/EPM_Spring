@@ -45,7 +45,10 @@
             <td>${r[6].name}</td>
             <td>${r[0].createdDate}</td>
             <td style="width: 150px"><img class="card-img-top" src="${r[0].proofJoining}" style="width:200px;"></td>
-            <td></td>
+            <td>
+                <c:url value="/" var="url" />
+                <a class="btn btn-info" href="<c:url value="" />">Xác nhận</a>
+            </td>
         </tr>
     </c:forEach>
 </table>
