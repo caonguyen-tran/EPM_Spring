@@ -5,14 +5,11 @@
 package com.epm.repositories;
 
 import com.epm.pojo.MissingReport;
-import java.util.List;
 
 /**
  *
  * @author Win11
  */
 public interface MissingReportRepository {
-    List<MissingReport> getMissingReportByAccountStudentId(int accountStudentId);
-    
     void createMissingReport(MissingReport mr);
 }

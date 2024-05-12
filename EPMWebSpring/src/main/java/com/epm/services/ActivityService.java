@@ -12,7 +12,12 @@ import java.util.List;
  * @author ACER
  */
 public interface ActivityService {
+
     List<Activity> getActivities();
+
     public void createActivity(Activity activity);
-    public List<Activity> getActivitiesJoining(int accountStudentId);
+
+    public List<Activity> getActivitiesJoined(int accountStudentId);
+
+    public List<Activity> getActivitiesMissingByAccountStudentId(int accountStudentId);
 }

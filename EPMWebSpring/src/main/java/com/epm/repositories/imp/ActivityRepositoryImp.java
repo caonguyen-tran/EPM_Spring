@@ -6,6 +6,7 @@ package com.epm.repositories.imp;
 
 import com.epm.pojo.Activity;
 import com.epm.pojo.JoinActivity;
+import com.epm.pojo.MissingReport;
 import com.epm.repositories.ActivityRepository;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -45,7 +46,7 @@ public class ActivityRepositoryImp implements ActivityRepository {
     }
 
     @Override
-    public List<Activity> getActivitiesJoining(int accountStudentId) {
+    public List<Activity> getActivitiesJoined(int accountStudentId) {
         Session s = this.sessionFactory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
         CriteriaQuery q = b.createQuery(Activity.class);
@@ -55,6 +56,21 @@ public class ActivityRepositoryImp implements ActivityRepository {
         Join<Activity, JoinActivity> joiningActivities = r.join("joinActivitySet");
         
         q.where(b.equal(joiningActivities.get("accountStudentId").as(Integer.class), accountStudentId));
+        
+        return s.createQuery(q).getResultList();
+    }
+
+    @Override
+    public List<Activity> getActivitiesMissingByAccountStudentId(int accountStudentId) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Activity> q = b.createQuery(Activity.class);
+        Root r = q.from(Activity.class);
+        q.select(r);
+        
+        Join<Activity, MissingReport> missingActivities = r.join("missingReportSet");
+        
+        q.where(b.equal(missingActivities.get("accountStudentId").as(Integer.class), accountStudentId));
         
         return s.createQuery(q).getResultList();
     }

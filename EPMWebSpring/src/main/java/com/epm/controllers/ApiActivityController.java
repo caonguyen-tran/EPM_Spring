@@ -54,6 +54,12 @@ public class ApiActivityController {
     @GetMapping(path = "/{accountStudentId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<List<Activity>> listActivityJoining(@PathVariable(value = "accountStudentId") int accountStudentId){
-        return new ResponseEntity<>(this.activityService.getActivitiesJoining(accountStudentId), HttpStatus.OK);
+        return new ResponseEntity<>(this.activityService.getActivitiesJoined(accountStudentId), HttpStatus.OK);
+    }
+    
+    @GetMapping(path = "/missing/{accountStudentId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<List<Activity>> getActivitiesMissing(@PathVariable(value = "accountStudentId") int accountStudentId){
+        return new ResponseEntity<>(this.activityService.getActivitiesMissingByAccountStudentId(accountStudentId), HttpStatus.OK);
     }
 }

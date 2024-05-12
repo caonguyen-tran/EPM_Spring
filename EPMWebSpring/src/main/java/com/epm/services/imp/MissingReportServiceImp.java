@@ -30,11 +30,6 @@ public class MissingReportServiceImp implements MissingReportService{
     private Cloudinary cloudinary;
 
     @Override
-    public List<MissingReport> getMissingReportByAccountStudentId(int accountStudentId) {
-        return this.missingReportRepo.getMissingReportByAccountStudentId(accountStudentId);
-    }
-
-    @Override
     public void createMissingReport(MissingReport mr) {
         if (!mr.getFile().isEmpty()) {
             try {
@@ -45,7 +40,7 @@ public class MissingReportServiceImp implements MissingReportService{
                 Logger.getLogger(MissingReportServiceImp.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
+            
         this.missingReportRepo.createMissingReport(mr);
     }
     

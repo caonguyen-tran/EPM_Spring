@@ -33,12 +33,6 @@ public class ApiMissingReportController {
     @Autowired
     private MissingReportService missingReportService;
     
-    @GetMapping(path = "/missing-report/{accountStudentId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
-    public ResponseEntity<List<MissingReport>> getMissingReportByAccountStudentId(@PathVariable(value = "accountStudentId") int accountStudentId){
-        return new ResponseEntity<>(this.missingReportService.getMissingReportByAccountStudentId(accountStudentId), HttpStatus.OK);
-    }
-    
     @PostMapping(path = "/missing-report/create/", consumes = {
         MediaType.APPLICATION_JSON_VALUE,
         MediaType.MULTIPART_FORM_DATA_VALUE

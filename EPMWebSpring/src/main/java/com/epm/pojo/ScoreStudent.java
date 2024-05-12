@@ -17,6 +17,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -43,6 +44,19 @@ public class ScoreStudent implements Serializable {
     @JoinColumn(name = "score_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Score scoreId;
+    @Transient
+    private AccountStudent accountStudentId;
+    
+    public AccountStudent getAccountStudentId(){
+        if(this.joinActivityId.getAccountStudentId() != null){
+            return this.joinActivityId.getAccountStudentId();
+        }
+        return null;
+    }
+    
+    public void setAccountStudentId(AccountStudent accountStudentId){
+        this.accountStudentId = accountStudentId;
+    }
 
     public ScoreStudent() {
     }

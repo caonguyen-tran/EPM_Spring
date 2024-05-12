@@ -48,8 +48,13 @@ public class ActivityServiceImp implements ActivityService{
     }
 
     @Override
-    public List<Activity> getActivitiesJoining(int accountStudentId) {
-        return this.activityRepo.getActivitiesJoining(accountStudentId);
+    public List<Activity> getActivitiesJoined(int accountStudentId) {
+        return this.activityRepo.getActivitiesJoined(accountStudentId);
+    }
+
+    @Override
+    public List<Activity> getActivitiesMissingByAccountStudentId(int accountStudentId) {
+        return this.activityRepo.getActivitiesMissingByAccountStudentId(accountStudentId);
     }
     
 }

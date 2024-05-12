@@ -2,13 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.epm.services;
+package com.epm.repositories;
 
-import com.epm.pojo.MissingReport;
+import java.util.List;
+
 /**
  *
- * @author Win11
+ * @author MyLaptop
  */
-public interface MissingReportService {
-    public void createMissingReport(MissingReport mr);
+public interface ScoreRepository {
+    List<Object[]> getScoresByTerms();
 }

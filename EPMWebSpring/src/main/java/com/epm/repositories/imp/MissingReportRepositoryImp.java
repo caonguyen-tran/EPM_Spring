@@ -27,22 +27,8 @@ public class MissingReportRepositoryImp implements MissingReportRepository{
     private LocalSessionFactoryBean factory;
 
     @Override
-    public List<MissingReport> getMissingReportByAccountStudentId(int accountStudentId) {
-        Session s = this.factory.getObject().getCurrentSession();
-        CriteriaBuilder b = s.getCriteriaBuilder();
-        CriteriaQuery<MissingReport> q = b.createQuery(MissingReport.class);
-        Root r = q.from(MissingReport.class);
-        q.select(r);
-        
-        q.where(b.equal(r.get("accountStudentId").as(Integer.class), accountStudentId));
-        
-        return s.createQuery(q).getResultList();
-    }
-
-    @Override
     public void createMissingReport(MissingReport mr) {
         Session s = this.factory.getObject().getCurrentSession();
         s.save(mr);
     }
-    
 }

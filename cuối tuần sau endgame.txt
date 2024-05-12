@@ -16,14 +16,14 @@ ký tài khoản dựa trên email trường cấp (có avatar).
 nhân
 trợ lý sinh viên
 + Xem thành tích ngoại khóa của một sinh viên (xem điểm của 1 sinh viên theo kì và theo năm)
-+ Xem danh sách các hoạt động sinh viên báo thiếu 
++ Xem danh sách các hoạt động sinh viên báo thiếu done
 + Xem thống kê theo (lớp, xem theo điểm tổng)
 + Xuất danh sách điểm chi tiết (từng điều, tổng điểm, các thông tin của sinh viên) dưới dạng PDF hoặc CSV
 sinh viên
 + Đăng ký
-+ Xem điểm rèn luyện của từng Điều
-+ Thực hiện báo thiếu hoạt động -> có minh chứng
-+ Xem các hoạt động mình đã đăng ký tham gia
++ Xem điểm rèn luyện của từng Điều, tổng điểm
++ Thực hiện báo thiếu hoạt động -> có minh chứng done
++ Xem các hoạt động mình đã đăng ký tham gia done
 admin
 + Chuyên viên CTSV có thể xem thống kê điểm rèn luyện của toàn trường theo: khoa,
 lớp, thành tích và xuất ra danh sách dạng PDF hoặc CSV và có các quyền của trợ lý
