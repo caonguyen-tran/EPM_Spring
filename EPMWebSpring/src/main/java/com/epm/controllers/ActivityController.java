@@ -4,11 +4,14 @@
  */
 package com.epm.controllers;
 
+import com.epm.pojo.AccountStudent;
 import com.epm.pojo.Activity;
 import com.epm.pojo.Assistant;
 import com.epm.pojo.Faculty;
 import com.epm.pojo.Semester;
+import com.epm.pojo.Student;
 import com.epm.pojo.Term;
+import com.epm.services.AccountService;
 import com.epm.services.ActivityService;
 import com.epm.services.AssistantService;
 import java.sql.Timestamp;
@@ -18,6 +21,7 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +36,11 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Controller
 public class ActivityController {
+    @Autowired
+    private AccountService accountService;
+    
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private AssistantService assistantService;

@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -41,6 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Student.findByLastname", query = "SELECT s FROM Student s WHERE s.lastname = :lastname"),
     @NamedQuery(name = "Student.findByGender", query = "SELECT s FROM Student s WHERE s.gender = :gender"),
     @NamedQuery(name = "Student.findByDayOfBirth", query = "SELECT s FROM Student s WHERE s.dayOfBirth = :dayOfBirth"),
+    @NamedQuery(name = "Student.findByEmail", query = "SELECT a FROM Student a WHERE a.email = :email"),
     @NamedQuery(name = "Student.findByPhoneNumber", query = "SELECT s FROM Student s WHERE s.phoneNumber = :phoneNumber"),
     @NamedQuery(name = "Student.findByAddress", query = "SELECT s FROM Student s WHERE s.address = :address")})
 public class Student implements Serializable {
@@ -81,11 +83,16 @@ public class Student implements Serializable {
     @Size(min = 1, max = 120)
     @Column(name = "address")
     private String address;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 80)
+    @Column(name = "email")
+    private String email;
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Classes classId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
-    private Set<AccountStudent> accountStudentSet;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "studentId")
+    private AccountStudent accountStudentSet;
 
     public Student() {
     }
@@ -94,7 +101,7 @@ public class Student implements Serializable {
         this.id = id;
     }
 
-    public Student(Integer id, String firstname, String lastname, String gender, Date dayOfBirth, String phoneNumber, String address) {
+    public Student(Integer id, String firstname, String lastname, String gender, Date dayOfBirth, String phoneNumber, String address, String email) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -102,6 +109,7 @@ public class Student implements Serializable {
         this.dayOfBirth = dayOfBirth;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.email = email;
     }
 
     public Integer getId() {
@@ -110,6 +118,14 @@ public class Student implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstname() {
@@ -169,11 +185,11 @@ public class Student implements Serializable {
     }
 
     @XmlTransient
-    public Set<AccountStudent> getAccountStudentSet() {
+    public AccountStudent getAccountStudentSet() {
         return accountStudentSet;
     }
 
-    public void setAccountStudentSet(Set<AccountStudent> accountStudentSet) {
+    public void setAccountStudentSet(AccountStudent accountStudentSet) {
         this.accountStudentSet = accountStudentSet;
     }
 
@@ -201,5 +217,5 @@ public class Student implements Serializable {
     public String toString() {
         return "com.epm.pojo.Student[ id=" + id + " ]";
     }
-    
+
 }

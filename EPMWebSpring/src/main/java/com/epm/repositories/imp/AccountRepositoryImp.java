@@ -6,6 +6,8 @@ package com.epm.repositories.imp;
 
 import com.epm.pojo.AccountStudent;
 import com.epm.repositories.AccountRepository;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,17 +29,23 @@ public class AccountRepositoryImp implements AccountRepository{
     
     @Override
     public AccountStudent getUserByUsername(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+        Query query = s.createNamedQuery("AccountStudent.findByUsername");
+        query.setParameter("username", username);
+        return (AccountStudent) query.getSingleResult();
     }
 
     @Override
     public boolean authUser(String username, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        AccountStudent a = this.getUserByUsername(username);
+        return passwordEncoder.matches(password, a.getPassword());
     }
 
     @Override
     public AccountStudent addAccountStudent(AccountStudent accountStudent) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+        s.save(accountStudent);
+        return accountStudent;
     }
     
 }

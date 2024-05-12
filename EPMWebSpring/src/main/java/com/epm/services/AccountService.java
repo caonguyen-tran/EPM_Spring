@@ -5,15 +5,14 @@
 package com.epm.services;
 
 import com.epm.pojo.AccountStudent;
-import java.util.Map;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  *
  * @author ACER
  */
-public interface AccountService {
+public interface AccountService extends UserDetailsService{
     AccountStudent getUserByUsername(String username);
     boolean authUser(String username, String password);
-    public AccountStudent addAccountStudent(Map<String, String> data, MultipartFile file);
+    public AccountStudent addAccountStudent(AccountStudent accountStudent);
 }

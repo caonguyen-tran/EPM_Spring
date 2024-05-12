@@ -18,11 +18,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -36,7 +39,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AccountStudent.findById", query = "SELECT a FROM AccountStudent a WHERE a.id = :id"),
     @NamedQuery(name = "AccountStudent.findByUsername", query = "SELECT a FROM AccountStudent a WHERE a.username = :username"),
     @NamedQuery(name = "AccountStudent.findByPassword", query = "SELECT a FROM AccountStudent a WHERE a.password = :password"),
-    @NamedQuery(name = "AccountStudent.findByEmail", query = "SELECT a FROM AccountStudent a WHERE a.email = :email"),
     @NamedQuery(name = "AccountStudent.findByAvatar", query = "SELECT a FROM AccountStudent a WHERE a.avatar = :avatar")})
 public class AccountStudent implements Serializable {
 
@@ -56,12 +58,6 @@ public class AccountStudent implements Serializable {
     @Size(min = 1, max = 80)
     @Column(name = "password")
     private String password;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "email")
-    private String email;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 160)
@@ -72,12 +68,22 @@ public class AccountStudent implements Serializable {
     @OneToMany(mappedBy = "accountStudentId")
     private Set<JoinActivity> joinActivitySet;
     @JoinColumn(name = "student_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false)
     private Student studentId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudentId")
     private Set<Comment> commentSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudentId")
     private Set<MissingReport> missingReportSet;
+    @Transient
+    private MultipartFile file;
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
 
     public AccountStudent() {
     }
@@ -90,7 +96,6 @@ public class AccountStudent implements Serializable {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.email = email;
         this.avatar = avatar;
     }
 
@@ -117,15 +122,7 @@ public class AccountStudent implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
+    
     public String getAvatar() {
         return avatar;
     }
@@ -202,5 +199,5 @@ public class AccountStudent implements Serializable {
     public String toString() {
         return "com.epm.pojo.AccountStudent[ id=" + id + " ]";
     }
-    
+
 }

@@ -4,14 +4,19 @@
  */
 package com.epm.services.imp;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.epm.pojo.AccountStudent;
-import com.epm.pojo.Student;
 import com.epm.repositories.AccountRepository;
 import com.epm.services.AccountService;
+import java.io.IOException;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -21,6 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class AccountServiceImp implements AccountService{
     @Autowired
     private AccountRepository accountRepository;
+    
+    @Autowired
+    private Cloudinary cloudinary;
     
     @Override
     public AccountStudent getUserByUsername(String username) {
@@ -33,8 +41,22 @@ public class AccountServiceImp implements AccountService{
     }
 
     @Override
-    public AccountStudent addAccountStudent(Map<String, String> data, MultipartFile file) {
-        return null;
+    public AccountStudent addAccountStudent(AccountStudent accountStudent) {
+        if(!accountStudent.getFile().isEmpty()){
+            try {
+                Map res = this.cloudinary.uploader().upload(accountStudent.getFile().getBytes(),
+                        ObjectUtils.asMap("resource_type", "auto"));
+                accountStudent.setAvatar(res.get("secure_url").toString());
+            } catch (IOException ex) {
+                Logger.getLogger(AccountServiceImp.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return this.accountRepository.addAccountStudent(accountStudent);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }
