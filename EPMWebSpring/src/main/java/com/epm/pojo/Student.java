@@ -86,6 +86,11 @@ public class Student implements Serializable {
     private Classes classId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
     private Set<AccountStudent> accountStudentSet;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "email")
+    private String email;
 
     public Student() {
     }
@@ -94,7 +99,7 @@ public class Student implements Serializable {
         this.id = id;
     }
 
-    public Student(Integer id, String firstname, String lastname, String gender, Date dayOfBirth, String phoneNumber, String address) {
+    public Student(Integer id, String firstname, String lastname, String gender, Date dayOfBirth, String phoneNumber, String address, String email) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -102,6 +107,7 @@ public class Student implements Serializable {
         this.dayOfBirth = dayOfBirth;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.email = email;
     }
 
     public Integer getId() {
@@ -200,6 +206,20 @@ public class Student implements Serializable {
     @Override
     public String toString() {
         return "com.epm.pojo.Student[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
     
 }

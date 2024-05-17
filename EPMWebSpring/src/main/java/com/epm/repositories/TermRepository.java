@@ -12,5 +12,8 @@ import java.util.List;
  * @author ACER
  */
 public interface TermRepository {
+
     List<Term> getTerms();
+
+    Term findById(int termId);
 }

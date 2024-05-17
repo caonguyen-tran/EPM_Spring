@@ -50,7 +50,9 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "Activity.findByActive", query = "SELECT a FROM Activity a WHERE a.active = :active"),
     @NamedQuery(name = "Activity.findByImage", query = "SELECT a FROM Activity a WHERE a.image = :image"),
     @NamedQuery(name = "Activity.findBySlots", query = "SELECT a FROM Activity a WHERE a.slots = :slots"),
-    @NamedQuery(name = "Activity.findByClose", query = "SELECT a FROM Activity a WHERE a.close = :close")})
+    @NamedQuery(name = "Activity.findByClose", query = "SELECT a FROM Activity a WHERE a.close = :close"),
+    @NamedQuery(name = "Activity.findByTermId", query = "SELECT a FROM Activity a WHERE a.termId = :termId")
+})
 public class Activity implements Serializable {
 
     private static final long serialVersionUID = 1L;

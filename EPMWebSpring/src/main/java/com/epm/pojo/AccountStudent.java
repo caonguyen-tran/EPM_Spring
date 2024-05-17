@@ -59,11 +59,6 @@ public class AccountStudent implements Serializable {
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "email")
-    private String email;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 80)
     @Column(name = "avatar")
     private String avatar;
@@ -86,11 +81,10 @@ public class AccountStudent implements Serializable {
         this.id = id;
     }
 
-    public AccountStudent(Integer id, String username, String password, String email, String avatar) {
+    public AccountStudent(Integer id, String username, String password, String avatar) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.email = email;
         this.avatar = avatar;
     }
 
@@ -116,14 +110,6 @@ public class AccountStudent implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getAvatar() {

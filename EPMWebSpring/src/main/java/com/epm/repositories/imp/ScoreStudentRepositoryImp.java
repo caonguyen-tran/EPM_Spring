@@ -4,18 +4,9 @@
  */
 package com.epm.repositories.imp;
 
-import com.epm.pojo.Activity;
-import com.epm.pojo.Score;
 import com.epm.pojo.ScoreStudent;
-import com.epm.pojo.Term;
-import com.epm.repositories.ScoreRepository;
-import java.util.ArrayList;
+import com.epm.repositories.ScoreStudentRepository;
 import java.util.List;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,38 +16,39 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * @author MyLaptop
+ * @author Win11
  */
 @Repository
 @Transactional
-public class ScoreRepositoryImp implements ScoreRepository{
+public class ScoreStudentRepositoryImp implements ScoreStudentRepository {
+
     @Autowired
     private LocalSessionFactoryBean factory;
 
     @Override
-    public List<Score> findAll() {
+    public List<ScoreStudent> findAll() {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createNamedQuery("Score.findAll");
-        
+        Query q = s.createNamedQuery("ScoreStudent.findAll");
+
         return q.getResultList();
     }
 
     @Override
-    public Score findById(int scoreId) {
+    public ScoreStudent findById(int scoreStudentId) {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createNamedQuery("Score.findById");
-        q.setParameter("id", scoreId);
-        
-        return (Score) q.getSingleResult();
+        Query q = s.createNamedQuery("ScoreStudent.findById");
+        q.setParameter("id", scoreStudentId);
+
+        return (ScoreStudent) q.getSingleResult();
     }
 
     @Override
-    public List<Score> findByActivityId(int activityId) {
+    public List<ScoreStudent> findByAccountStudentId(int accountStudentId) {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createNamedQuery("Score.findByActivityId");
-        q.setParameter("activityId", activityId);
-        
+        Query q = s.createNamedQuery("ScoreStudent.findByAccountStudentId");
+        q.setParameter("accountStudentId", accountStudentId);
+
         return q.getResultList();
     }
-    
+
 }

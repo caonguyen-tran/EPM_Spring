@@ -37,7 +37,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Score.findByScoreName", query = "SELECT s FROM Score s WHERE s.scoreName = :scoreName"),
     @NamedQuery(name = "Score.findByDescription", query = "SELECT s FROM Score s WHERE s.description = :description"),
     @NamedQuery(name = "Score.findByScoreValue", query = "SELECT s FROM Score s WHERE s.scoreValue = :scoreValue"),
-    @NamedQuery(name = "Score.findByNumberOfScore", query = "SELECT s FROM Score s WHERE s.numberOfScore = :numberOfScore")})
+    @NamedQuery(name = "Score.findByNumberOfScore", query = "SELECT s FROM Score s WHERE s.numberOfScore = :numberOfScore"),
+    @NamedQuery(name = "Score.findByActivityId", query = "SELECT s FROM Score s WHERE s.activityId = :activityId")
+})
 public class Score implements Serializable {
 
     private static final long serialVersionUID = 1L;

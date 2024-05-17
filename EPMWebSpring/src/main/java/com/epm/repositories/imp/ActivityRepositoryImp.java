@@ -74,4 +74,23 @@ public class ActivityRepositoryImp implements ActivityRepository {
         
         return s.createQuery(q).getResultList();
     }
+
+    @Override
+    public List<Activity> findByTermId(int termId) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("Activity.findByTermId");
+        q.setParameter("termId", termId);
+        
+        return q.getResultList();
+        
+    }
+
+    @Override
+    public Activity findById(int activityId) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("Activity.findById");
+        q.setParameter("id", activityId);
+        
+        return (Activity) q.getSingleResult();
+    }
 }

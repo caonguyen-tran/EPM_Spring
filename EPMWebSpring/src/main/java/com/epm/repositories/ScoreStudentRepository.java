@@ -4,18 +4,18 @@
  */
 package com.epm.repositories;
 
-import com.epm.pojo.Score;
+import com.epm.pojo.ScoreStudent;
 import java.util.List;
 
 /**
  *
- * @author MyLaptop
+ * @author Win11
  */
-public interface ScoreRepository {
+public interface ScoreStudentRepository {
 
-    List<Score> findAll();
+    List<ScoreStudent> findAll();
 
-    Score findById(int scoreId);
+    ScoreStudent findById(int scoreStudentId);
 
-    List<Score> findByActivityId(int activityId);
+    List<ScoreStudent> findByAccountStudentId(int accountStudentId);
 }

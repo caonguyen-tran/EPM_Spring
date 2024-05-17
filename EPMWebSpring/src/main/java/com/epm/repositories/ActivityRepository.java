@@ -18,4 +18,8 @@ public interface ActivityRepository {
     List<Activity> getActivitiesJoined(int accountStudentId);
     
     List<Activity> getActivitiesMissingByAccountStudentId(int accountStudentId);
+    
+    List<Activity> findByTermId(int termId);
+    
+    Activity findById(int activityId);
 }
