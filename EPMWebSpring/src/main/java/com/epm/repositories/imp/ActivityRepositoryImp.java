@@ -12,8 +12,6 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -55,7 +53,7 @@ public class ActivityRepositoryImp implements ActivityRepository {
         
         Join<Activity, JoinActivity> joiningActivities = r.join("joinActivitySet");
         
-        q.where(b.equal(joiningActivities.get("accountStudentId").as(Integer.class), accountStudentId));
+        q.where(b.equal(joiningActivities.get("accountStudentId"), accountStudentId));
         
         return s.createQuery(q).getResultList();
     }
@@ -70,7 +68,7 @@ public class ActivityRepositoryImp implements ActivityRepository {
         
         Join<Activity, MissingReport> missingActivities = r.join("missingReportSet");
         
-        q.where(b.equal(missingActivities.get("accountStudentId").as(Integer.class), accountStudentId));
+        q.where(b.equal(missingActivities.get("accountStudentId"), accountStudentId));
         
         return s.createQuery(q).getResultList();
     }

@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,7 +31,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ScoreStudent.findAll", query = "SELECT s FROM ScoreStudent s"),
     @NamedQuery(name = "ScoreStudent.findById", query = "SELECT s FROM ScoreStudent s WHERE s.id = :id"),
-    @NamedQuery(name = "ScoreStudent.findByAccountStudentId", query = "SELECT s FROM ScoreStudent s WHERE s.accountStudentId = :accountStudentId")
 })
 public class ScoreStudent implements Serializable {
 
@@ -56,6 +56,7 @@ public class ScoreStudent implements Serializable {
         return null;
     }
     
+    @XmlTransient
     public void setAccountStudentId(AccountStudent accountStudentId){
         this.accountStudentId = accountStudentId;
     }

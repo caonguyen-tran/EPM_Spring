@@ -10,7 +10,6 @@ import com.epm.pojo.MissingReport;
 import com.epm.repositories.MissingReportRepository;
 import com.epm.services.MissingReportService;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,15 +30,15 @@ public class MissingReportServiceImp implements MissingReportService{
 
     @Override
     public void createMissingReport(MissingReport mr) {
-        if (!mr.getFile().isEmpty()) {
-            try {
-                Map res = this.cloudinary.uploader().upload(mr.getFile().getBytes(),
-                        ObjectUtils.asMap("resource_type", "auto"));
-                mr.setProofJoining(res.get("secure_url").toString());
-            } catch (IOException ex) {
-                Logger.getLogger(MissingReportServiceImp.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+//        if (mr.getFile() != null && !mr.getFile().isEmpty()) {
+//            try {
+//                Map res = this.cloudinary.uploader().upload(mr.getFile().getBytes(),
+//                        ObjectUtils.asMap("resource_type", "auto"));
+//                mr.setProofJoining(res.get("secure_url").toString());
+//            } catch (IOException ex) {
+//                Logger.getLogger(MissingReportServiceImp.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
             
         this.missingReportRepo.createMissingReport(mr);
     }

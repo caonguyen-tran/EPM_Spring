@@ -28,6 +28,7 @@ public class ActivityServiceImp implements ActivityService{
     
     @Autowired 
     private Cloudinary cloudinary;
+    
     @Override
     public List<Activity> getActivities() {
         return this.activityRepo.getActivities();
