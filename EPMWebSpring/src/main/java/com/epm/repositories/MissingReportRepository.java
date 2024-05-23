@@ -11,5 +11,5 @@ import com.epm.pojo.MissingReport;
  * @author Win11
  */
 public interface MissingReportRepository {
-    void createMissingReport(MissingReport mr);
+    MissingReport createMissingReport(MissingReport mr);
 }

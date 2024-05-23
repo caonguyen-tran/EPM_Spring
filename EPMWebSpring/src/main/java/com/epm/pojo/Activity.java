@@ -7,8 +7,6 @@ package com.epm.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -24,8 +22,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -50,8 +46,7 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "Activity.findByActive", query = "SELECT a FROM Activity a WHERE a.active = :active"),
     @NamedQuery(name = "Activity.findByImage", query = "SELECT a FROM Activity a WHERE a.image = :image"),
     @NamedQuery(name = "Activity.findBySlots", query = "SELECT a FROM Activity a WHERE a.slots = :slots"),
-    @NamedQuery(name = "Activity.findByClose", query = "SELECT a FROM Activity a WHERE a.close = :close"),
-    @NamedQuery(name = "Activity.findByTermId", query = "SELECT a FROM Activity a WHERE a.termId = :termId")
+    @NamedQuery(name = "Activity.findByClose", query = "SELECT a FROM Activity a WHERE a.close = :close")
 })
 public class Activity implements Serializable {
 
@@ -94,7 +89,7 @@ public class Activity implements Serializable {
     private Faculty facultyId;
     @JsonIgnore
     @JoinColumn(name = "semester_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Semester semesterId;
     @JsonIgnore
     @JoinColumn(name = "term_id", referencedColumnName = "id")
@@ -104,7 +99,7 @@ public class Activity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<Liked> likedSet;
     @JsonIgnore
-    @OneToMany(mappedBy = "activityId")
+    @OneToMany(mappedBy = "activityId", cascade = CascadeType.ALL)
     private Set<JoinActivity> joinActivitySet;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")

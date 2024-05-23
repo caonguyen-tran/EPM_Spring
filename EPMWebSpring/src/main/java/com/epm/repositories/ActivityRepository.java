@@ -22,4 +22,6 @@ public interface ActivityRepository {
     List<Activity> findByTermId(int termId);
     
     Activity findById(int activityId);
+    
+    List<Activity> findBySemesterId(int semesterId);
 }

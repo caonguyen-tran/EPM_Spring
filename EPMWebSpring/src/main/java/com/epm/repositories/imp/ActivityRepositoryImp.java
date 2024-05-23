@@ -91,4 +91,17 @@ public class ActivityRepositoryImp implements ActivityRepository {
         
         return (Activity) q.getSingleResult();
     }
+
+    @Override
+    public List<Activity> findBySemesterId(int semesterId) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Activity> q = b.createQuery(Activity.class);
+        Root r = q.from(Activity.class);
+        q.select(r);
+        
+        q.where(b.equal(r.get("semesterId"), semesterId));
+        
+        return s.createQuery(q).getResultList();
+    }
 }

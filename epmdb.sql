@@ -26,13 +26,12 @@ CREATE TABLE `account_student` (
   `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `avatar` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `student_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_account_student_idx` (`student_id`),
   CONSTRAINT `fk_account_student` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +40,7 @@ CREATE TABLE `account_student` (
 
 LOCK TABLES `account_student` WRITE;
 /*!40000 ALTER TABLE `account_student` DISABLE KEYS */;
+INSERT INTO `account_student` VALUES (1,'student1','123','avatar',1),(2,'student2','123','avatar',2),(3,'student3','123','avatar',3);
 /*!40000 ALTER TABLE `account_student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -74,7 +74,7 @@ CREATE TABLE `activity` (
   CONSTRAINT `fk_activity_faculty` FOREIGN KEY (`faculty_id`) REFERENCES `faculty` (`id`),
   CONSTRAINT `fk_activity_semester` FOREIGN KEY (`semester_id`) REFERENCES `semester` (`id`),
   CONSTRAINT `fk_activity_term` FOREIGN KEY (`term_id`) REFERENCES `term` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,6 +83,7 @@ CREATE TABLE `activity` (
 
 LOCK TABLES `activity` WRITE;
 /*!40000 ALTER TABLE `activity` DISABLE KEYS */;
+INSERT INTO `activity` VALUES (1,'hoat dong da bong','2024-04-30 17:00:00','2024-05-10 17:00:00',NULL,_binary '','image',50,_binary '',1,1,1,1),(2,'tham quan cong ty cong nghe','2024-04-30 17:00:00','2024-05-28 17:00:00',NULL,_binary '','image',100,_binary '',1,2,2,1),(3,'hoi khoe phu dong','2024-04-30 17:00:00','2024-06-29 17:00:00',NULL,_binary '','image',22,_binary '',1,1,3,1);
 /*!40000 ALTER TABLE `activity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -250,7 +251,7 @@ CREATE TABLE `join_activity` (
   KEY `fk_join_activity_idx` (`activity_id`),
   CONSTRAINT `fk_join_account_student` FOREIGN KEY (`account_student_id`) REFERENCES `account_student` (`id`),
   CONSTRAINT `fk_join_activity` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -259,6 +260,7 @@ CREATE TABLE `join_activity` (
 
 LOCK TABLES `join_activity` WRITE;
 /*!40000 ALTER TABLE `join_activity` DISABLE KEYS */;
+INSERT INTO `join_activity` VALUES (1,'2024-05-04 17:00:00',_binary '','da tham gia',NULL,1,1),(2,'2024-05-04 17:00:00',_binary '\0','hi',NULL,1,2),(3,'2024-05-04 17:00:00',_binary '','da tham gia',NULL,1,3),(4,'2024-05-04 17:00:00',_binary '',NULL,NULL,2,1),(5,'2024-05-04 17:00:00',_binary '',NULL,NULL,2,2),(6,'2024-05-04 17:00:00',_binary '',NULL,NULL,2,3),(7,'2024-05-04 17:00:00',_binary '\0',NULL,NULL,3,1),(8,'2024-05-04 17:00:00',_binary '\0',NULL,NULL,3,2);
 /*!40000 ALTER TABLE `join_activity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -311,7 +313,7 @@ CREATE TABLE `missing_report` (
   KEY `fk_report_activity_idx` (`activity_id`),
   CONSTRAINT `fk_report_account_student` FOREIGN KEY (`account_student_id`) REFERENCES `account_student` (`id`),
   CONSTRAINT `fk_report_activity` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -320,6 +322,7 @@ CREATE TABLE `missing_report` (
 
 LOCK TABLES `missing_report` WRITE;
 /*!40000 ALTER TABLE `missing_report` DISABLE KEYS */;
+INSERT INTO `missing_report` VALUES (1,'da tham gia','dong y','2024-05-17 17:00:00',NULL,1,2);
 /*!40000 ALTER TABLE `missing_report` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -340,7 +343,7 @@ CREATE TABLE `score` (
   PRIMARY KEY (`id`),
   KEY `fk_score_activity_idx` (`activity_id`),
   CONSTRAINT `fk_score_activity` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -349,6 +352,7 @@ CREATE TABLE `score` (
 
 LOCK TABLES `score` WRITE;
 /*!40000 ALTER TABLE `score` DISABLE KEYS */;
+INSERT INTO `score` VALUES (1,'diem hang 1','diem hang nhat ac1',20,1,1),(2,'diem tham gia','dtg',5,50,1),(3,'diem tham gia','dtg',5,100,2),(4,'diem tham gia','dtg',10,22,3);
 /*!40000 ALTER TABLE `score` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -364,11 +368,11 @@ CREATE TABLE `score_student` (
   `score_id` int NOT NULL,
   `join_activity_id` int NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `join_activity_id_UNIQUE` (`join_activity_id`),
   KEY `fk_score_student_idx` (`score_id`),
-  CONSTRAINT `fk_score_join` FOREIGN KEY (`join_activity_id`) REFERENCES `join_activity` (`id`),
+  KEY `activity_join_fk_idx` (`join_activity_id`),
+  CONSTRAINT `activity_join_fk` FOREIGN KEY (`join_activity_id`) REFERENCES `join_activity` (`id`),
   CONSTRAINT `fk_score_student` FOREIGN KEY (`score_id`) REFERENCES `score` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -377,6 +381,7 @@ CREATE TABLE `score_student` (
 
 LOCK TABLES `score_student` WRITE;
 /*!40000 ALTER TABLE `score_student` DISABLE KEYS */;
+INSERT INTO `score_student` VALUES (1,1,1),(2,2,1),(3,2,4),(5,3,5),(6,4,6),(7,4,3);
 /*!40000 ALTER TABLE `score_student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -421,6 +426,7 @@ CREATE TABLE `student` (
   `day_of_birth` date NOT NULL,
   `phone_number` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
   `class_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_student_class_idx` (`class_id`),
@@ -434,7 +440,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (1,'Nhân','Tô Trọng','Nam','2003-09-17','0378461282','992 Phạm Văn Đồng, phường 8, quận Gò Vấp',3),(2,'Nguyên','Trần Cao','Nam','2003-11-10','0374812888','153/35 Lê Văn Thọ, phường 8, quận Gò Vấp',4),(3,'Linh','Phạm Thanh','Nữ','2002-03-12','0379847287','89/2 Hoàng Minh Giám, phường 6, quận Bình Thạnh',1),(4,'Lâm','Hoàng Anh','Nam','2002-05-05','0374827238','324 Lê Đức Thọ, phường 11, quận Gò Vấp',2),(5,'Đức','Trần Anh','Nam','2002-03-03','0893729993','84/2 Phan Văn Trị, phường 8, quận Gò Vấp',2),(6,'Nguyên','Nguyễn Cao','Nam','2003-11-09','0836824662','21 Phan Văn Trị, phường 1, quận Bình Thạnh',4),(7,'Tiến','Trần Nam','Nam','2004-12-01','0374827723','675 Phạm Văn Đồng, phường 9, quận Gò Vấp',9);
+INSERT INTO `student` VALUES (1,'Nhân','Tô Trọng','Nam','2003-09-17','0378461282','992 Phạm Văn Đồng, phường 8, quận Gò Vấp','',3),(2,'Nguyên','Trần Cao','Nam','2003-11-10','0374812888','153/35 Lê Văn Thọ, phường 8, quận Gò Vấp','',4),(3,'Linh','Phạm Thanh','Nữ','2002-03-12','0379847287','89/2 Hoàng Minh Giám, phường 6, quận Bình Thạnh','',1),(4,'Lâm','Hoàng Anh','Nam','2002-05-05','0374827238','324 Lê Đức Thọ, phường 11, quận Gò Vấp','',2),(5,'Đức','Trần Anh','Nam','2002-03-03','0893729993','84/2 Phan Văn Trị, phường 8, quận Gò Vấp','',2),(6,'Nguyên','Nguyễn Cao','Nam','2003-11-09','0836824662','21 Phan Văn Trị, phường 1, quận Bình Thạnh','',4),(7,'Tiến','Trần Nam','Nam','2004-12-01','0374827723','675 Phạm Văn Đồng, phường 9, quận Gò Vấp','',9);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -472,4 +478,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-10 23:06:52
+-- Dump completed on 2024-05-23 16:29:20

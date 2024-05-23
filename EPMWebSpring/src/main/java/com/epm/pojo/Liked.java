@@ -4,6 +4,7 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -41,9 +42,11 @@ public class Liked implements Serializable {
     private Boolean active;
     @JoinColumn(name = "account_student_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private AccountStudent accountStudentId;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Activity activityId;
 
     public Liked() {

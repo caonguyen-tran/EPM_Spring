@@ -30,4 +30,22 @@ public class SemesterRepositoryImp implements SemesterRepository{
         Query query = s.createNamedQuery("Semester.findAll");
         return query.getResultList();
     }
+
+    @Override
+    public List<Semester> getSemestersByStudyYear(String studyYear) {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+        Query query = s.createNamedQuery("Semester.findByYearStudy");
+        query.setParameter("yearStudy", studyYear);
+        
+        return query.getResultList();
+    }
+
+    @Override
+    public Semester findById(int semesterId) {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+        Query query = s.createNamedQuery("Semester.findById");
+        query.setParameter("id", semesterId);
+        
+        return (Semester) query.getSingleResult();
+    }
 }

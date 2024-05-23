@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
@@ -27,8 +28,10 @@ public class MissingReportRepositoryImp implements MissingReportRepository{
     private LocalSessionFactoryBean factory;
 
     @Override
-    public void createMissingReport(MissingReport mr) {
+    public MissingReport createMissingReport(MissingReport mr) {
         Session s = this.factory.getObject().getCurrentSession();
         s.save(mr);
+        
+        return mr;
     }
 }

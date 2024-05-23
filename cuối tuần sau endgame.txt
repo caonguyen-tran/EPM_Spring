@@ -15,10 +15,10 @@ ký tài khoản dựa trên email trường cấp (có avatar).
 
 nhân
 trợ lý sinh viên
-+ Xem thành tích ngoại khóa của một sinh viên (xem điểm của 1 sinh viên theo kì và theo năm)
++ Xem thành tích ngoại khóa của một sinh viên (xem điểm của 1 sinh viên theo kì và theo năm) done
 + Xem danh sách các hoạt động sinh viên báo thiếu done
 + Xem thống kê theo (lớp, xem theo điểm tổng)
-+ Xuất danh sách điểm chi tiết (từng điều, tổng điểm, các thông tin của sinh viên) dưới dạng PDF hoặc CSV
++ Xuất danh sách điểm chi tiết (từng điều, tổng điểm, các thông tin của sinh viên) dưới dạng PDF hoặc CSV done
 sinh viên
 + Đăng ký
 + Xem điểm rèn luyện của từng Điều, tổng điểm done

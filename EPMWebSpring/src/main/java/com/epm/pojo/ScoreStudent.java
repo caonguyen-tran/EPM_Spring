@@ -4,6 +4,7 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -41,25 +42,13 @@ public class ScoreStudent implements Serializable {
     @Column(name = "id")
     private Integer id;
     @JoinColumn(name = "join_activity_id", referencedColumnName = "id")
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
+    @JsonIgnore
     private JoinActivity joinActivityId;
     @JoinColumn(name = "score_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Score scoreId;
-    @Transient
-    private AccountStudent accountStudentId;
-    
-    public AccountStudent getAccountStudentId(){
-        if(this.joinActivityId.getAccountStudentId() != null){
-            return this.joinActivityId.getAccountStudentId();
-        }
-        return null;
-    }
-    
-    @XmlTransient
-    public void setAccountStudentId(AccountStudent accountStudentId){
-        this.accountStudentId = accountStudentId;
-    }
 
     public ScoreStudent() {
     }

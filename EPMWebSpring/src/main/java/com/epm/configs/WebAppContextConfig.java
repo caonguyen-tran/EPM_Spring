@@ -34,7 +34,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = {
     "com.epm.controllers",
     "com.epm.services",
-    "com.epm.repositories"
+    "com.epm.repositories",
+    "com.epm.components"
 })
 public class WebAppContextConfig implements WebMvcConfigurer {
 

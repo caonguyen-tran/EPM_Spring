@@ -4,9 +4,14 @@
  */
 package com.epm.repositories.imp;
 
+import com.epm.pojo.JoinActivity;
 import com.epm.pojo.ScoreStudent;
 import com.epm.repositories.ScoreStudentRepository;
 import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +50,28 @@ public class ScoreStudentRepositoryImp implements ScoreStudentRepository {
     @Override
     public List<ScoreStudent> findByAccountStudentId(int accountStudentId) {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createNamedQuery("ScoreStudent.findByAccountStudentId");
-        q.setParameter("accountStudentId", accountStudentId);
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<ScoreStudent> q = b.createQuery(ScoreStudent.class);
+        Root r = q.from(ScoreStudent.class);
+        
+        Join<ScoreStudent, JoinActivity> scoreJA = r.join("joinActivityId");
+        
+        q.where(b.equal(scoreJA.get("accountStudentId"), accountStudentId));
+        
+        return s.createQuery(q).getResultList();
+    }
 
-        return q.getResultList();
+    @Override
+    public List<ScoreStudent> findByJoinActivityId(int joinActivityId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<ScoreStudent> q = b.createQuery(ScoreStudent.class);
+        Root r = q.from(ScoreStudent.class);
+        q.select(r);
+        
+        q.where(b.equal(r.get("joinActivityId"), joinActivityId));
+
+        return s.createQuery(q).getResultList();
     }
 
 }

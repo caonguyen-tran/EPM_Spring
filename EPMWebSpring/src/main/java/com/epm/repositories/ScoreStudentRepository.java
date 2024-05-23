@@ -18,4 +18,6 @@ public interface ScoreStudentRepository {
     ScoreStudent findById(int scoreStudentId);
 
     List<ScoreStudent> findByAccountStudentId(int accountStudentId);
+    
+    List<ScoreStudent> findByJoinActivityId(int joinActivityId);   
 }

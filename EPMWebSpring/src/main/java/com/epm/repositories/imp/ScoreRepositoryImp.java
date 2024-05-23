@@ -4,18 +4,9 @@
  */
 package com.epm.repositories.imp;
 
-import com.epm.pojo.Activity;
 import com.epm.pojo.Score;
-import com.epm.pojo.ScoreStudent;
-import com.epm.pojo.Term;
 import com.epm.repositories.ScoreRepository;
-import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;

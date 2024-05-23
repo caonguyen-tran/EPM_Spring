@@ -6,6 +6,7 @@ package com.epm.controllers;
 
 import com.epm.services.ScoreService;
 import java.util.Map;
+import jdk.internal.net.http.frame.Http2Frame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author MyLaptop
  */
 @RestController
-@RequestMapping("/api/students")
+@RequestMapping("/api/account_student_id")
 public class ApiScoreController {
     @Autowired
     private ScoreService scoreService;

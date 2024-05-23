@@ -4,6 +4,7 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -50,9 +51,11 @@ public class Classes implements Serializable {
     @Column(name = "name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
+    @JsonIgnore
     private Set<Student> studentSet;
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Faculty facultyId;
 
     public Classes() {
