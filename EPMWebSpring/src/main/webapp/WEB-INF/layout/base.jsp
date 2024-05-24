@@ -18,7 +18,7 @@
     </head>
     <body>
         <tiles:insertAttribute name="header" />
-        <section class="container" style="display: flex; flex-direction: column; padding: 20px 0px">
+        <section class="container" style="display: flex; flex-direction: column; padding: 20px 0px; width: 100%">
             <tiles:insertAttribute name="content" />
         </section>
         <tiles:insertAttribute name="footer" />

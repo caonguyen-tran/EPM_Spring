@@ -22,6 +22,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -44,7 +45,7 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "AccountStudent.findByUsername", query = "SELECT a FROM AccountStudent a WHERE a.username = :username"),
     @NamedQuery(name = "AccountStudent.findByPassword", query = "SELECT a FROM AccountStudent a WHERE a.password = :password"),
     @NamedQuery(name = "AccountStudent.findByAvatar", query = "SELECT a FROM AccountStudent a WHERE a.avatar = :avatar")})
-public class AccountStudent implements Serializable, CustomUserDetails {
+public class AccountStudent implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -62,10 +63,10 @@ public class AccountStudent implements Serializable, CustomUserDetails {
     @Size(min = 1, max = 80)
     @Column(name = "password")
     private String password;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 80)
+    @Size(min = 1, max = 160)
     @Column(name = "avatar")
     private String avatar;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudentId")
@@ -77,6 +78,7 @@ public class AccountStudent implements Serializable, CustomUserDetails {
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     @JsonIgnore
+    @OneToOne(optional = false)
     private Student studentId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudentId")
     @JsonIgnore
@@ -86,6 +88,15 @@ public class AccountStudent implements Serializable, CustomUserDetails {
     private Set<MissingReport> missingReportSet;
     @Transient
     private MultipartFile file;
+
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
 
     public AccountStudent() {
     }
@@ -129,6 +140,7 @@ public class AccountStudent implements Serializable, CustomUserDetails {
         this.password = password;
     }
 
+  
     public String getAvatar() {
         return avatar;
     }
@@ -206,48 +218,4 @@ public class AccountStudent implements Serializable, CustomUserDetails {
         return "com.epm.pojo.AccountStudent[ id=" + id + " ]";
     }
 
-    /**
-     * @return the file
-     */
-    public MultipartFile getFile() {
-        return file;
-    }
-
-    /**
-     * @param file the file to set
-     */
-    public void setFile(MultipartFile file) {
-        this.file = file;
-    }
-
-    @Override
-    public String getUserId() {
-        return String.valueOf(this.id);
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // No roles
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-    
 }

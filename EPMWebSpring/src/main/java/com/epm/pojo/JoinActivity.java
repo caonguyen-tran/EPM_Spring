@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,6 +26,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  *
@@ -52,8 +54,8 @@ public class JoinActivity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegister;
     @Column(name = "rollup")
-    private Boolean rollup;
-    @Size(max = 80)
+    private Boolean rollup = false;
+    @Size(max = 160)
     @Column(name = "proof_joining")
     private String proofJoining;
     @Size(max = 120)

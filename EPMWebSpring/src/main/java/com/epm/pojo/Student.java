@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -42,6 +43,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Student.findByLastname", query = "SELECT s FROM Student s WHERE s.lastname = :lastname"),
     @NamedQuery(name = "Student.findByGender", query = "SELECT s FROM Student s WHERE s.gender = :gender"),
     @NamedQuery(name = "Student.findByDayOfBirth", query = "SELECT s FROM Student s WHERE s.dayOfBirth = :dayOfBirth"),
+    @NamedQuery(name = "Student.findByEmail", query = "SELECT a FROM Student a WHERE a.email = :email"),
     @NamedQuery(name = "Student.findByPhoneNumber", query = "SELECT s FROM Student s WHERE s.phoneNumber = :phoneNumber"),
     @NamedQuery(name = "Student.findByAddress", query = "SELECT s FROM Student s WHERE s.address = :address"),
     @NamedQuery(name = "Student.findByEmail", query = "SELECT s FROM Student s WHERE s.email = :email"),
@@ -84,6 +86,11 @@ public class Student implements Serializable {
     @Size(min = 1, max = 120)
     @Column(name = "address")
     private String address;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 80)
+    @Column(name = "email")
+    private String email;
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     @JsonIgnore
@@ -96,6 +103,7 @@ public class Student implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "email")
     private String email;
+
 
     public Student() {
     }
@@ -121,6 +129,14 @@ public class Student implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstname() {
@@ -180,11 +196,11 @@ public class Student implements Serializable {
     }
 
     @XmlTransient
-    public Set<AccountStudent> getAccountStudentSet() {
+    public AccountStudent getAccountStudentSet() {
         return accountStudentSet;
     }
 
-    public void setAccountStudentSet(Set<AccountStudent> accountStudentSet) {
+    public void setAccountStudentSet(AccountStudent accountStudentSet) {
         this.accountStudentSet = accountStudentSet;
     }
 
@@ -226,5 +242,5 @@ public class Student implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
 }

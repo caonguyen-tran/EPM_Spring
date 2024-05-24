@@ -13,12 +13,20 @@
         <put-attribute name="title" value="Trang chủ quản trị" />
         <put-attribute name="content" value="/WEB-INF/pages/index.jsp" />
     </definition>
-    <definition name="register" extends="baseLayout">
+    <definition name="activity" extends="baseLayout">
         <put-attribute name="title" value="Tạo hoạt động" />
-        <put-attribute name="content" value="/WEB-INF/pages/register.jsp" />
+        <put-attribute name="content" value="/WEB-INF/pages/activity.jsp" />
     </definition>
     <definition name="report" extends="baseLayout">
-        <put-attribute name="title" value="Missing Report" />
+        <put-attribute name="title" value="Báo thiếu hoạt động" />
         <put-attribute name="content" value="/WEB-INF/pages/missing_report.jsp" />
+    </definition>
+    <definition name="join" extends="baseLayout">
+        <put-attribute name="title" value="Danh sách tham gia" />
+        <put-attribute name="content" value="/WEB-INF/pages/join.jsp" />
+    </definition>
+    <definition name="register" extends="baseLayout">
+        <put-attribute name="title" value="Danh sách đăng ký" />
+        <put-attribute name="content" value="/WEB-INF/pages/register.jsp" />
     </definition>
 </tiles-definitions>

@@ -9,22 +9,46 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <h1>
-    Missing Report
+    Danh sách báo thiếu
 </h1>
 <c:url value="/report" var="action" />
-<form action="${action}" method="post">
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" name="pw">
-  </div>
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1" >
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+<form action="${action}" method="get">
+    <div class="form-floating" style="margin-bottom: 12px; width: 250px">
+        <select class="form-select" aria-label="Default select example" name="facultyId">
+            <c:forEach items="${faculties}" var="f">
+                <option value="${f.id}"> ${f.name}</option>
+            </c:forEach>
+        </select>
+        <label for="categoryId" class="form-label">Khoa tổ chức:</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Tìm</button>
 </form>
+
+<table class="table table-striped mt-1">
+    <tr>
+        <th>Mã</th>
+        <th>Tên hoạt động</th>
+        <th>Điều</th>
+        <th>Tên sinh viên</th>
+        <th>Khoa</th>
+        <th>Ngày tạo báo thiếu</th>
+        <th>Bằng chứng</th>
+        <th>Xác nhận</th>
+    </tr>
+
+    <c:forEach items="${reports}" var="r">
+        <tr>
+            <td>${r[0].id}</td>
+            <td>${r[1].name}</td>
+            <td>${r[3].id}</td>
+            <td>${r[4].lastname} ${r[4].firstname}</td>
+            <td>${r[6].name}</td>
+            <td>${r[0].createdDate}</td>
+            <td style="width: 150px"><img class="card-img-top" src="${r[0].proofJoining}" style="width:200px;"></td>
+            <td>
+                <c:url value="/" var="url" />
+                <a class="btn btn-info" href="<c:url value="" />">Xác nhận</a>
+            </td>
+        </tr>
+    </c:forEach>
+</table>
