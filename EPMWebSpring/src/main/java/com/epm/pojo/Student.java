@@ -4,6 +4,7 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -30,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ACER
+ * @author Win11
  */
 @Entity
 @Table(name = "student")
@@ -44,7 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Student.findByDayOfBirth", query = "SELECT s FROM Student s WHERE s.dayOfBirth = :dayOfBirth"),
     @NamedQuery(name = "Student.findByEmail", query = "SELECT a FROM Student a WHERE a.email = :email"),
     @NamedQuery(name = "Student.findByPhoneNumber", query = "SELECT s FROM Student s WHERE s.phoneNumber = :phoneNumber"),
-    @NamedQuery(name = "Student.findByAddress", query = "SELECT s FROM Student s WHERE s.address = :address")})
+    @NamedQuery(name = "Student.findByAddress", query = "SELECT s FROM Student s WHERE s.address = :address"),
+    @NamedQuery(name = "Student.findByEmail", query = "SELECT s FROM Student s WHERE s.email = :email"),
+})
 public class Student implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -90,9 +93,17 @@ public class Student implements Serializable {
     private String email;
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Classes classId;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "studentId")
-    private AccountStudent accountStudentSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
+    @JsonIgnore
+    private Set<AccountStudent> accountStudentSet;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "email")
+    private String email;
+
 
     public Student() {
     }
@@ -216,6 +227,20 @@ public class Student implements Serializable {
     @Override
     public String toString() {
         return "com.epm.pojo.Student[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

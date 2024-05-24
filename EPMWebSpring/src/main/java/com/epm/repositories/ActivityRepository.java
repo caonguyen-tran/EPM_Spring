@@ -14,4 +14,14 @@ public interface ActivityRepository {
     List<Activity> getActivities();
 
     public void createActivity(Activity activity);
+    
+    List<Activity> getActivitiesJoined(int accountStudentId);
+    
+    List<Activity> getActivitiesMissingByAccountStudentId(int accountStudentId);
+    
+    List<Activity> findByTermId(int termId);
+    
+    Activity findById(int activityId);
+    
+    List<Activity> findBySemesterId(int semesterId);
 }

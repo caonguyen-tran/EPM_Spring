@@ -4,7 +4,11 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -25,11 +29,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author ACER
+ * @author Win11
  */
 @Entity
 @Table(name = "account_student")
@@ -60,22 +65,30 @@ public class AccountStudent implements Serializable {
     private String password;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 80)
     @Size(min = 1, max = 160)
     @Column(name = "avatar")
     private String avatar;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudentId")
+    @JsonIgnore
     private Set<Liked> likedSet;
     @OneToMany(mappedBy = "accountStudentId")
+    @JsonIgnore
     private Set<JoinActivity> joinActivitySet;
     @JoinColumn(name = "student_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    @JsonIgnore
     @OneToOne(optional = false)
     private Student studentId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudentId")
+    @JsonIgnore
     private Set<Comment> commentSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountStudentId")
+    @JsonIgnore
     private Set<MissingReport> missingReportSet;
     @Transient
     private MultipartFile file;
+
 
     public MultipartFile getFile() {
         return file;
@@ -92,11 +105,15 @@ public class AccountStudent implements Serializable {
         this.id = id;
     }
 
-    public AccountStudent(Integer id, String username, String password, String email, String avatar) {
+    public AccountStudent(Integer id, String username, String password, String avatar) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.avatar = avatar;
+    }
+
+    public AccountStudent(String username, String password, ArrayList<Object> arrayList) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public Integer getId() {
@@ -122,7 +139,8 @@ public class AccountStudent implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
+  
     public String getAvatar() {
         return avatar;
     }

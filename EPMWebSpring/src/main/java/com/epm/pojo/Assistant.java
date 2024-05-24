@@ -6,7 +6,10 @@ package com.epm.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
+import javax.mail.Multipart;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,14 +21,17 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author ACER
+ * @author Win11
  */
 @Entity
 @Table(name = "assistant")
@@ -40,7 +46,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Assistant.findByAvatar", query = "SELECT a FROM Assistant a WHERE a.avatar = :avatar"),
     @NamedQuery(name = "Assistant.findByEmail", query = "SELECT a FROM Assistant a WHERE a.email = :email"),
     @NamedQuery(name = "Assistant.findByActive", query = "SELECT a FROM Assistant a WHERE a.active = :active")})
-public class Assistant implements Serializable {
+public class Assistant implements Serializable, CustomUserDetails {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -76,6 +82,8 @@ public class Assistant implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "assistantId")
     @JsonIgnore
     private Set<Activity> activitySet;
+    @Transient
+    private MultipartFile file;
 
     public Assistant() {
     }
@@ -186,6 +194,50 @@ public class Assistant implements Serializable {
     @Override
     public String toString() {
         return "com.epm.pojo.Assistant[ id=" + id + " ]";
+    }
+
+    @Override
+    public String getUserId() {
+        return String.valueOf(this.id);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList(); // No roles
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
     
 }

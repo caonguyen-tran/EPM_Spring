@@ -28,6 +28,7 @@ public class ActivityServiceImp implements ActivityService{
     
     @Autowired 
     private Cloudinary cloudinary;
+    
     @Override
     public List<Activity> getActivities() {
         return this.activityRepo.getActivities();
@@ -45,6 +46,16 @@ public class ActivityServiceImp implements ActivityService{
             }
         }
         this.activityRepo.createActivity(activity);
+    }
+
+    @Override
+    public List<Activity> getActivitiesJoined(int accountStudentId) {
+        return this.activityRepo.getActivitiesJoined(accountStudentId);
+    }
+
+    @Override
+    public List<Activity> getActivitiesMissingByAccountStudentId(int accountStudentId) {
+        return this.activityRepo.getActivitiesMissingByAccountStudentId(accountStudentId);
     }
     
 }

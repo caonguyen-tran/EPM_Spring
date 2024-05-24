@@ -4,6 +4,7 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -28,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ACER
+ * @author Win11
  */
 @Entity
 @Table(name = "comment")
@@ -60,14 +61,18 @@ public class Comment implements Serializable {
     private String image;
     @JoinColumn(name = "account_student_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private AccountStudent accountStudentId;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Activity activityId;
     @OneToMany(mappedBy = "commentParent")
+    @JsonIgnore
     private Set<Comment> commentSet;
     @JoinColumn(name = "comment_parent", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Comment commentParent;
 
     public Comment() {

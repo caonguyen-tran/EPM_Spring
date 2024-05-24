@@ -13,4 +13,8 @@ import java.util.List;
  */
 public interface SemesterRepository {
     List<Semester> getSemesters();
+    
+    List<Semester> getSemestersByStudyYear(String studyYear);
+    
+    Semester findById(int semesterId);
 }

@@ -30,4 +30,13 @@ public class TermRepositoryImp implements TermRepository{
         Query query = s.createNamedQuery("Term.findAll");
         return query.getResultList();
     }
+
+    @Override
+    public Term findById(int termId) {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("Term.findById");
+        q.setParameter("id", termId);
+        
+        return (Term) q.getSingleResult();
+    }
 }

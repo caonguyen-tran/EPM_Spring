@@ -7,6 +7,9 @@ package com.epm.repositories.imp;
 import com.epm.pojo.Student;
 import com.epm.repositories.StudentRepository;
 import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +32,31 @@ public class StudentRepositoryImp implements StudentRepository{
         Session s = this.sessionFactory.getObject().getCurrentSession();
         Query q = s.createNamedQuery("Student.findAll");
         return q.getResultList();
+    }
+
+    @Override
+    public void registerStudent(Student student) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Student findById(int studentId) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("Student.findById");
+        q.setParameter("id", studentId);
+        return (Student) q.getSingleResult();
+    }
+
+    @Override
+    public Student findByClassId(int classId) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Student> q = b.createQuery(Student.class);
+        Root r = q.from(Student.class);
+        q.select(r);
+        
+        q.where(b.equal(r.get("classId"), classId));
+        
+        return s.createQuery(q).getSingleResult();
     }
 }

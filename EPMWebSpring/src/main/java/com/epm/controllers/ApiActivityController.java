@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,5 +32,17 @@ public class ApiActivityController {
     @CrossOrigin
     public ResponseEntity<List<Activity>> list() {
         return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
+    }
+    
+    @GetMapping(path = "/account-student-id/{accountStudentId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<List<Activity>> listActivityJoining(@PathVariable(value = "accountStudentId") int accountStudentId){
+        return new ResponseEntity<>(this.activityService.getActivitiesJoined(accountStudentId), HttpStatus.OK);
+    }
+    
+    @GetMapping(path = "/missing/account-student-id/{accountStudentId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<List<Activity>> getActivitiesMissing(@PathVariable(value = "accountStudentId") int accountStudentId){
+        return new ResponseEntity<>(this.activityService.getActivitiesMissingByAccountStudentId(accountStudentId), HttpStatus.OK);
     }
 }

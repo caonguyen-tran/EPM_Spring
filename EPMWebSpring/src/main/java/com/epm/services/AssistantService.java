@@ -12,8 +12,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  *
  * @author ACER
  */
-public interface AssistantService extends UserDetailsService{
+public interface AssistantService extends UserDetailsService {
+
     Assistant getAssistantByUsername(String username);
+
     List<Assistant> getAssistants();
+
     void addAssistant(Assistant assist);
 }

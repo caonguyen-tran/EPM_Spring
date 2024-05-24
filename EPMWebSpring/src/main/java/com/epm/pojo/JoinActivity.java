@@ -4,8 +4,10 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,7 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -60,13 +62,16 @@ public class JoinActivity implements Serializable {
     @Column(name = "note")
     private String note;
     @JoinColumn(name = "account_student_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JsonIgnore
     private AccountStudent accountStudentId;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JsonIgnore
     private Activity activityId;
-//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "joinActivityId", fetch = FetchType.LAZY)
-//    private ScoreStudent scoreStudent;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "joinActivityId")
+    @JsonIgnore
+    private Set<ScoreStudent> scoreStudentSet;
 
     public JoinActivity() {
     }
@@ -131,14 +136,6 @@ public class JoinActivity implements Serializable {
         this.activityId = activityId;
     }
 
-//    public ScoreStudent getScoreStudent() {
-//        return scoreStudent;
-//    }
-//
-//    public void setScoreStudent(ScoreStudent scoreStudent) {
-//        this.scoreStudent = scoreStudent;
-//    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -162,6 +159,20 @@ public class JoinActivity implements Serializable {
     @Override
     public String toString() {
         return "com.epm.pojo.JoinActivity[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the scoreStudentSet
+     */
+    public Set<ScoreStudent> getScoreStudentSet() {
+        return scoreStudentSet;
+    }
+
+    /**
+     * @param scoreStudentSet the scoreStudentSet to set
+     */
+    public void setScoreStudentSet(Set<ScoreStudent> scoreStudentSet) {
+        this.scoreStudentSet = scoreStudentSet;
     }
     
 }

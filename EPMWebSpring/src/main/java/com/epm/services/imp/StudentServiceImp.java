@@ -24,5 +24,10 @@ public class StudentServiceImp implements StudentService{
     public List<Student> getStudents() {
         return this.studentRepository.getStudents();
     }
+
+    @Override
+    public void registerStudent(Student student) {
+        this.registerStudent(student);
+    }
     
 }

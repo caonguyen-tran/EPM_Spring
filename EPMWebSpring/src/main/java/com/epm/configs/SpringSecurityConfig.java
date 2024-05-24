@@ -84,7 +84,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         return cloudinary;
     }
-    
+
     @Bean
     public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() throws Exception {
         JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter();
