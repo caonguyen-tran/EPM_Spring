@@ -7,6 +7,8 @@ package com.epm.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -26,6 +28,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -41,7 +44,7 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "AccountStudent.findByUsername", query = "SELECT a FROM AccountStudent a WHERE a.username = :username"),
     @NamedQuery(name = "AccountStudent.findByPassword", query = "SELECT a FROM AccountStudent a WHERE a.password = :password"),
     @NamedQuery(name = "AccountStudent.findByAvatar", query = "SELECT a FROM AccountStudent a WHERE a.avatar = :avatar")})
-public class AccountStudent implements Serializable {
+public class AccountStudent implements Serializable, CustomUserDetails {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -83,8 +86,6 @@ public class AccountStudent implements Serializable {
     private Set<MissingReport> missingReportSet;
     @Transient
     private MultipartFile file;
-    @Transient
-    private String userRole;
 
     public AccountStudent() {
     }
@@ -219,18 +220,34 @@ public class AccountStudent implements Serializable {
         this.file = file;
     }
 
-    /**
-     * @return the userRole
-     */
-    public String getUserRole() {
-        return userRole;
+    @Override
+    public String getUserId() {
+        return String.valueOf(this.id);
     }
 
-    /**
-     * @param userRole the userRole to set
-     */
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList(); // No roles
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
     
 }

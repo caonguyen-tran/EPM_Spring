@@ -5,7 +5,7 @@
 package com.epm.controllers;
 
 
-import com.epm.components.JwtService;
+//import com.epm.components.JwtService;
 import com.epm.pojo.AccountStudent;
 import com.epm.services.AccountStudentService;
 import java.util.Map;
@@ -36,36 +36,35 @@ public class ApiAccountStudentController {
     private BCryptPasswordEncoder passswordEncoder;
     @Autowired
     private AccountStudentService accountStudentService;
-    @Autowired
-    private JwtService jwtService;
+//    @Autowired
+//    private JwtService jwtService;
     
-    @PostMapping(path = "/register/", consumes = {
-        MediaType.APPLICATION_JSON_VALUE,
-        MediaType.MULTIPART_FORM_DATA_VALUE
-    })
-    @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestParam Map<String, String> params, @RequestPart MultipartFile[] file) {
-        AccountStudent as = new AccountStudent();
-        as.setUsername(params.get("username"));
-        String password = params.get("password");
-        as.setPassword(this.passswordEncoder.encode(password));
-        as.setUserRole("ROLE_STUDENT");
-        if (file.length > 0)
-            as.setFile(file[0]);
-        
-        this.accountStudentService.addAccountStudent(as);
-    }
+//    @PostMapping(path = "/register/", consumes = {
+//        MediaType.APPLICATION_JSON_VALUE,
+//        MediaType.MULTIPART_FORM_DATA_VALUE
+//    })
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public void create(@RequestParam Map<String, String> params, @RequestPart MultipartFile[] file) {
+//        AccountStudent as = new AccountStudent();
+//        as.setUsername(params.get("username"));
+//        String password = params.get("password");
+//        as.setPassword(this.passswordEncoder.encode(password));
+//        if (file.length > 0)
+//            as.setFile(file[0]);
+//        
+//        this.accountStudentService.addAccountStudent(as);
+//    }
     
-    @PostMapping("/login/")
-    @CrossOrigin
-    public ResponseEntity<String> login(@RequestBody AccountStudent as) {
-        if (this.accountStudentService.authAccountStudent(as.getUsername(), as.getPassword()) == true) {
-            String token = this.jwtService.generateTokenLogin(as.getUsername());
-            
-            return new ResponseEntity<>(token, HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
-    }
+//    @PostMapping("/login/")
+//    @CrossOrigin
+//    public ResponseEntity<String> login(@RequestBody AccountStudent as) {
+//        if (this.accountStudentService.authAccountStudent(as.getUsername(), as.getPassword()) == true) {
+//            String token = this.jwtService.generateTokenLogin(as.getUsername());
+//            
+//            return new ResponseEntity<>(token, HttpStatus.OK);
+//        }
+//
+//        return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
+//    }
 
 }
