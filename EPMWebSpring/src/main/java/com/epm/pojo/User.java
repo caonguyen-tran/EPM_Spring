@@ -71,7 +71,9 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdUserId")
     private Set<Activity> activitySet;
     @OneToOne(mappedBy = "userId")
+    @Basic(optional = false)
     private Student student;
+    @Basic(optional = false)
     @OneToOne(mappedBy = "userId")
     private Assistant assistant;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")

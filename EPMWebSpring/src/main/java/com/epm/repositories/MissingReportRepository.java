@@ -5,6 +5,7 @@
 package com.epm.repositories;
 
 import com.epm.pojo.MissingReport;
+import java.util.List;
 
 /**
  *
@@ -12,4 +13,5 @@ import com.epm.pojo.MissingReport;
  */
 public interface MissingReportRepository {
     void addMissingReport(MissingReport mr);
+    public List<Object[]> getListMissingReports(int facultyId);
 }

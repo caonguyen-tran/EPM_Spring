@@ -10,6 +10,7 @@ import com.epm.pojo.MissingReport;
 import com.epm.repositories.MissingReportRepository;
 import com.epm.services.MissingReportService;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,5 +45,8 @@ public class MissingReportServiceImp implements MissingReportService {
         this.missingReportRepo.addMissingReport(mr);
     }
 
-
+    @Override
+    public List<Object[]> getListMissingReports(int facultyId) {
+        return this.missingReportRepo.getListMissingReports(facultyId);
+    }
 }

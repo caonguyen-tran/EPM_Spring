@@ -32,7 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author ACER
  */
 @Controller
-public class ActivityController {
+public class AdminActivityController {
     @Autowired
     private UserService userService;
     

@@ -108,10 +108,4 @@ public class ReportServiceImp implements ReportService {
 
         return result;
     }
-
-    @Override
-    public List<Object[]> getListReports(int facultyId) {
-        return this.reportRepo.getListReports(facultyId);
-    }
-
 }
