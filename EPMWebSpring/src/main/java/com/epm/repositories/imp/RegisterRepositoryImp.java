@@ -42,9 +42,9 @@ public class RegisterRepositoryImp implements RegisterRepository{
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
 
         Root<JoinActivity> register = criteriaQuery.from(JoinActivity.class);
-        Join<JoinActivity, User> userStudent = register.join("accountStudentId", JoinType.INNER);
+        Join<JoinActivity, User> userStudent = register.join("userId", JoinType.INNER);
         Join<JoinActivity, Activity> activity = register.join("activityId", JoinType.INNER);
-        Join<User, Student> student = userStudent.join("userId", JoinType.INNER);
+        Join<User, Student> student = userStudent.join("student", JoinType.INNER);
         Join<Activity, Term> term = activity.join("termId", JoinType.INNER);
         Join<Student, Classes> classes = student.join("classId", JoinType.INNER);
         Join<Classes, Faculty> faculty = classes.join("facultyId", JoinType.INNER);

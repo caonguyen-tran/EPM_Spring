@@ -10,6 +10,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -68,17 +69,17 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "active")
     private boolean active;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdUserId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdUserId", fetch = FetchType.LAZY)
     private Set<Activity> activitySet;
-    @OneToOne(mappedBy = "userId")
+    @OneToOne(mappedBy = "userId", fetch = FetchType.LAZY)
     @Basic(optional = false)
     private Student student;
     @Basic(optional = false)
-    @OneToOne(mappedBy = "userId")
+    @OneToOne(mappedBy = "userId", fetch = FetchType.LAZY)
     private Assistant assistant;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<Liked> likedSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.LAZY)
     private Set<JoinActivity> joinActivitySet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<Comment> commentSet;

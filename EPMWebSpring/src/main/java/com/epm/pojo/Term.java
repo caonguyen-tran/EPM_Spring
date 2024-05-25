@@ -10,6 +10,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,7 +51,7 @@ public class Term implements Serializable {
     @Size(max = 160)
     @Column(name = "description")
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "termId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "termId", fetch = FetchType.LAZY)
     private Set<Activity> activitySet;
 
     public Term() {

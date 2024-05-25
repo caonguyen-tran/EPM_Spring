@@ -46,8 +46,6 @@ public class ApiAdminController {
         String username = params.get("username");
         String password = params.get("password");
         
-        System.out.println(username);
-        System.out.println(password);
         User user = new User();
         user.setUsername(username);
         user.setPassword(this.passwordEncoder.encode(password));

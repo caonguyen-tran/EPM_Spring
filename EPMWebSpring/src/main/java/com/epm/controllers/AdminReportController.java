@@ -4,9 +4,8 @@
  */
 package com.epm.controllers;
 
-import com.epm.pojo.MissingReport;
+import com.epm.services.FacultyService;
 import com.epm.services.MissingReportService;
-import com.epm.services.ReportService;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/")
 public class AdminReportController {
     @Autowired MissingReportService missingReportService;
+    @Autowired FacultyService facultyService;
     
     @GetMapping("/report")
     public String listReports(Model model, @RequestParam HashMap<String, String> data){
@@ -31,8 +31,7 @@ public class AdminReportController {
             facultyId = Integer.parseInt(data.get("facultyId"));
         }
         model.addAttribute("reports", this.missingReportService.getListMissingReports(facultyId));
-        
-        System.out.println("--------");
+        model.addAttribute("faculties", this.facultyService.getFaculties());
         return "report";
     }
 }

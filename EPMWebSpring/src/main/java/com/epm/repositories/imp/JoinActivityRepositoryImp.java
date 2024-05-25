@@ -64,7 +64,7 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
         Join<JoinActivity, User> userStudent = join.join("userId", JoinType.INNER);
         Join<JoinActivity, Activity> activity = join.join("activityId", JoinType.INNER);
         Join<Activity, Semester> semester = activity.join("semesterId", JoinType.INNER);
-        Join<User, Student> student = userStudent.join("studentId", JoinType.INNER);
+        Join<User, Student> student = userStudent.join("student", JoinType.INNER);
         Join<Activity, Term> term = activity.join("termId", JoinType.INNER);
         Join<Student, Classes> classes = student.join("classId", JoinType.INNER);
         Join<Classes, Faculty> faculty = classes.join("facultyId", JoinType.INNER);

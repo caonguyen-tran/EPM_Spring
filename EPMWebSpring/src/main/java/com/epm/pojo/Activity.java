@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -81,7 +82,7 @@ public class Activity implements Serializable {
     @Column(name = "close")
     private Boolean close;
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Faculty facultyId;
     @JoinColumn(name = "semester_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
