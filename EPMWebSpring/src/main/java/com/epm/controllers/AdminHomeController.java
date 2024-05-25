@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @ControllerAdvice
-public class HomeController {
+public class AdminHomeController {
 
     @Autowired
     private ActivityService activityService;

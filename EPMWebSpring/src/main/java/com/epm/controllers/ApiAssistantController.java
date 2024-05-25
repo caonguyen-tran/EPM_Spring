@@ -31,39 +31,39 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api")
 public class ApiAssistantController {
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-    
-    @Autowired
-    private UserRoleService userRoleService;
-
-    @Autowired
-    private UserService userService;
-
-    @PostMapping(path = "/assistant", consumes = {
-        MediaType.APPLICATION_JSON_VALUE,
-        MediaType.MULTIPART_FORM_DATA_VALUE
-    })
-    @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestParam Map<String, String> params, @RequestPart MultipartFile[] file) {
-        String username = params.get("username");
-        String password = params.get("password");
-
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(this.passwordEncoder.encode(password));
-        user.setUserRoleId(userRoleService.getURAssistant());
-        user.setActive(true);
-        if (file.length > 0)
-            user.setFile(file[0]);
-        
-        this.userService.addUser(user);
-    }
+//
+//    @Autowired
+//    private BCryptPasswordEncoder passwordEncoder;
 //    
-    @GetMapping(path="/assistant", produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
-    public ResponseEntity<List<User>> list(){
-        return new ResponseEntity<>(this.userService.getAssistantUsers(), HttpStatus.OK);
-    }
+//    @Autowired
+//    private UserRoleService userRoleService;
+//
+//    @Autowired
+//    private UserService userService;
+//
+//    @PostMapping(path = "/assistant", consumes = {
+//        MediaType.APPLICATION_JSON_VALUE,
+//        MediaType.MULTIPART_FORM_DATA_VALUE
+//    })
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public void create(@RequestParam Map<String, String> params, @RequestPart MultipartFile[] file) {
+//        String username = params.get("username");
+//        String password = params.get("password");
+//
+//        User user = new User();
+//        user.setUsername(username);
+//        user.setPassword(this.passwordEncoder.encode(password));
+//        user.setUserRoleId(userRoleService.getURAssistant());
+//        user.setActive(true);
+//        if (file.length > 0)
+//            user.setFile(file[0]);
+//        
+//        this.userService.addUser(user);
+//    }
+////    
+//    @GetMapping(path="/assistant", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @CrossOrigin
+//    public ResponseEntity<List<User>> list(){
+//        return new ResponseEntity<>(this.userService.getAssistantUsers(), HttpStatus.OK);
+//    }
 }

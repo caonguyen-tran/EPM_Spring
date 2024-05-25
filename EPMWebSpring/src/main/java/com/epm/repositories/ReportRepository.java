@@ -11,6 +11,4 @@ import java.util.List;
  * @author ACER
  */
 public interface ReportRepository {
-    public List<Object[]> getListReports(int facultyId);
-//    public List<Object[]> getListReportsByFacultyId(int facultyId);
 }

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author ACER
  */
 @Controller
-public class RegisterController {
+public class AdminRegisterController {
     @Autowired
     private RegisterService registerService;
     

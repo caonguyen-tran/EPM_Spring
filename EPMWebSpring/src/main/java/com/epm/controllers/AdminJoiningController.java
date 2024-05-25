@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author ACER
  */
 @Controller
-public class JoiningController {
+public class AdminJoiningController {
     @Autowired
     private JoinActivityService joinActivityService;
 

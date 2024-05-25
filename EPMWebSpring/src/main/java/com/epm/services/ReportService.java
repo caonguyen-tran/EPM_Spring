@@ -14,6 +14,5 @@ import java.util.List;
  */
 public interface ReportService {
     List<StudentReportDTO> getStatsScoreDetail(int studentId);
-    List<Object[]> getListReports(int facultyId);
 }
 
