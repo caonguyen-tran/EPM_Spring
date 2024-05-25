@@ -29,26 +29,11 @@ public class AdminHomeController {
     @RequestMapping("/")
     public String index(Model model) {
         model.addAttribute("activities", this.activityService.getActivities());
-
         return "index";
     }
 
     @RequestMapping("/report")
     public String missingReport(Model model) {
         return "report";
-    }
-
-    @Autowired
-    private TermService termService;
-    @Autowired
-    private FacultyService facultyService;
-    @Autowired
-    private SemesterService semesterService;
-
-    @ModelAttribute
-    public void commonAttributes(Model model) {
-        model.addAttribute("terms", termService.getTerms());
-        model.addAttribute("faculties", facultyService.getFaculties());
-        model.addAttribute("semesters", semesterService.getSemesters());
     }
 }
