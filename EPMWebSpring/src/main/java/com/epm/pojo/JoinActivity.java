@@ -4,7 +4,6 @@
  */
 package com.epm.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -12,7 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,13 +22,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.hibernate.annotations.UpdateTimestamp;
+import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author ACER
+ * @author Win11
  */
 @Entity
 @Table(name = "join_activity")
@@ -54,24 +54,23 @@ public class JoinActivity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateRegister;
     @Column(name = "rollup")
-    private Boolean rollup = false;
-    @Size(max = 160)
+    private Boolean rollup;
+    @Size(max = 255)
     @Column(name = "proof_joining")
     private String proofJoining;
     @Size(max = 120)
     @Column(name = "note")
     private String note;
-    @JoinColumn(name = "account_student_id", referencedColumnName = "id")
-    @ManyToOne
-    @JsonIgnore
-    private AccountStudent accountStudentId;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
-    @ManyToOne
-    @JsonIgnore
+    @ManyToOne(optional = false)
     private Activity activityId;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private User userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "joinActivityId")
-    @JsonIgnore
     private Set<ScoreStudent> scoreStudentSet;
+    @Transient
+    private MultipartFile file;
 
     public JoinActivity() {
     }
@@ -120,20 +119,29 @@ public class JoinActivity implements Serializable {
         this.note = note;
     }
 
-    public AccountStudent getAccountStudentId() {
-        return accountStudentId;
-    }
-
-    public void setAccountStudentId(AccountStudent accountStudentId) {
-        this.accountStudentId = accountStudentId;
-    }
-
     public Activity getActivityId() {
         return activityId;
     }
 
     public void setActivityId(Activity activityId) {
         this.activityId = activityId;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
+
+    @XmlTransient
+    public Set<ScoreStudent> getScoreStudentSet() {
+        return scoreStudentSet;
+    }
+
+    public void setScoreStudentSet(Set<ScoreStudent> scoreStudentSet) {
+        this.scoreStudentSet = scoreStudentSet;
     }
 
     @Override
@@ -162,17 +170,17 @@ public class JoinActivity implements Serializable {
     }
 
     /**
-     * @return the scoreStudentSet
+     * @return the file
      */
-    public Set<ScoreStudent> getScoreStudentSet() {
-        return scoreStudentSet;
+    public MultipartFile getFile() {
+        return file;
     }
 
     /**
-     * @param scoreStudentSet the scoreStudentSet to set
+     * @param file the file to set
      */
-    public void setScoreStudentSet(Set<ScoreStudent> scoreStudentSet) {
-        this.scoreStudentSet = scoreStudentSet;
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
     
 }

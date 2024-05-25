@@ -5,8 +5,8 @@
 package com.epm.controllers;
 
 import com.epm.services.ActivityService;
-import com.epm.services.ClassesService;
-import com.epm.services.JoinService;
+import com.epm.services.ClassService;
+import com.epm.services.JoinActivityService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,24 +21,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class JoiningController {
     @Autowired
-    private JoinService joinService;
+    private JoinActivityService joinActivityService;
 
     @Autowired
     private ActivityService activityService;
 
     @Autowired
-    private ClassesService classesService;
+    private ClassService classService;
 
     @GetMapping(value = "/join")
     public String listJoining(Model model, @RequestParam Map<String, String> params) {
         model.addAttribute("activities", this.activityService.getActivities());
-        model.addAttribute("classes", this.classesService.getClasses());
+        model.addAttribute("classes", this.classService.getClasses());
         String activityId = params.get("activityId");
         String facultyId = params.get("facultyId");
         String classId = params.get("classId");
         String semesterId = params.get("semesterId");
         
-        model.addAttribute("joins", this.joinService.getParticipates(activityId, facultyId, classId, semesterId));
+        model.addAttribute("joins", this.joinActivityService.getParticipates(activityId, facultyId, classId, semesterId));
         return "join";
     }
 }

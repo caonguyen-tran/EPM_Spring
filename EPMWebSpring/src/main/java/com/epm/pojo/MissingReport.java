@@ -4,14 +4,11 @@
  */
 package com.epm.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonKey;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,7 +38,8 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "MissingReport.findByProofJoining", query = "SELECT m FROM MissingReport m WHERE m.proofJoining = :proofJoining"),
     @NamedQuery(name = "MissingReport.findByStatus", query = "SELECT m FROM MissingReport m WHERE m.status = :status"),
     @NamedQuery(name = "MissingReport.findByCreatedDate", query = "SELECT m FROM MissingReport m WHERE m.createdDate = :createdDate"),
-    @NamedQuery(name = "MissingReport.findByNote", query = "SELECT m FROM MissingReport m WHERE m.note = :note")})
+    @NamedQuery(name = "MissingReport.findByNote", query = "SELECT m FROM MissingReport m WHERE m.note = :note"),
+    @NamedQuery(name = "MissingReport.findByUserId", query = "SELECT m FROM MissingReport m WHERE m.userId = :userId")})
 public class MissingReport implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,8 +49,8 @@ public class MissingReport implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull(message = "{missingReport.proofJoining.notNull}")
-    @Size(min = 1, max = 80)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "proof_joining")
     private String proofJoining;
     @Size(max = 45)
@@ -64,13 +62,12 @@ public class MissingReport implements Serializable {
     @Size(max = 120)
     @Column(name = "note")
     private String note;
-    @JoinColumn(name = "account_student_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    @JsonIgnore
-    private AccountStudent accountStudentId;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "user_id")
+    private int userId;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonIgnore
     private Activity activityId;
     @Transient
     private MultipartFile file;
@@ -82,9 +79,10 @@ public class MissingReport implements Serializable {
         this.id = id;
     }
 
-    public MissingReport(Integer id, String proofJoining) {
+    public MissingReport(Integer id, String proofJoining, int userId) {
         this.id = id;
         this.proofJoining = proofJoining;
+        this.userId = userId;
     }
 
     public Integer getId() {
@@ -127,12 +125,12 @@ public class MissingReport implements Serializable {
         this.note = note;
     }
 
-    public AccountStudent getAccountStudentId() {
-        return accountStudentId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setAccountStudentId(AccountStudent accountStudentId) {
-        this.accountStudentId = accountStudentId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public Activity getActivityId() {
@@ -181,5 +179,5 @@ public class MissingReport implements Serializable {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-
+    
 }

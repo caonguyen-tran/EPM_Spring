@@ -4,12 +4,10 @@
  */
 package com.epm.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,11 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,8 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ScoreStudent.findAll", query = "SELECT s FROM ScoreStudent s"),
-    @NamedQuery(name = "ScoreStudent.findById", query = "SELECT s FROM ScoreStudent s WHERE s.id = :id"),
-})
+    @NamedQuery(name = "ScoreStudent.findById", query = "SELECT s FROM ScoreStudent s WHERE s.id = :id")})
 public class ScoreStudent implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,11 +38,9 @@ public class ScoreStudent implements Serializable {
     private Integer id;
     @JoinColumn(name = "join_activity_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonIgnore
     private JoinActivity joinActivityId;
     @JoinColumn(name = "score_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonIgnore
     private Score scoreId;
 
     public ScoreStudent() {

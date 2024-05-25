@@ -4,7 +4,6 @@
  */
 package com.epm.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -57,10 +56,8 @@ public class Faculty implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date createdDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "facultyId")
-    @JsonIgnore
     private Set<Activity> activitySet;
     @OneToMany(mappedBy = "facultyId")
-    @JsonIgnore
     private Set<Classes> classesSet;
 
     public Faculty() {

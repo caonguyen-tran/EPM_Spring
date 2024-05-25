@@ -54,8 +54,23 @@ public class ActivityServiceImp implements ActivityService{
     }
 
     @Override
-    public List<Activity> getActivitiesMissingByAccountStudentId(int accountStudentId) {
-        return this.activityRepo.getActivitiesMissingByAccountStudentId(accountStudentId);
+    public List<Activity> getActivitiesMissingByUserId(int userId) {
+        return this.activityRepo.getActivitiesMissingByUserId(userId);
+    }
+
+    @Override
+    public List<Activity> findByTermId(int termId) {
+        return this.activityRepo.findByTermId(termId);
+    }
+
+    @Override
+    public Activity findById(int activityId) {
+        return this.activityRepo.findById(activityId);
+    }
+
+    @Override
+    public List<Activity> findBySemesterId(int semesterId) {
+        return this.activityRepo.findBySemesterId(semesterId);
     }
     
 }

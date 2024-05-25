@@ -15,9 +15,9 @@ public interface ActivityRepository {
 
     public void createActivity(Activity activity);
     
-    List<Activity> getActivitiesJoined(int accountStudentId);
+    List<Activity> getActivitiesJoined(int userId);
     
-    List<Activity> getActivitiesMissingByAccountStudentId(int accountStudentId);
+    List<Activity> getActivitiesMissingByUserId(int userId);
     
     List<Activity> findByTermId(int termId);
     

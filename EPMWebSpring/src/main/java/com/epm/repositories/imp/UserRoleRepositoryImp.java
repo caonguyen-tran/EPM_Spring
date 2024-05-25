@@ -4,9 +4,8 @@
  */
 package com.epm.repositories.imp;
 
-import com.epm.pojo.Classes;
-import com.epm.repositories.ClassRepository;
-import java.util.List;
+import com.epm.pojo.UserRole;
+import com.epm.repositories.UserRoleRepository;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,24 +19,35 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class ClassRepositoryImp implements ClassRepository {
-
+public class UserRoleRepositoryImp implements UserRoleRepository{
     @Autowired
     private LocalSessionFactoryBean factory;
 
     @Override
-    public Classes findById(int classId) {
+    public UserRole getURStudent() {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createNamedQuery("Classes.findById");
-        q.setParameter("id", classId);
-        return (Classes) q.getSingleResult();
+        Query q = s.createNamedQuery("UserRole.findById");
+        q.setParameter("id", 3);
+        
+        return (UserRole) q.getSingleResult();
     }
 
     @Override
-    public List<Classes> getClasses() {
+    public UserRole getURAssistant() {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createNamedQuery("Classes.findAll");
-        return q.getResultList();
+        Query q = s.createNamedQuery("UserRole.findById");
+        q.setParameter("id", 2);
+        
+        return (UserRole) q.getSingleResult();
     }
 
+    @Override
+    public UserRole getURAdmin() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("UserRole.findById");
+        q.setParameter("id", 1);
+        
+        return (UserRole) q.getSingleResult();
+    }
+    
 }

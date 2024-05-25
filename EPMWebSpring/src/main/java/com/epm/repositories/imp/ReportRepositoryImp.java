@@ -4,13 +4,13 @@
  */
 package com.epm.repositories.imp;
 
-import com.epm.pojo.AccountStudent;
 import com.epm.pojo.Activity;
 import com.epm.pojo.Classes;
 import com.epm.pojo.Faculty;
 import com.epm.pojo.MissingReport;
 import com.epm.pojo.Student;
 import com.epm.pojo.Term;
+import com.epm.pojo.User;
 import com.epm.repositories.ReportRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +46,13 @@ public class ReportRepositoryImp implements ReportRepository {
 
         Root<MissingReport> missingReport = criteriaQuery.from(MissingReport.class);
         Join<MissingReport, Activity> activity = missingReport.join("activityId", JoinType.INNER);
-        Join<MissingReport, AccountStudent> accountStudent = missingReport.join("accountStudentId", JoinType.INNER);
+        Join<MissingReport, User> userStudent = missingReport.join("userId", JoinType.INNER);
         Join<Activity, Term> term = activity.join("termId", JoinType.INNER);
-        Join<AccountStudent, Student> student = accountStudent.join("studentId", JoinType.INNER);
+        Join<User, Student> student = userStudent.join("studentId", JoinType.INNER);
         Join<Student, Classes> classes = student.join("classId", JoinType.INNER);
         Join<Classes, Faculty> faculty = classes.join("facultyId", JoinType.INNER);
         
-        criteriaQuery.select(criteriaBuilder.array(missingReport, activity, accountStudent, term, student, classes, faculty));
+        criteriaQuery.select(criteriaBuilder.array(missingReport, activity, userStudent, term, student, classes, faculty));
         
         if(facultyId != 0){
             criteriaQuery.where(criteriaBuilder.equal(faculty.get("id"), facultyId));

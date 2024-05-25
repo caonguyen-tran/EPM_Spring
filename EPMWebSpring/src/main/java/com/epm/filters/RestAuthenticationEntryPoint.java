@@ -14,7 +14,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
  *
  * @author ACER
  */
-public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public final class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,

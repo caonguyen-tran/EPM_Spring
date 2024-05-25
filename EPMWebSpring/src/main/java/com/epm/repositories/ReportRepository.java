@@ -4,7 +4,6 @@
  */
 package com.epm.repositories;
 
-import com.epm.pojo.MissingReport;
 import java.util.List;
 
 /**

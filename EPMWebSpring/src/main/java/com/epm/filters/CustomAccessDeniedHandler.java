@@ -14,11 +14,12 @@ import org.springframework.security.web.access.AccessDeniedHandler;
  *
  * @author ACER
  */
-public class CustomAccessDeniedHandler implements AccessDeniedHandler{
-    
+public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+
     @Override
     public void handle(HttpServletRequest hsr, HttpServletResponse response, org.springframework.security.access.AccessDeniedException ade) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.getWriter().write("Access Denied!");
     }
+
 }

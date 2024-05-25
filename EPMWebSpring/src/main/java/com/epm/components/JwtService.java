@@ -7,9 +7,8 @@ package com.epm.components;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
-import com.nimbusds.jose.JWSObject;
+import com.nimbusds.jose.JWSSigner;
 import com.nimbusds.jose.JWSVerifier;
-import com.nimbusds.jose.Payload;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
@@ -29,34 +28,41 @@ public class JwtService {
     public static final byte[] SHARED_SECRET_KEY = SECRET_KEY.getBytes();
     public static final int EXPIRE_TIME = 86400000;
 
-    public String generateToken(String username) throws JOSEException {
-        JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
-
-        JWTClaimsSet claimSet = new JWTClaimsSet.Builder()
-                .subject(username)
-                .issueTime(new Date())
-                .expirationTime(new Date(System.currentTimeMillis() + EXPIRE_TIME)).build();
-
-        Payload payload = new Payload(claimSet.toJSONObject());
-        JWSObject jwsObject = new JWSObject(header, payload);
-
-        jwsObject.sign(new MACSigner(SHARED_SECRET_KEY));
-        return jwsObject.serialize();
+    public String generateTokenLogin(String username) {
+        String token = null;
+        try {
+            JWSSigner signer = new MACSigner(SHARED_SECRET_KEY);
+            
+            JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder();
+            builder.claim("username", username);
+            
+            builder.expirationTime(new Date(System.currentTimeMillis() + EXPIRE_TIME));
+            
+            JWTClaimsSet claimsSet = builder.build();
+            SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
+            
+            signedJWT.sign(signer);
+            token = signedJWT.serialize();
+        } catch (JOSEException e) {
+            System.out.println(e.getMessage());
+        }
+        return token;
     }
 
     private JWTClaimsSet getClaimsFromToken(String token) {
+        JWTClaimsSet claims = null;
         try {
             SignedJWT signedJWT = SignedJWT.parse(token);
             JWSVerifier verifier = new MACVerifier(SHARED_SECRET_KEY);
             if (signedJWT.verify(verifier)) {
-                return signedJWT.getJWTClaimsSet();
+                claims = signedJWT.getJWTClaimsSet();
             }
-        } catch (JOSEException | ParseException ex) {
-            System.err.println(ex.getMessage());
+        } catch (JOSEException | ParseException e) {
+            System.err.println(e.getMessage());
         }
-        return null;
+        return claims;
     }
-
+    
     private Date getExpirationDateFromToken(String token) {
         JWTClaimsSet claims = getClaimsFromToken(token);
         Date expiration = claims.getExpirationTime();
@@ -84,7 +90,7 @@ public class JwtService {
             return false;
         }
         String username = getUsernameFromToken(token);
-
+        
         return !(username == null || username.isEmpty() || isTokenExpired(token));
     }
 }

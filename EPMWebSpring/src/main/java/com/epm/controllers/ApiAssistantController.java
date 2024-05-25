@@ -4,8 +4,9 @@
  */
 package com.epm.controllers;
 
-import com.epm.pojo.Assistant;
-import com.epm.services.AssistantService;
+import com.epm.pojo.User;
+import com.epm.services.UserRoleService;
+import com.epm.services.UserService;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -31,31 +34,36 @@ public class ApiAssistantController {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Autowired
-    private AssistantService assistantService;
+    private UserService userService;
 
     @PostMapping(path = "/assistant", consumes = {
         MediaType.APPLICATION_JSON_VALUE,
         MediaType.MULTIPART_FORM_DATA_VALUE
     })
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestParam Map<String, String> params) {
+    public void create(@RequestParam Map<String, String> params, @RequestPart MultipartFile[] file) {
         String username = params.get("username");
         String password = params.get("password");
-        String email = params.get("email");
 
-        Assistant assistant = new Assistant();
-        assistant.setUsername(username);
-        assistant.setPassword(this.passwordEncoder.encode(password));
-        assistant.setEmail(email);
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(this.passwordEncoder.encode(password));
+        user.setUserRoleId(userRoleService.getURAssistant());
+        user.setActive(true);
+        if (file.length > 0)
+            user.setFile(file[0]);
         
-        this.assistantService.addAssistant(assistant);
+        this.userService.addUser(user);
     }
 //    
     @GetMapping(path="/assistant", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
-    public ResponseEntity<List<Assistant>> list(){
-        return new ResponseEntity<>(this.assistantService.getAssistants(), HttpStatus.OK);
+    public ResponseEntity<List<User>> list(){
+        return new ResponseEntity<>(this.userService.getAssistantUsers(), HttpStatus.OK);
     }
 }

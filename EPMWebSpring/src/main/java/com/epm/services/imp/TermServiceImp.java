@@ -24,4 +24,9 @@ public class TermServiceImp implements TermService{
     public List<Term> getTerms() {
         return this.termRepository.getTerms();
     }
+
+    @Override
+    public Term findById(int termId) {
+        return this.termRepository.findById(termId);
+    }
 }

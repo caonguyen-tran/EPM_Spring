@@ -7,6 +7,7 @@ package com.epm.services.imp;
 import com.epm.pojo.Classes;
 import com.epm.repositories.ClassRepository;
 import com.epm.services.ClassService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,11 @@ public class ClassServiceImp implements ClassService{
     @Override
     public Classes findById(int classId) {
         return this.classRepo.findById(classId);
+    }
+
+    @Override
+    public List<Classes> getClasses() {
+        return this.classRepo.getClasses();
     }
     
 }

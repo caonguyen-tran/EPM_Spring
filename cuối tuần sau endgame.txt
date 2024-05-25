@@ -4,7 +4,6 @@ trợ lý sinh viên
 + Danh sách báo thiếu của toàn khoa
 + Thực hiện chấp nhập/từ chối xác nhận điểm (Tạo result join)
 + Tạo hoạt động (new feed)
-+ Nạp danh sách điểm danh theo CSV -> cập nhật điểm rèn luyện
 sinh viên
 + Đăng nhập
 + Đăng ký hoạt động ngoại khóa trên new feed
@@ -12,6 +11,9 @@ sinh viên
 admin
 + Chuyên viên CTSV có thể thêm tài khoản cho trợ lý sinh viên các khoa, sinh viên đăng
 ký tài khoản dựa trên email trường cấp (có avatar).
++ Chuyên viên CTSV có thể xem thống kê điểm rèn luyện của toàn trường theo: khoa,
+lớp, thành tích và xuất ra danh sách dạng PDF hoặc CSV và có các quyền của trợ lý
+sinh viên
 
 nhân
 trợ lý sinh viên
@@ -19,12 +21,10 @@ trợ lý sinh viên
 + Xem danh sách các hoạt động sinh viên báo thiếu done
 + Xem thống kê theo (lớp, xem theo điểm tổng)
 + Xuất danh sách điểm chi tiết (từng điều, tổng điểm, các thông tin của sinh viên) dưới dạng PDF hoặc CSV done
++ Nạp danh sách điểm danh theo CSV -> cập nhật điểm rèn luyện
 sinh viên
 + Đăng ký
 + Xem điểm rèn luyện của từng Điều, tổng điểm done
 + Thực hiện báo thiếu hoạt động -> có minh chứng done
 + Xem các hoạt động mình đã đăng ký tham gia done
-admin
-+ Chuyên viên CTSV có thể xem thống kê điểm rèn luyện của toàn trường theo: khoa,
-lớp, thành tích và xuất ra danh sách dạng PDF hoặc CSV và có các quyền của trợ lý
-sinh viên
+

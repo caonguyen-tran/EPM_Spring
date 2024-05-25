@@ -26,8 +26,18 @@ public class StudentServiceImp implements StudentService{
     }
 
     @Override
-    public void registerStudent(Student student) {
-        this.registerStudent(student);
+    public void addStudent(Student student) {
+        this.studentRepository.addStudent(student);
+    }
+
+    @Override
+    public Student findById(int studentId) {
+        return this.studentRepository.findById(studentId);
+    }
+
+    @Override
+    public Student findByClassId(int classId) {
+        return this.studentRepository.findByClassId(classId);
     }
     
 }

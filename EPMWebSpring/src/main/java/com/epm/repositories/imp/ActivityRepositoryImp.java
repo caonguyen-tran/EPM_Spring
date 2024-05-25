@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public class ActivityRepositoryImp implements ActivityRepository {
+
     @Autowired
     private LocalSessionFactoryBean sessionFactory;
 
@@ -50,26 +51,11 @@ public class ActivityRepositoryImp implements ActivityRepository {
         CriteriaQuery q = b.createQuery(Activity.class);
         Root r = q.from(Activity.class);
         q.select(r);
-        
-        Join<Activity, JoinActivity> joiningActivities = r.join("joinActivitySet");
-        
-        q.where(b.equal(joiningActivities.get("accountStudentId"), accountStudentId));
-        
-        return s.createQuery(q).getResultList();
-    }
 
-    @Override
-    public List<Activity> getActivitiesMissingByAccountStudentId(int accountStudentId) {
-        Session s = this.sessionFactory.getObject().getCurrentSession();
-        CriteriaBuilder b = s.getCriteriaBuilder();
-        CriteriaQuery<Activity> q = b.createQuery(Activity.class);
-        Root r = q.from(Activity.class);
-        q.select(r);
-        
-        Join<Activity, MissingReport> missingActivities = r.join("missingReportSet");
-        
-        q.where(b.equal(missingActivities.get("accountStudentId"), accountStudentId));
-        
+        Join<Activity, JoinActivity> joiningActivities = r.join("joinActivitySet");
+
+        q.where(b.equal(joiningActivities.get("accountStudentId"), accountStudentId));
+
         return s.createQuery(q).getResultList();
     }
 
@@ -78,9 +64,9 @@ public class ActivityRepositoryImp implements ActivityRepository {
         Session s = this.sessionFactory.getObject().getCurrentSession();
         Query q = s.createNamedQuery("Activity.findByTermId");
         q.setParameter("termId", termId);
-        
+
         return q.getResultList();
-        
+
     }
 
     @Override
@@ -88,7 +74,7 @@ public class ActivityRepositoryImp implements ActivityRepository {
         Session s = this.sessionFactory.getObject().getCurrentSession();
         Query q = s.createNamedQuery("Activity.findById");
         q.setParameter("id", activityId);
-        
+
         return (Activity) q.getSingleResult();
     }
 
@@ -99,9 +85,24 @@ public class ActivityRepositoryImp implements ActivityRepository {
         CriteriaQuery<Activity> q = b.createQuery(Activity.class);
         Root r = q.from(Activity.class);
         q.select(r);
-        
+
         q.where(b.equal(r.get("semesterId"), semesterId));
-        
+
+        return s.createQuery(q).getResultList();
+    }
+
+    @Override
+    public List<Activity> getActivitiesMissingByUserId(int userId) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Activity> q = b.createQuery(Activity.class);
+        Root r = q.from(Activity.class);
+        q.select(r);
+
+        Join<Activity, MissingReport> missingActivities = r.join("missingReportSet");
+
+        q.where(b.equal(missingActivities.get("userId"), userId));
+
         return s.createQuery(q).getResultList();
     }
 }

@@ -28,10 +28,8 @@ public class MissingReportRepositoryImp implements MissingReportRepository{
     private LocalSessionFactoryBean factory;
 
     @Override
-    public MissingReport createMissingReport(MissingReport mr) {
+    public void addMissingReport(MissingReport mr) {
         Session s = this.factory.getObject().getCurrentSession();
         s.save(mr);
-        
-        return mr;
     }
 }

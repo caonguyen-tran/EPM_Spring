@@ -4,13 +4,13 @@
  */
 package com.epm.repositories.imp;
 
-import com.epm.pojo.AccountStudent;
 import com.epm.pojo.Activity;
 import com.epm.pojo.Classes;
 import com.epm.pojo.Faculty;
 import com.epm.pojo.JoinActivity;
 import com.epm.pojo.Student;
 import com.epm.pojo.Term;
+import com.epm.pojo.User;
 import com.epm.repositories.RegisterRepository;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -42,14 +42,14 @@ public class RegisterRepositoryImp implements RegisterRepository{
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
 
         Root<JoinActivity> register = criteriaQuery.from(JoinActivity.class);
-        Join<JoinActivity, AccountStudent> accountStudent = register.join("accountStudentId", JoinType.INNER);
+        Join<JoinActivity, User> userStudent = register.join("accountStudentId", JoinType.INNER);
         Join<JoinActivity, Activity> activity = register.join("activityId", JoinType.INNER);
-        Join<AccountStudent, Student> student = accountStudent.join("studentId", JoinType.INNER);
+        Join<User, Student> student = userStudent.join("userId", JoinType.INNER);
         Join<Activity, Term> term = activity.join("termId", JoinType.INNER);
         Join<Student, Classes> classes = student.join("classId", JoinType.INNER);
         Join<Classes, Faculty> faculty = classes.join("facultyId", JoinType.INNER);
         
-        criteriaQuery.select(criteriaBuilder.array(register, accountStudent, activity, student, term, classes, faculty));
+        criteriaQuery.select(criteriaBuilder.array(register, userStudent, activity, student, term, classes, faculty));
         
         criteriaQuery.where(criteriaBuilder.equal(register.get("rollup"), false));
         

@@ -4,15 +4,13 @@
  */
 package com.epm.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +20,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,7 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author ACER
+ * @author Win11
  */
 @Entity
 @Table(name = "activity")
@@ -46,8 +46,7 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "Activity.findByActive", query = "SELECT a FROM Activity a WHERE a.active = :active"),
     @NamedQuery(name = "Activity.findByImage", query = "SELECT a FROM Activity a WHERE a.image = :image"),
     @NamedQuery(name = "Activity.findBySlots", query = "SELECT a FROM Activity a WHERE a.slots = :slots"),
-    @NamedQuery(name = "Activity.findByClose", query = "SELECT a FROM Activity a WHERE a.close = :close")
-})
+    @NamedQuery(name = "Activity.findByClose", query = "SELECT a FROM Activity a WHERE a.close = :close")})
 public class Activity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -60,17 +59,19 @@ public class Activity implements Serializable {
     @Column(name = "name")
     private String name;
     @Column(name = "start_date")
-    private Timestamp startDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startDate;
     @Column(name = "end_date")
-    private Timestamp endDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endDate;
     @Size(max = 255)
     @Column(name = "description")
     private String description;
     @Column(name = "active")
-    private Boolean active = true;
+    private Boolean active;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 160)
+    @Size(min = 1, max = 255)
     @Column(name = "image")
     private String image;
     @Basic(optional = false)
@@ -78,48 +79,31 @@ public class Activity implements Serializable {
     @Column(name = "slots")
     private int slots;
     @Column(name = "close")
-    private Boolean close = false;
-    @JsonIgnore
-    @JoinColumn(name = "assistant_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Assistant assistantId;
-    @JsonIgnore
+    private Boolean close;
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Faculty facultyId;
-    @JsonIgnore
     @JoinColumn(name = "semester_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Semester semesterId;
-    @JsonIgnore
     @JoinColumn(name = "term_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private Term termId;
-    @JsonIgnore
+    @JoinColumn(name = "created_user_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private User createdUserId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<Liked> likedSet;
-    @JsonIgnore
-    @OneToMany(mappedBy = "activityId", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<JoinActivity> joinActivitySet;
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<Score> scoreSet;
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<Comment> commentSet;
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<MissingReport> missingReportSet;
     @Transient
     private MultipartFile file;
-
-    public MultipartFile getFile() {
-        return file;
-    }
-
-    public void setFile(MultipartFile file) {
-        this.file = file;
-    }
 
     public Activity() {
     }
@@ -142,28 +126,28 @@ public class Activity implements Serializable {
         this.id = id;
     }
 
-    public Timestamp getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Timestamp startDate) {
-        this.startDate = startDate;
-    }
-
-    public Timestamp getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Timestamp endDate) {
-        this.endDate = endDate;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public String getDescription() {
@@ -206,14 +190,6 @@ public class Activity implements Serializable {
         this.close = close;
     }
 
-    public Assistant getAssistantId() {
-        return assistantId;
-    }
-
-    public void setAssistantId(Assistant assistantId) {
-        this.assistantId = assistantId;
-    }
-
     public Faculty getFacultyId() {
         return facultyId;
     }
@@ -236,6 +212,14 @@ public class Activity implements Serializable {
 
     public void setTermId(Term termId) {
         this.termId = termId;
+    }
+
+    public User getCreatedUserId() {
+        return createdUserId;
+    }
+
+    public void setCreatedUserId(User createdUserId) {
+        this.createdUserId = createdUserId;
     }
 
     @XmlTransient
@@ -308,4 +292,18 @@ public class Activity implements Serializable {
         return "com.epm.pojo.Activity[ id=" + id + " ]";
     }
 
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+    
 }

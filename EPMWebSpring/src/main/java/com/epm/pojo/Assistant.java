@@ -4,30 +4,20 @@
  */
 package com.epm.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
-import javax.mail.Multipart;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -41,12 +31,8 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "Assistant.findById", query = "SELECT a FROM Assistant a WHERE a.id = :id"),
     @NamedQuery(name = "Assistant.findByFirstname", query = "SELECT a FROM Assistant a WHERE a.firstname = :firstname"),
     @NamedQuery(name = "Assistant.findByLastname", query = "SELECT a FROM Assistant a WHERE a.lastname = :lastname"),
-    @NamedQuery(name = "Assistant.findByUsername", query = "SELECT a FROM Assistant a WHERE a.username = :username"),
-    @NamedQuery(name = "Assistant.findByPassword", query = "SELECT a FROM Assistant a WHERE a.password = :password"),
-    @NamedQuery(name = "Assistant.findByAvatar", query = "SELECT a FROM Assistant a WHERE a.avatar = :avatar"),
-    @NamedQuery(name = "Assistant.findByEmail", query = "SELECT a FROM Assistant a WHERE a.email = :email"),
-    @NamedQuery(name = "Assistant.findByActive", query = "SELECT a FROM Assistant a WHERE a.active = :active")})
-public class Assistant implements Serializable, CustomUserDetails {
+    @NamedQuery(name = "Assistant.findByEmail", query = "SELECT a FROM Assistant a WHERE a.email = :email")})
+public class Assistant implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -60,42 +46,19 @@ public class Assistant implements Serializable, CustomUserDetails {
     @Size(max = 45)
     @Column(name = "lastname")
     private String lastname;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "username")
-    private String username;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 80)
-    @Column(name = "password")
-    private String password;
-    @Size(max = 80)
-    @Column(name = "avatar")
-    private String avatar;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 45)
     @Column(name = "email")
     private String email;
-    @Column(name = "active")
-    private Boolean active;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "assistantId")
-    @JsonIgnore
-    private Set<Activity> activitySet;
-    @Transient
-    private MultipartFile file;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @OneToOne
+    private User userId;
 
     public Assistant() {
     }
 
     public Assistant(Integer id) {
         this.id = id;
-    }
-
-    public Assistant(Integer id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
     }
 
     public Integer getId() {
@@ -122,30 +85,6 @@ public class Assistant implements Serializable, CustomUserDetails {
         this.lastname = lastname;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -154,21 +93,12 @@ public class Assistant implements Serializable, CustomUserDetails {
         this.email = email;
     }
 
-    public Boolean getActive() {
-        return active;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    @XmlTransient
-    public Set<Activity> getActivitySet() {
-        return activitySet;
-    }
-
-    public void setActivitySet(Set<Activity> activitySet) {
-        this.activitySet = activitySet;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -194,50 +124,6 @@ public class Assistant implements Serializable, CustomUserDetails {
     @Override
     public String toString() {
         return "com.epm.pojo.Assistant[ id=" + id + " ]";
-    }
-
-    @Override
-    public String getUserId() {
-        return String.valueOf(this.id);
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // No roles
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    /**
-     * @return the file
-     */
-    public MultipartFile getFile() {
-        return file;
-    }
-
-    /**
-     * @param file the file to set
-     */
-    public void setFile(MultipartFile file) {
-        this.file = file;
     }
     
 }

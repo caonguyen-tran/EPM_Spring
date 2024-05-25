@@ -13,6 +13,10 @@ import com.epm.pojo.Student;
  */
 public interface StudentService {
     List<Student> getStudents();
-
-    void registerStudent(Student student);
+    
+    void addStudent(Student student);
+    
+    Student findById(int studentId);
+    
+    Student findByClassId(int classId);
 }

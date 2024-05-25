@@ -35,7 +35,7 @@ public class StudentRepositoryImp implements StudentRepository{
     }
 
     @Override
-    public void registerStudent(Student student) {
+    public void addStudent(Student student) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

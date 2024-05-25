@@ -6,9 +6,6 @@ package com.epm.configs;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.epm.filters.CustomAccessDeniedHandler;
-import com.epm.filters.JwtAuthenticationTokenFilter;
-import com.epm.filters.RestAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -37,6 +34,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     "com.epm.services",
     "com.epm.components"
 })
+@Order(2)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -61,15 +59,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.formLogin().defaultSuccessUrl("/")
                 .failureUrl("/login?error");
-        http.logout().logoutSuccessUrl("/");
+        http.logout().logoutSuccessUrl("/login");
 
         http.exceptionHandling()
                 .accessDeniedPage("/login?accessDenied");
-        http.authorizeRequests().antMatchers("/").permitAll()
-                .antMatchers("/activity")
-                .access("hasRole('ROLE_ASSISTANT')");
+//        http.authorizeRequests().antMatchers("/").permitAll()
+//                .antMatchers("/**/add")
+//                .access("hasRole('ROLE_ADMIN')");
 //        .antMatchers("/**/pay")
-//                .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+//                .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
         http.csrf().disable();
     }
     
@@ -83,22 +81,5 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         ));
 
         return cloudinary;
-    }
-
-    @Bean
-    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() throws Exception {
-        JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter();
-        jwtAuthenticationTokenFilter.setAuthenticationManager(authenticationManager());
-        return jwtAuthenticationTokenFilter;
-    }
-
-    @Bean
-    public RestAuthenticationEntryPoint restServicesEntryPoint() {
-        return new RestAuthenticationEntryPoint();
-    }
-
-    @Bean
-    public CustomAccessDeniedHandler customAccessDeniedHandler() {
-        return new CustomAccessDeniedHandler();
     }
 }

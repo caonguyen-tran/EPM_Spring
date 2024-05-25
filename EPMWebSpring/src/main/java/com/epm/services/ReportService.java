@@ -6,7 +6,6 @@
 package com.epm.services;
 
 import com.epm.utils.StudentReportDTO;
-import com.epm.pojo.MissingReport;
 import java.util.List;
 
 /**
@@ -15,6 +14,6 @@ import java.util.List;
  */
 public interface ReportService {
     List<StudentReportDTO> getStatsScoreDetail(int studentId);
-    public List<Object[]> getListReports(int facultyId);
+    List<Object[]> getListReports(int facultyId);
 }
 

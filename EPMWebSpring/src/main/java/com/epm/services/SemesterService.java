@@ -12,5 +12,10 @@ import java.util.List;
  * @author ACER
  */
 public interface SemesterService {
+
     List<Semester> getSemesters();
+
+    List<Semester> getSemestersByStudyYear(String studyYear);
+
+    Semester findById(int semesterId);
 }

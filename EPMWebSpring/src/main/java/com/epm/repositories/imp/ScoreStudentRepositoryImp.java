@@ -48,28 +48,28 @@ public class ScoreStudentRepositoryImp implements ScoreStudentRepository {
     }
 
     @Override
-    public List<ScoreStudent> findByAccountStudentId(int accountStudentId) {
-        Session s = this.factory.getObject().getCurrentSession();
-        CriteriaBuilder b = s.getCriteriaBuilder();
-        CriteriaQuery<ScoreStudent> q = b.createQuery(ScoreStudent.class);
-        Root r = q.from(ScoreStudent.class);
-        
-        Join<ScoreStudent, JoinActivity> scoreJA = r.join("joinActivityId");
-        
-        q.where(b.equal(scoreJA.get("accountStudentId"), accountStudentId));
-        
-        return s.createQuery(q).getResultList();
-    }
-
-    @Override
     public List<ScoreStudent> findByJoinActivityId(int joinActivityId) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
         CriteriaQuery<ScoreStudent> q = b.createQuery(ScoreStudent.class);
         Root r = q.from(ScoreStudent.class);
         q.select(r);
-        
+
         q.where(b.equal(r.get("joinActivityId"), joinActivityId));
+
+        return s.createQuery(q).getResultList();
+    }
+
+    @Override
+    public List<ScoreStudent> findByUserId(int userId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<ScoreStudent> q = b.createQuery(ScoreStudent.class);
+        Root r = q.from(ScoreStudent.class);
+
+        Join<ScoreStudent, JoinActivity> scoreJA = r.join("joinActivityId");
+
+        q.where(b.equal(scoreJA.get("userId"), userId));
 
         return s.createQuery(q).getResultList();
     }

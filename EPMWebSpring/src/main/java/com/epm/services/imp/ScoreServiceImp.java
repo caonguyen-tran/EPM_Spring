@@ -52,9 +52,9 @@ public class ScoreServiceImp implements ScoreService {
     private JoinActivityRepository joinActivityRepo;
 
     @Override
-    public Map<String, Integer> getTotalScoresByTerm(int accountStudentId) {
+    public Map<String, Integer> getTotalScoresByTerm(int userId) {
         Map<String, Integer> result = new HashMap<>();
-        List<ScoreStudent> scoreStudents = scoreStudentRepo.findByAccountStudentId(accountStudentId);
+        List<ScoreStudent> scoreStudents = scoreStudentRepo.findByUserId(userId);
 
         for (ScoreStudent scoreStudent : scoreStudents) {
             if (scoreStudent != null) {
@@ -76,7 +76,7 @@ public class ScoreServiceImp implements ScoreService {
 
     @Override
     public int getTotalScores(int accountStudentId) {
-        List<ScoreStudent> scoreStudents = scoreStudentRepo.findByAccountStudentId(accountStudentId);
+        List<ScoreStudent> scoreStudents = scoreStudentRepo.findByUserId(accountStudentId);
 
         int totalScore = 0;
         for (ScoreStudent scoreStudent : scoreStudents) {
@@ -90,7 +90,20 @@ public class ScoreServiceImp implements ScoreService {
     }
 
     @Override
-    public List<Score> getScoresByAccountStudentIdAndSemester(int accountStudentId, int semesterId) {
+    public List<Score> getScoresByStudentAndYear(int accountStudentId, String studyYear) {
+        List<Semester> semesters = semesterRepo.getSemestersByStudyYear(studyYear);
+        List<Score> scores = new ArrayList<>();
+
+        for (Semester semester : semesters) {
+            List<Score> semesterScores = getScoresByUserIdAndSemesterId(accountStudentId, semester.getId());
+            scores.addAll(semesterScores);
+        }
+
+        return scores;
+    }
+
+    @Override
+    public List<Score> getScoresByUserIdAndSemesterId(int userId, int semesterId) {
         List<Activity> activities = activityRepo.findBySemesterId(semesterId);
         List<Score> scores = new ArrayList<>();
 
@@ -98,7 +111,7 @@ public class ScoreServiceImp implements ScoreService {
                 .map(Activity::getId)
                 .collect(Collectors.toSet());
 
-        List<JoinActivity> joinActivities = joinActivityRepo.findByAccountStudentIdAndRollup(accountStudentId, true);
+        List<JoinActivity> joinActivities = joinActivityRepo.findByUserIdAndRollup(userId, true);
 
         for (JoinActivity joinActivity : joinActivities) {
             List<ScoreStudent> scoreStudents = scoreStudentRepo.findByJoinActivityId(joinActivity.getId());
@@ -114,15 +127,17 @@ public class ScoreServiceImp implements ScoreService {
     }
 
     @Override
-    public List<Score> getScoresByStudentAndYear(int accountStudentId, String studyYear) {
-        List<Semester> semesters = semesterRepo.getSemestersByStudyYear(studyYear);
-        List<Score> scores = new ArrayList<>();
+    public List<Score> findAll() {
+        return this.scoreRepo.findAll();
+    }
 
-        for (Semester semester : semesters) {
-            List<Score> semesterScores = getScoresByAccountStudentIdAndSemester(accountStudentId, semester.getId());
-            scores.addAll(semesterScores);
-        }
+    @Override
+    public Score findById(int scoreId) {
+        return this.scoreRepo.findById(scoreId);
+    }
 
-        return scores;
+    @Override
+    public List<Score> findByActivityId(int activityId) {
+        return this.scoreRepo.findByActivityId(activityId);
     }
 }

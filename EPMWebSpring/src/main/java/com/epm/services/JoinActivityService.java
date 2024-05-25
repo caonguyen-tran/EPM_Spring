@@ -11,7 +11,11 @@ import java.util.List;
  *
  * @author ACER
  */
-public interface JoinService {
-    public List<Object[]> getParticipates(String activityId,String facultyId,String classId,String semesterId);
-    public List<JoinActivity> getParticipateByFaculty(int facultyId);
+public interface JoinActivityService {
+
+    List<JoinActivity> findByUserIdAndRollup(int userId, Boolean rollup);
+
+    List<Object[]> getParticipates(String activityId, String facultyId, String classId, String semesterId);
+
+    List<JoinActivity> getParticipateByFaculty(int facultyId);
 }

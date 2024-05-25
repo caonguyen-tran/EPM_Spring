@@ -4,7 +4,6 @@
  */
 package com.epm.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -21,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ACER
+ * @author Win11
  */
 @Entity
 @Table(name = "liked")
@@ -40,14 +39,12 @@ public class Liked implements Serializable {
     private Integer id;
     @Column(name = "active")
     private Boolean active;
-    @JoinColumn(name = "account_student_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    @JsonIgnore
-    private AccountStudent accountStudentId;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonIgnore
     private Activity activityId;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private User userId;
 
     public Liked() {
     }
@@ -72,20 +69,20 @@ public class Liked implements Serializable {
         this.active = active;
     }
 
-    public AccountStudent getAccountStudentId() {
-        return accountStudentId;
-    }
-
-    public void setAccountStudentId(AccountStudent accountStudentId) {
-        this.accountStudentId = accountStudentId;
-    }
-
     public Activity getActivityId() {
         return activityId;
     }
 
     public void setActivityId(Activity activityId) {
         this.activityId = activityId;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @Override

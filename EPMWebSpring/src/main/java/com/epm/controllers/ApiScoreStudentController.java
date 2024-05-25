@@ -27,7 +27,7 @@ public class ApiScoreStudentController {
     
     @GetMapping("/account_student_id/{studentId}/scores/semester/{semesterId}")
     public ResponseEntity<List<Score>> getScoresBySemester(@PathVariable int studentId, @PathVariable int semesterId) {
-        List<Score> scores = scoreService.getScoresByAccountStudentIdAndSemester(studentId, semesterId);
+        List<Score> scores = scoreService.getScoresByUserIdAndSemesterId(studentId, semesterId);
         if (scores.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

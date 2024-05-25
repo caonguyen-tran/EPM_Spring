@@ -24,4 +24,14 @@ public class SemesterServiceImp implements SemesterService{
     public List<Semester> getSemesters() {
         return this.semesterRepository.getSemesters();
     }
+
+    @Override
+    public List<Semester> getSemestersByStudyYear(String studyYear) {
+        return this.semesterRepository.getSemestersByStudyYear(studyYear);
+    }
+
+    @Override
+    public Semester findById(int semesterId) {
+        return this.semesterRepository.findById(semesterId);
+    }
 }

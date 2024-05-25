@@ -13,4 +13,6 @@ import java.util.List;
  */
 public interface TermService {
     List<Term> getTerms();
+
+    Term findById(int termId);
 }

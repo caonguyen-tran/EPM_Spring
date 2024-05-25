@@ -12,5 +12,10 @@ import java.util.List;
  * @author Win11
  */
 public interface JoinActivityRepository {
-    List<JoinActivity> findByAccountStudentIdAndRollup(int accountStudentId, Boolean rollup);
+
+    List<JoinActivity> findByUserIdAndRollup(int userId, Boolean rollup);
+
+    List<Object[]> getParticipates(String activityId, String facultyId, String classId, String semesterId);
+
+    List<JoinActivity> getParticipateByFaculty(int facultyId);
 }

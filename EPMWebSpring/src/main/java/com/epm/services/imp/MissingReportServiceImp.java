@@ -30,7 +30,7 @@ public class MissingReportServiceImp implements MissingReportService {
     private Cloudinary cloudinary;
 
     @Override
-    public MissingReport createMissingReport(MissingReport mr) {
+    public void addMissingReport(MissingReport mr) {
         if (mr.getFile() != null && !mr.getFile().isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(mr.getFile().getBytes(),
@@ -41,7 +41,8 @@ public class MissingReportServiceImp implements MissingReportService {
             }
         }
 
-        return this.missingReportRepo.createMissingReport(mr);
+        this.missingReportRepo.addMissingReport(mr);
     }
+
 
 }

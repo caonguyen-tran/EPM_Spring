@@ -14,13 +14,18 @@ import java.util.Map;
  */
 public interface ScoreService {
 
-    Map<String, Integer> getTotalScoresByTerm(int accountStudentId);
+    Map<String, Integer> getTotalScoresByTerm(int userId);
 
-    int getTotalScores(int accountStudentId);
+    int getTotalScores(int userId);
 
-    List<Score> getScoresByAccountStudentIdAndSemester(int accountStudentId, int semesterId);
+    List<Score> getScoresByUserIdAndSemesterId(int userId, int semesterId);
+
+    List<Score> getScoresByStudentAndYear(int userId, String studyYear);
+
+    List<Score> findAll();
+
+    Score findById(int scoreId);
+
+    List<Score> findByActivityId(int activityId);
     
-    List<Score> getScoresByStudentAndYear(int accountStudentId, String studyYear);
 }
-
-

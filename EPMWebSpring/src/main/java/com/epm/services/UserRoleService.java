@@ -4,11 +4,14 @@
  */
 package com.epm.services;
 
-import com.epm.pojo.MissingReport;
+import com.epm.pojo.UserRole;
+
 /**
  *
  * @author Win11
  */
-public interface MissingReportService {
-    void addMissingReport(MissingReport mr);
+public interface UserRoleService {
+    UserRole getURStudent();
+    UserRole getURAssistant();
+    UserRole getURAdmin();
 }

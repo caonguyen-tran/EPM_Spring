@@ -13,7 +13,7 @@ import com.epm.pojo.Student;
 public interface StudentRepository {
     List<Student> getStudents();
     
-    void registerStudent(Student student);
+    void addStudent(Student student);
     
     Student findById(int studentId);
     

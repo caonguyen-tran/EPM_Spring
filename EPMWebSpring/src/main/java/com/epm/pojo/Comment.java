@@ -4,7 +4,6 @@
  */
 package com.epm.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -56,24 +55,20 @@ public class Comment implements Serializable {
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
-    @Size(max = 160)
+    @Size(max = 255)
     @Column(name = "image")
     private String image;
-    @JoinColumn(name = "account_student_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    @JsonIgnore
-    private AccountStudent accountStudentId;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonIgnore
     private Activity activityId;
     @OneToMany(mappedBy = "commentParent")
-    @JsonIgnore
     private Set<Comment> commentSet;
     @JoinColumn(name = "comment_parent", referencedColumnName = "id")
     @ManyToOne
-    @JsonIgnore
     private Comment commentParent;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private User userId;
 
     public Comment() {
     }
@@ -119,14 +114,6 @@ public class Comment implements Serializable {
         this.image = image;
     }
 
-    public AccountStudent getAccountStudentId() {
-        return accountStudentId;
-    }
-
-    public void setAccountStudentId(AccountStudent accountStudentId) {
-        this.accountStudentId = accountStudentId;
-    }
-
     public Activity getActivityId() {
         return activityId;
     }
@@ -150,6 +137,14 @@ public class Comment implements Serializable {
 
     public void setCommentParent(Comment commentParent) {
         this.commentParent = commentParent;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @Override

@@ -11,5 +11,5 @@ import java.util.List;
  * @author ACER
  */
 public interface RegisterRepository {
-    public List<Object[]> getRegisters();
+    List<Object[]> getRegisters();
 }

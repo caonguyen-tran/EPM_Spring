@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/statistics")
-public class StatisticsController {
+public class ApiStatisticsController {
 
     @Autowired
     private StatisticsService statisticsService;

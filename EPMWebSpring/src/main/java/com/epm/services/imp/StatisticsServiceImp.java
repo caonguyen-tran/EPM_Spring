@@ -4,14 +4,14 @@
  */
 package com.epm.services.imp;
 
-import com.epm.pojo.AccountStudent;
 import com.epm.pojo.JoinActivity;
 import com.epm.pojo.Score;
 import com.epm.pojo.Student;
-import com.epm.repositories.AccountStudentRepository;
+import com.epm.pojo.User;
 import com.epm.repositories.JoinActivityRepository;
 import com.epm.repositories.ScoreRepository;
 import com.epm.repositories.StudentRepository;
+import com.epm.repositories.UserRepository;
 import com.epm.services.StatisticsService;
 import com.epm.utils.AchievementStatisticsDTO;
 import java.util.HashMap;
@@ -19,18 +19,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Win11
  */
+@Service
 public class StatisticsServiceImp implements StatisticsService {
 
-     @Autowired
-    private StudentRepository studentRepository;
-
     @Autowired
-    private AccountStudentRepository accountStudentRepository;
+    private StudentRepository studentRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private JoinActivityRepository joinActivityRepository;
@@ -44,10 +46,10 @@ public class StatisticsServiceImp implements StatisticsService {
         Map<String, Integer> achievementMap = new HashMap<>();
 
         for (Student student : students) {
-            AccountStudent accountStudent = accountStudentRepository.findByStudentId(student.getId());
-            if (accountStudent != null) {
+            User user = userRepository.findByStudentId(student.getId());
+            if (user != null) {
                 int totalScore = 0;
-                List<JoinActivity> joinActivities = joinActivityRepository.findByAccountStudentIdAndRollup(accountStudent.getId(), true);
+                List<JoinActivity> joinActivities = joinActivityRepository.findByUserIdAndRollup(user.getId(), true);
 
                 for (JoinActivity joinActivity : joinActivities) {
                     List<Score> scores = scoreRepository.findByActivityId(joinActivity.getActivityId().getId());

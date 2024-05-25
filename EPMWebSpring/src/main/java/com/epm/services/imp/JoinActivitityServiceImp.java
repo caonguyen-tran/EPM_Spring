@@ -5,8 +5,8 @@
 package com.epm.services.imp;
 
 import com.epm.pojo.JoinActivity;
-import com.epm.repositories.JoinRepository;
-import com.epm.services.JoinService;
+import com.epm.repositories.JoinActivityRepository;
+import com.epm.services.JoinActivityService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
  * @author ACER
  */
 @Service
-public class JoinServiceImp implements JoinService{
+public class JoinActivitityServiceImp implements JoinActivityService{
     @Autowired
-    private JoinRepository joinRepository;
+    private JoinActivityRepository joinActivityRepository;
     
     
     @Override
@@ -28,6 +28,11 @@ public class JoinServiceImp implements JoinService{
 
     @Override
     public List<Object[]> getParticipates(String activityId, String facultyId, String classId, String semesterId) {
-        return this.joinRepository.getParticipates(activityId, facultyId, classId, semesterId);
+        return this.joinActivityRepository.getParticipates(activityId, facultyId, classId, semesterId);
+    }
+
+    @Override
+    public List<JoinActivity> findByUserIdAndRollup(int userId, Boolean rollup) {
+        return this.joinActivityRepository.findByUserIdAndRollup(userId, rollup);
     }
 }

@@ -4,7 +4,6 @@
  */
 package com.epm.services.imp;
 
-import com.epm.pojo.AccountStudent;
 import com.epm.pojo.Activity;
 import com.epm.pojo.Classes;
 import com.epm.pojo.JoinActivity;
@@ -13,16 +12,18 @@ import com.epm.pojo.ScoreStudent;
 import com.epm.pojo.Semester;
 import com.epm.pojo.Student;
 import com.epm.pojo.Term;
+import com.epm.pojo.User;
 import com.epm.utils.StudentReportDTO;
-import com.epm.repositories.AccountStudentRepository;
 import com.epm.repositories.ActivityRepository;
 import com.epm.repositories.ClassRepository;
 import com.epm.repositories.JoinActivityRepository;
+import com.epm.repositories.ReportRepository;
 import com.epm.repositories.ScoreRepository;
 import com.epm.repositories.ScoreStudentRepository;
 import com.epm.repositories.SemesterRepository;
 import com.epm.repositories.StudentRepository;
 import com.epm.repositories.TermRepository;
+import com.epm.repositories.UserRepository;
 import com.epm.services.ReportService;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ public class ReportServiceImp implements ReportService {
     private StudentRepository studentRepo;
 
     @Autowired
-    private AccountStudentRepository accountStudentRepo;
+    private UserRepository userRepo;
 
     @Autowired
     private JoinActivityRepository joinActivityRepo;
@@ -62,6 +63,9 @@ public class ReportServiceImp implements ReportService {
 
     @Autowired
     private ClassRepository classRepo;
+    
+    @Autowired
+    private ReportRepository reportRepo;
 
     @Override
     public List<StudentReportDTO> getStatsScoreDetail(int studentId) {
@@ -72,12 +76,12 @@ public class ReportServiceImp implements ReportService {
             return result;
         }
 
-        AccountStudent accountStudent = accountStudentRepo.findByStudentId(studentId);
-        if (accountStudent == null) {
+        User user = userRepo.findByStudentId(studentId);
+        if (user == null) {
             return result;
         }
 
-        List<JoinActivity> joinActivities = joinActivityRepo.findByAccountStudentIdAndRollup(accountStudent.getId(), true);
+        List<JoinActivity> joinActivities = joinActivityRepo.findByUserIdAndRollup(user.getId(), true);
 
         for (JoinActivity joinActivity : joinActivities) {
             List<ScoreStudent> scoreStudents = scoreStudentRepo.findByJoinActivityId(joinActivity.getId());
@@ -103,6 +107,11 @@ public class ReportServiceImp implements ReportService {
         }
 
         return result;
+    }
+
+    @Override
+    public List<Object[]> getListReports(int facultyId) {
+        return this.reportRepo.getListReports(facultyId);
     }
 
 }

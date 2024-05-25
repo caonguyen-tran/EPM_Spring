@@ -4,20 +4,22 @@
  */
 package com.epm.repositories;
 
-import com.epm.pojo.ScoreStudent;
+import com.epm.pojo.User;
 import java.util.List;
 
 /**
  *
  * @author Win11
  */
-public interface ScoreStudentRepository {
+public interface UserRepository {
 
-    List<ScoreStudent> findAll();
+    User getUserByUsername(String username);
 
-    ScoreStudent findById(int scoreStudentId);
+    boolean authUser(String username, String password);
 
-    List<ScoreStudent> findByUserId(int userId);
-    
-    List<ScoreStudent> findByJoinActivityId(int joinActivityId);   
+    void addUser(User user);
+
+    List<User> getAssistantUsers();
+
+    User findByStudentId(int studentId);
 }

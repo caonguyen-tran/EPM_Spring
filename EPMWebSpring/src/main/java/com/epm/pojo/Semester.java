@@ -4,7 +4,6 @@
  */
 package com.epm.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -56,7 +55,6 @@ public class Semester implements Serializable {
     @Column(name = "year_study")
     private String yearStudy;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "semesterId")
-    @JsonIgnore
     private Set<Activity> activitySet;
 
     public Semester() {

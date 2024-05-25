@@ -5,6 +5,7 @@
 package com.epm.services;
 
 import com.epm.pojo.Classes;
+import java.util.List;
 
 /**
  *
@@ -12,4 +13,6 @@ import com.epm.pojo.Classes;
  */
 public interface ClassService {
     Classes findById(int classId);
+    
+    public List<Classes> getClasses();
 }

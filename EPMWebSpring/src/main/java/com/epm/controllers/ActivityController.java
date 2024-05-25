@@ -4,16 +4,13 @@
  */
 package com.epm.controllers;
 
-import com.epm.pojo.AccountStudent;
 import com.epm.pojo.Activity;
-import com.epm.pojo.Assistant;
 import com.epm.pojo.Faculty;
 import com.epm.pojo.Semester;
-import com.epm.pojo.Student;
 import com.epm.pojo.Term;
-import com.epm.services.AccountService;
+import com.epm.pojo.User;
 import com.epm.services.ActivityService;
-import com.epm.services.AssistantService;
+import com.epm.services.UserService;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,13 +34,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class ActivityController {
     @Autowired
-    private AccountService accountService;
+    private UserService userService;
     
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
-    private AssistantService assistantService;
 
     @Autowired
     private ActivityService activityService;
@@ -70,7 +64,7 @@ public class ActivityController {
         faculty.setId(Integer.parseInt(data.get("facultyId")));
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        Assistant assist = this.assistantService.getAssistantByUsername(auth.getName());
+        User createdUser = this.userService.getUserByUsername(auth.getName());
 
         Activity activity = new Activity();
         activity.setName(name);
@@ -81,7 +75,7 @@ public class ActivityController {
         activity.setFacultyId(faculty);
         activity.setTermId(term);
         activity.setSemesterId(semester);
-        activity.setAssistantId(assist);
+        activity.setCreatedUserId(createdUser);
         activity.setFile(file);
 
         this.activityService.createActivity(activity);

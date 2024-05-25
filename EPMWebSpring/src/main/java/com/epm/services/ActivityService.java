@@ -15,9 +15,15 @@ public interface ActivityService {
 
     List<Activity> getActivities();
 
-    public void createActivity(Activity activity);
+    void createActivity(Activity activity);
 
-    public List<Activity> getActivitiesJoined(int accountStudentId);
+    List<Activity> getActivitiesJoined(int userId);
 
-    public List<Activity> getActivitiesMissingByAccountStudentId(int accountStudentId);
+    List<Activity> getActivitiesMissingByUserId(int userId);
+
+    List<Activity> findByTermId(int termId);
+
+    Activity findById(int activityId);
+
+    List<Activity> findBySemesterId(int semesterId);
 }

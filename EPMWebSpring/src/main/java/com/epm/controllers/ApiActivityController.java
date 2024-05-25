@@ -34,15 +34,15 @@ public class ApiActivityController {
         return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
     }
     
-    @GetMapping(path = "/account-student-id/{accountStudentId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/userId/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
-    public ResponseEntity<List<Activity>> listActivityJoining(@PathVariable(value = "accountStudentId") int accountStudentId){
-        return new ResponseEntity<>(this.activityService.getActivitiesJoined(accountStudentId), HttpStatus.OK);
+    public ResponseEntity<List<Activity>> listActivityJoining(@PathVariable(value = "userId") int userId){
+        return new ResponseEntity<>(this.activityService.getActivitiesJoined(userId), HttpStatus.OK);
     }
     
-    @GetMapping(path = "/missing/account-student-id/{accountStudentId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/missing/userId/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
-    public ResponseEntity<List<Activity>> getActivitiesMissing(@PathVariable(value = "accountStudentId") int accountStudentId){
-        return new ResponseEntity<>(this.activityService.getActivitiesMissingByAccountStudentId(accountStudentId), HttpStatus.OK);
+    public ResponseEntity<List<Activity>> getActivitiesMissing(@PathVariable(value = "userId") int userId){
+        return new ResponseEntity<>(this.activityService.getActivitiesMissingByUserId(userId), HttpStatus.OK);
     }
 }

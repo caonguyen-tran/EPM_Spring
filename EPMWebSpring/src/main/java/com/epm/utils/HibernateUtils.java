@@ -4,9 +4,7 @@
  */
 package com.epm.utils;
 
-import com.epm.pojo.AccountStudent;
 import com.epm.pojo.Activity;
-import com.epm.pojo.Admin;
 import com.epm.pojo.Assistant;
 import com.epm.pojo.Classes;
 import com.epm.pojo.Comment;
@@ -19,6 +17,8 @@ import com.epm.pojo.ScoreStudent;
 import com.epm.pojo.Semester;
 import com.epm.pojo.Student;
 import com.epm.pojo.Term;
+import com.epm.pojo.User;
+import com.epm.pojo.UserRole;
 import java.util.Properties;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -46,9 +46,9 @@ public class HibernateUtils {
         props.put(Environment.SHOW_SQL, "true");
         conf.setProperties(props);
         
-        conf.addAnnotatedClass(AccountStudent.class);
+        conf.addAnnotatedClass(User.class);
         conf.addAnnotatedClass(Activity.class);
-        conf.addAnnotatedClass(Admin.class);
+        conf.addAnnotatedClass(UserRole.class);
         conf.addAnnotatedClass(Assistant.class);
         conf.addAnnotatedClass(Classes.class);
         conf.addAnnotatedClass(Comment.class);
