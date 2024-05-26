@@ -28,3 +28,9 @@ sinh viên
 + Thực hiện báo thiếu hoạt động -> có minh chứng done
 + Xem các hoạt động mình đã đăng ký tham gia done
 
+
+-> Thống kê điểm rèn luyện: theo khoa: 
+- sẽ hiện tổng số hoạt động trong năm học 
+- tổng số lượng sinh viên tham gia hoạt động trong kì
+- hiện số lượng sinh viên tham gia trên từng hoạt động của khoa đó
+- Hiện leaderboard 30 sinh viên có thành tích cao nhất (điểm rèn luyện cao nhất)

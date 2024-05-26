@@ -29,4 +29,8 @@
         <put-attribute name="title" value="Danh sách đăng ký" />
         <put-attribute name="content" value="/WEB-INF/pages/register.jsp" />
     </definition>
+    <definition name="dashboard" extends="baseLayout">
+        <put-attribute name="title" value="Dashboard" />
+        <put-attribute name="content" value="/WEB-INF/pages/dashboard.jsp" />
+    </definition>
 </tiles-definitions>
