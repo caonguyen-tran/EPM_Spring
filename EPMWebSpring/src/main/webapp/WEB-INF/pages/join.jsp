@@ -77,9 +77,13 @@
             <td>
                 <div>
                     <button class="btn btn-primary" type="button" style="width: 100px; margin-bottom: 5px">Xác nhận</button>
-                    <button class="btn btn-danger" type="button" style="width: 100px">Từ chối</button>
+                    <c:url value="/api/join-activity/${j[0].id}" var="url"/>
+                    <button onclick="deleteJoined('${url}', '${j[0].id}')" class="btn btn-danger" type="button" style="width: 100px">Từ chối</button>
                 </div>
             </td>
         </tr>
     </c:forEach>
 </table>
+
+
+<script src="<c:url value="/js/script.js" />"></script>
