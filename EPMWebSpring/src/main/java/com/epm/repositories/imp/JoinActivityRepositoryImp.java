@@ -90,4 +90,10 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    @Override
+    public void deleteJoinActivity(JoinActivity joinActivity) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.remove(joinActivity);
+    }
+
 }

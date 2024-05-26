@@ -35,4 +35,9 @@ public class JoinActivitityServiceImp implements JoinActivityService{
     public List<JoinActivity> findByUserIdAndRollup(int userId, Boolean rollup) {
         return this.joinActivityRepository.findByUserIdAndRollup(userId, rollup);
     }
+
+    @Override
+    public void deleteJoinActivity(JoinActivity joinActivity) {
+        this.joinActivityRepository.deleteJoinActivity(joinActivity);
+    }
 }

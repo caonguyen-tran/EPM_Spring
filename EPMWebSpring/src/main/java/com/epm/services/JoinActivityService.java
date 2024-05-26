@@ -18,4 +18,6 @@ public interface JoinActivityService {
     List<Object[]> getParticipates(String activityId, String facultyId, String classId, String semesterId);
 
     List<JoinActivity> getParticipateByFaculty(int facultyId);
+    
+    void deleteJoinActivity(JoinActivity joinActivity);
 }
