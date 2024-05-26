@@ -10,6 +10,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,7 +55,7 @@ public class Semester implements Serializable {
     @Size(max = 6)
     @Column(name = "year_study")
     private String yearStudy;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "semesterId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "semesterId", fetch = FetchType.LAZY)
     private Set<Activity> activitySet;
 
     public Semester() {

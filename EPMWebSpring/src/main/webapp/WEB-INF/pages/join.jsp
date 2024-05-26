@@ -74,7 +74,12 @@
             <td>${j[0].dateRegister}</td>
             <td style="width: 150px"><img class="card-img-top" src="${j[0].proofJoining}" style="width:200px;"></td>
             <td>${j[0].note}</td>
-            <td></td>
+            <td>
+                <div>
+                    <button class="btn btn-primary" type="button" style="width: 100px; margin-bottom: 5px">Xác nhận</button>
+                    <button class="btn btn-danger" type="button" style="width: 100px">Từ chối</button>
+                </div>
+            </td>
         </tr>
     </c:forEach>
 </table>

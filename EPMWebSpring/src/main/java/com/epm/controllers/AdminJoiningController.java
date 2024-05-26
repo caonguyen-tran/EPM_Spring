@@ -6,7 +6,9 @@ package com.epm.controllers;
 
 import com.epm.services.ActivityService;
 import com.epm.services.ClassService;
+import com.epm.services.FacultyService;
 import com.epm.services.JoinActivityService;
+import com.epm.services.SemesterService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,11 +30,19 @@ public class AdminJoiningController {
 
     @Autowired
     private ClassService classService;
-
+    
+    @Autowired
+    private FacultyService facultyService;
+    
+    @Autowired
+    private SemesterService semesterService;
+    
     @GetMapping(value = "/join")
     public String listJoining(Model model, @RequestParam Map<String, String> params) {
         model.addAttribute("activities", this.activityService.getActivities());
         model.addAttribute("classes", this.classService.getClasses());
+        model.addAttribute("semesters", this.semesterService.getSemesters());
+        model.addAttribute("faculties", this.facultyService.getFaculties());
         String activityId = params.get("activityId");
         String facultyId = params.get("facultyId");
         String classId = params.get("classId");

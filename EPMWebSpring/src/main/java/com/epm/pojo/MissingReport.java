@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -62,12 +64,11 @@ public class MissingReport implements Serializable {
     @Size(max = 120)
     @Column(name = "note")
     private String note;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "user_id")
-    private int userId;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private User userId;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Activity activityId;
     @Transient
     private MultipartFile file;
@@ -79,7 +80,7 @@ public class MissingReport implements Serializable {
         this.id = id;
     }
 
-    public MissingReport(Integer id, String proofJoining, int userId) {
+    public MissingReport(Integer id, String proofJoining, User userId) {
         this.id = id;
         this.proofJoining = proofJoining;
         this.userId = userId;
@@ -125,11 +126,11 @@ public class MissingReport implements Serializable {
         this.note = note;
     }
 
-    public int getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 

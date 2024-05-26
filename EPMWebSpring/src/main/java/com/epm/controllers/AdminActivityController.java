@@ -10,6 +10,9 @@ import com.epm.pojo.Semester;
 import com.epm.pojo.Term;
 import com.epm.pojo.User;
 import com.epm.services.ActivityService;
+import com.epm.services.FacultyService;
+import com.epm.services.SemesterService;
+import com.epm.services.TermService;
 import com.epm.services.UserService;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -42,10 +45,19 @@ public class AdminActivityController {
     @Autowired
     private ActivityService activityService;
 
+    @Autowired
+    private TermService termService;
+    @Autowired
+    private FacultyService facultyService;
+    @Autowired
+    private SemesterService semesterService;
+
     @GetMapping("/activity")
     public String registerSite(Model model) {
+        model.addAttribute("terms", termService.getTerms());
+        model.addAttribute("faculties", facultyService.getFaculties());
+        model.addAttribute("semesters", semesterService.getSemesters());
         model.addAttribute("activity", new Activity());
-
         return "activity";
     }
 
