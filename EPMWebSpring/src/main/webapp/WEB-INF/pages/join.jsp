@@ -76,9 +76,10 @@
             <td>${j[0].note}</td>
             <td>
                 <div>
-                    <button class="btn btn-primary" type="button" style="width: 100px; margin-bottom: 5px">Xác nhận</button>
-                    <c:url value="/api/join-activity/${j[0].id}" var="url"/>
-                    <button onclick="deleteJoined('${url}', '${j[0].id}')" class="btn btn-danger" type="button" style="width: 100px">Từ chối</button>
+                    <c:url value="/api/score-student/accept" var="url1"/>
+                    <button onclick="createScoreStudent('${url1}', ${j[0].id}, ${j[2].id})" class="btn btn-primary" type="button" style="width: 100px; margin-bottom: 5px">Xác nhận</button>
+                    <c:url value="/api/join-activity/${j[0].id}" var="url2"/>
+                    <button onclick="deleteJoined('${url2}', '${j[0].id}')" class="btn btn-danger" type="button" style="width: 100px">Từ chối</button>
                 </div>
             </td>
         </tr>

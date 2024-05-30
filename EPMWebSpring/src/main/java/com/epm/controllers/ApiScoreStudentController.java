@@ -12,6 +12,7 @@ import com.epm.services.ScoreService;
 import com.epm.services.ScoreStudentService;
 import com.epm.utils.ScoreStudentDTO;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -58,15 +59,16 @@ public class ApiScoreStudentController {
     }
     
     @PostMapping(path = "/score-student/accept", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ScoreStudent> createScoreStudent(@RequestBody ScoreStudentDTO scoreStudentDTO){
+    public ResponseEntity<ScoreStudent> createScoreStudent(@RequestBody Map<String, Integer> payload){
         ScoreStudent scoreStudent = new ScoreStudent();
-        JoinActivity joinActivity = this.joinActivityService.getJoinActivityById(scoreStudentDTO.getJoinId());
-        Score score = this.scoreService.findByActivityWithScoreType(scoreStudentDTO.getActivityId(), "");
+        JoinActivity joinActivity = this.joinActivityService.getJoinActivityById(payload.get("joinId"));
+        Score score = this.scoreService.findByActivityWithScoreType(payload.get("activityId"), "");
         
         scoreStudent.setJoinActivityId(joinActivity);
         scoreStudent.setScoreId(score);
         
         ScoreStudent results = this.scoreStudentService.createScoreStudent(scoreStudent);
+        this.joinActivityService.updateAccept(joinActivity);
         return new ResponseEntity<>(results, HttpStatus.CREATED);
     }
 }
