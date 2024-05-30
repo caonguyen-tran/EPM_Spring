@@ -100,13 +100,14 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
     public void updateAccept(JoinActivity joinActivity) {
         Session s = this.factory.getObject().getCurrentSession();
         joinActivity.setAccept(true);
-        s.save(joinActivity);
+        s.update(joinActivity);
     }
 
     @Override
     public JoinActivity getJoinActivityById(int joinActivityId) {
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createNamedQuery("JoinActivity.findById");
+        q.setParameter("id", joinActivityId);
         return (JoinActivity) q.getSingleResult();
     }
 }
