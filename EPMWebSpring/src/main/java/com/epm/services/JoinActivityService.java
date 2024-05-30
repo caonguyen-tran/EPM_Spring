@@ -20,4 +20,8 @@ public interface JoinActivityService {
     List<JoinActivity> getParticipateByFaculty(int facultyId);
     
     void deleteJoinActivity(JoinActivity joinActivity);
+    
+    void updateAccept(JoinActivity joinActivity);
+    
+    JoinActivity getJoinActivityById(int joinActivityId);
 }

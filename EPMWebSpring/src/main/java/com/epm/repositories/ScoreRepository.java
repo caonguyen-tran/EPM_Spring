@@ -18,4 +18,6 @@ public interface ScoreRepository {
     Score findById(int scoreId);
 
     List<Score> findByActivityId(int activityId);
+    
+    Score findByActivityIdWithScoreType(int activityId, String scoreType);
 }

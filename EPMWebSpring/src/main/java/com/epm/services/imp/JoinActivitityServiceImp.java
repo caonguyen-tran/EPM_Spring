@@ -40,4 +40,14 @@ public class JoinActivitityServiceImp implements JoinActivityService{
     public void deleteJoinActivity(JoinActivity joinActivity) {
         this.joinActivityRepository.deleteJoinActivity(joinActivity);
     }
+
+    @Override
+    public void updateAccept(JoinActivity joinActivity) {
+        this.joinActivityRepository.updateAccept(joinActivity);
+    }
+
+    @Override
+    public JoinActivity getJoinActivityById(int joinActivityId) {
+        return this.joinActivityRepository.getJoinActivityById(joinActivityId);
+    }
 }

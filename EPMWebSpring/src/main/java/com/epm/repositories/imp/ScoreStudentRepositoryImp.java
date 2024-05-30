@@ -74,4 +74,10 @@ public class ScoreStudentRepositoryImp implements ScoreStudentRepository {
         return s.createQuery(q).getResultList();
     }
 
+    @Override
+    public ScoreStudent createScoreStudent(ScoreStudent scoreStudent) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.save(scoreStudent);
+        return scoreStudent;
+    }
 }
