@@ -20,4 +20,6 @@ public interface ScoreStudentRepository {
     List<ScoreStudent> findByUserId(int userId);
     
     List<ScoreStudent> findByJoinActivityId(int joinActivityId);   
+    
+    ScoreStudent createScoreStudent(ScoreStudent scoreStudent);
 }

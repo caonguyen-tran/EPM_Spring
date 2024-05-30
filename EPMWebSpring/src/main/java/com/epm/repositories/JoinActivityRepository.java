@@ -20,4 +20,8 @@ public interface JoinActivityRepository {
     List<JoinActivity> getParticipateByFaculty(int facultyId);
 
     public void deleteJoinActivity(JoinActivity joinActivity);
+
+    public void updateAccept(JoinActivity joinActivity);
+
+    public JoinActivity getJoinActivityById(int joinActivityId);
 }

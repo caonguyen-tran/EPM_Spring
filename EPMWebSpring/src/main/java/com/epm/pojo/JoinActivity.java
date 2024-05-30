@@ -62,6 +62,8 @@ public class JoinActivity implements Serializable {
     @Size(max = 120)
     @Column(name = "note")
     private String note;
+    @Column(name = "accept")
+    private Boolean accept;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Activity activityId;
@@ -72,6 +74,14 @@ public class JoinActivity implements Serializable {
     private Set<ScoreStudent> scoreStudentSet;
     @Transient
     private MultipartFile file;
+
+    public Boolean getAccept() {
+        return accept;
+    }
+
+    public void setAccept(Boolean accept) {
+        this.accept = accept;
+    }
 
     public JoinActivity() {
     }
@@ -183,5 +193,5 @@ public class JoinActivity implements Serializable {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-    
+
 }

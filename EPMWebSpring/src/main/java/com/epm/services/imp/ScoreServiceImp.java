@@ -140,4 +140,9 @@ public class ScoreServiceImp implements ScoreService {
     public List<Score> findByActivityId(int activityId) {
         return this.scoreRepo.findByActivityId(activityId);
     }
+
+    @Override
+    public Score findByActivityWithScoreType(int activityId, String scoreType) {
+        return this.scoreRepo.findByActivityIdWithScoreType(activityId, scoreType);
+    }
 }

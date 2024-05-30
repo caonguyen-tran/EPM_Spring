@@ -7,6 +7,9 @@ package com.epm.repositories.imp;
 import com.epm.pojo.Score;
 import com.epm.repositories.ScoreRepository;
 import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class ScoreRepositoryImp implements ScoreRepository{
+public class ScoreRepositoryImp implements ScoreRepository {
+
     @Autowired
     private LocalSessionFactoryBean factory;
 
@@ -28,7 +32,7 @@ public class ScoreRepositoryImp implements ScoreRepository{
     public List<Score> findAll() {
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createNamedQuery("Score.findAll");
-        
+
         return q.getResultList();
     }
 
@@ -37,7 +41,7 @@ public class ScoreRepositoryImp implements ScoreRepository{
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createNamedQuery("Score.findById");
         q.setParameter("id", scoreId);
-        
+
         return (Score) q.getSingleResult();
     }
 
@@ -46,8 +50,22 @@ public class ScoreRepositoryImp implements ScoreRepository{
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createNamedQuery("Score.findByActivityId");
         q.setParameter("activityId", activityId);
-        
+
         return q.getResultList();
     }
-    
+
+    @Override
+    public Score findByActivityIdWithScoreType(int activityId, String scoreType) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder criteriaBuilder = s.getCriteriaBuilder();
+        CriteriaQuery<Score> criteriaQuery = criteriaBuilder.createQuery(Score.class);
+        Root<Score> root = criteriaQuery.from(Score.class);
+        
+        criteriaQuery.select(root);
+        criteriaQuery.where(criteriaBuilder.equal(root.get("activityId"), activityId));
+        Query q = s.createQuery(criteriaQuery);
+        
+        return (Score) q.getSingleResult();
+    }
+
 }

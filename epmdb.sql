@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.26, for Win64 (x86_64)
 --
 -- Host: localhost    Database: epmdb
 -- ------------------------------------------------------
--- Server version	8.1.0
+-- Server version	8.0.26
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -46,7 +46,7 @@ CREATE TABLE `activity` (
   CONSTRAINT `fk_activity_semester` FOREIGN KEY (`semester_id`) REFERENCES `semester` (`id`),
   CONSTRAINT `fk_activity_term` FOREIGN KEY (`term_id`) REFERENCES `term` (`id`),
   CONSTRAINT `fk_assistant` FOREIGN KEY (`created_user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -55,6 +55,7 @@ CREATE TABLE `activity` (
 
 LOCK TABLES `activity` WRITE;
 /*!40000 ALTER TABLE `activity` DISABLE KEYS */;
+INSERT INTO `activity` VALUES (4,'TẬP HUẤN NCKH CHỦ ĐỀ \"PHƯƠNG PHÁP NGHIÊN CỨU KHOA HỌC\"','2024-05-16 02:00:00','2024-05-17 02:00:00','Hoạt động được tổ chức cho tất cả sinh viên trường Đại Học Mở thành phố Hồ Chí Minh',NULL,'https://res.cloudinary.com/dndakokcz/image/upload/v1716640766/lflqzauyyavx8jqoenwl.jpg',500,NULL,2,5,3,1),(5,'Hội thảo định hướng nghiên cứu khoa học sinh viên khoa KTKT','2024-05-01 01:30:00','2024-05-02 02:00:00','Hoạt động được khoa Kinh tế tổ chức',NULL,'https://res.cloudinary.com/dndakokcz/image/upload/v1716640861/misps2f1nubwpx7wmwnk.jpg',100,NULL,6,5,3,1),(6,'Cuộc thi Giảng Đường Pháp Luật','2024-05-30 02:00:00','2024-05-31 02:00:00','Hoạt động được tổ chức cho tất cả sinh viên trường Đại học Mở thành phố Hồ Chí Minh có am hiểu về luật',NULL,'https://res.cloudinary.com/dndakokcz/image/upload/v1716640972/otssir8faxwboqrufwft.jpg',150,NULL,3,5,3,1),(7,'Chuyên đề DevOps và MLOps','2024-06-06 04:00:00','2024-06-07 04:00:00','Chuyên đề DevOps và MLOps dành cho sinh viên Khoa Công Nghệ Thông Tin trường Đại học Mở thành phố Hồ Chí Minh',NULL,'https://res.cloudinary.com/dndakokcz/image/upload/v1716648743/nrk46d6vwzsflvtd0iih.jpg',60,NULL,1,6,3,1),(8,'Chuyên đề Tiny Machine Learning','2024-06-10 03:30:00','2024-06-11 03:30:00','Tiny Machine Learning được tổ chức bởi khoa Công Nghệ Thông Tin',NULL,'https://res.cloudinary.com/dndakokcz/image/upload/v1716648812/yhxzwbkqbhilw8uylbov.jpg',60,NULL,1,6,3,1),(9,'Buổi Internship Orientation dành cho sinh viên năm 3, năm 4 chuyên ngành Tiếng Anh Thương Mại chuẩn bị đi thực tập','2024-06-12 03:30:00','2024-06-13 03:30:00','Hoạt động tổ chức cho sinh viên chuẩn bị thực tập',_binary '','https://res.cloudinary.com/dndakokcz/image/upload/v1716648812/yhxzwbkqbhilw8uylbov.jpg',60,_binary '\0',1,6,3,1);
 /*!40000 ALTER TABLE `activity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,10 +183,11 @@ DROP TABLE IF EXISTS `join_activity`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `join_activity` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `date_register` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_register` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `rollup` bit(1) DEFAULT b'0',
   `proof_joining` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `note` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `accept` bit(1) DEFAULT b'0',
   `activity_id` int NOT NULL,
   `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
@@ -193,7 +195,7 @@ CREATE TABLE `join_activity` (
   KEY `fk_join_activity_user_idx` (`user_id`),
   CONSTRAINT `fk_join_activity` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`),
   CONSTRAINT `fk_join_activity_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -202,6 +204,7 @@ CREATE TABLE `join_activity` (
 
 LOCK TABLES `join_activity` WRITE;
 /*!40000 ALTER TABLE `join_activity` DISABLE KEYS */;
+INSERT INTO `join_activity` VALUES (2,'2024-05-25 14:48:18',_binary '\0',NULL,NULL,_binary '\0',4,4),(3,'2024-05-25 14:48:18',_binary '\0',NULL,NULL,_binary '\0',4,5),(4,'2024-05-25 14:48:49',_binary '\0',NULL,NULL,_binary '\0',5,3),(5,'2024-05-25 14:48:49',_binary '\0',NULL,NULL,_binary '\0',5,4),(6,'2024-05-25 14:49:12',_binary '\0',NULL,NULL,_binary '\0',6,3),(7,'2024-05-25 14:49:12',_binary '\0',NULL,NULL,_binary '\0',6,5),(8,'2024-05-25 14:49:50',_binary '','https://res.cloudinary.com/dndakokcz/image/upload/v1716640766/lflqzauyyavx8jqoenwl.jpg',NULL,_binary '\0',6,4),(9,'2024-05-25 14:54:55',_binary '','https://res.cloudinary.com/dndakokcz/image/upload/v1716640766/lflqzauyyavx8jqoenwl.jpg',NULL,_binary '\0',8,3),(10,'2024-05-25 14:54:55',_binary '','https://res.cloudinary.com/dndakokcz/image/upload/v1716640766/lflqzauyyavx8jqoenwl.jpg','tet tet tet etetet',_binary '\0',8,6),(12,'2024-05-25 14:55:01',_binary '','https://res.cloudinary.com/dndakokcz/image/upload/v1716640766/lflqzauyyavx8jqoenwl.jpg',NULL,_binary '\0',7,4),(13,'2024-05-25 14:55:22',_binary '','https://res.cloudinary.com/dndakokcz/image/upload/v1716640766/lflqzauyyavx8jqoenwl.jpg',NULL,_binary '\0',8,5);
 /*!40000 ALTER TABLE `join_activity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -252,6 +255,7 @@ CREATE TABLE `missing_report` (
   PRIMARY KEY (`id`),
   KEY `fk_report_activity_idx` (`activity_id`),
   KEY `fk_user_id_mr_idx` (`user_id`),
+  CONSTRAINT `fk_missing_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `fk_report_activity` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -282,7 +286,7 @@ CREATE TABLE `score` (
   PRIMARY KEY (`id`),
   KEY `fk_score_activity_idx` (`activity_id`),
   CONSTRAINT `fk_score_activity` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -291,6 +295,7 @@ CREATE TABLE `score` (
 
 LOCK TABLES `score` WRITE;
 /*!40000 ALTER TABLE `score` DISABLE KEYS */;
+INSERT INTO `score` VALUES (5,'Tham gia','Điểm tham gia',5,500,4),(6,'Tham gia','Điểm tham gia hoạt động',5,100,5),(7,'Tham gia','Điểm tham gia',5,150,6),(8,'Tham gia','Điểm tham gia',5,60,7);
 /*!40000 ALTER TABLE `score` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -363,7 +368,7 @@ CREATE TABLE `student` (
   `day_of_birth` date NOT NULL,
   `phone_number` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `class_id` int NOT NULL,
   `user_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -381,7 +386,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (1,'Nhân','Tô Trọng','Nam','2003-09-17','0378461282','992 Phạm Văn Đồng, phường 8, quận Gò Vấp','',3,NULL),(2,'Nguyên','Trần Cao','Nam','2003-11-10','0374812888','153/35 Lê Văn Thọ, phường 8, quận Gò Vấp','',4,NULL),(3,'Linh','Phạm Thanh','Nữ','2002-03-12','0379847287','89/2 Hoàng Minh Giám, phường 6, quận Bình Thạnh','',1,NULL),(4,'Lâm','Hoàng Anh','Nam','2002-05-05','0374827238','324 Lê Đức Thọ, phường 11, quận Gò Vấp','',2,NULL),(5,'Đức','Trần Anh','Nam','2002-03-03','0893729993','84/2 Phan Văn Trị, phường 8, quận Gò Vấp','',2,NULL),(6,'Nguyên','Nguyễn Cao','Nam','2003-11-09','0836824662','21 Phan Văn Trị, phường 1, quận Bình Thạnh','',4,NULL),(7,'Tiến','Trần Nam','Nam','2004-12-01','0374827723','675 Phạm Văn Đồng, phường 9, quận Gò Vấp','',9,NULL);
+INSERT INTO `student` VALUES (1,'Nhân','Tô Trọng','Nam','2003-09-17','0378461282','992 Phạm Văn Đồng, phường 8, quận Gò Vấp','',3,3),(2,'Nguyên','Trần Cao','Nam','2003-11-10','0374812888','153/35 Lê Văn Thọ, phường 8, quận Gò Vấp','',4,4),(3,'Linh','Phạm Thanh','Nữ','2002-03-12','0379847287','89/2 Hoàng Minh Giám, phường 6, quận Bình Thạnh','',1,5),(4,'Lâm','Hoàng Anh','Nam','2002-05-05','0374827238','324 Lê Đức Thọ, phường 11, quận Gò Vấp','',2,6),(5,'Đức','Trần Anh','Nam','2002-03-03','0893729993','84/2 Phan Văn Trị, phường 8, quận Gò Vấp','',2,NULL),(6,'Nguyên','Nguyễn Cao','Nam','2003-11-09','0836824662','21 Phan Văn Trị, phường 1, quận Bình Thạnh','',4,NULL),(7,'Tiến','Trần Nam','Nam','2004-12-01','0374827723','675 Phạm Văn Đồng, phường 9, quận Gò Vấp','',9,NULL);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -427,7 +432,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   KEY `fk_user_role_id_idx` (`user_role_id`),
   CONSTRAINT `fk_user_role_id` FOREIGN KEY (`user_role_id`) REFERENCES `user_role` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -436,6 +441,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'admin1','$2a$10$yHS.syZ06jQf1fVwZ1ycTu5haEyPm4Lr3LFqXEpzGuwkQVyHi1cg2','https://res.cloudinary.com/dndakokcz/image/upload/v1716640220/pdigqnwgkka5tawqblh1.jpg',_binary '',1),(2,'admin2','$2a$10$FzM11Tqcd2YcgHcAQAfO8O.tezviKq1WRrGYZImPblEExvRRr8i/S','https://res.cloudinary.com/dndakokcz/image/upload/v1716640239/lw88mz32gvhnxqujk7oi.jpg',_binary '',1),(3,'totrongnhan2003','$2a$10$H90rzJposZji3HH9vVvh/OrhF/2hC0ElvwZV9UpPVvtuqWkLs8aLi','https://res.cloudinary.com/dndakokcz/image/upload/v1716644647/zcicm5gbqbyt6bkts7nv.jpg',_binary '',3),(4,'trancaonguyen2003','$2a$10$p/CfFk/rm4axTNBIHYd46uASfSLQRIx3MNksykylkn/A9CbT1fyHu','https://res.cloudinary.com/dndakokcz/image/upload/v1716644676/r3b2esheoharqvvealp0.jpg',_binary '',3),(5,'phamthanhlinh2002','$2a$10$WEmdGfmlKLYveM8vkMstfuzFLshs4XiLhTMUY.bL3FPz9fb20tlJ6','https://res.cloudinary.com/dndakokcz/image/upload/v1716644708/gbclemlszczj65tibom2.jpg',_binary '',3),(6,'lamhoang','$2a$10$d5UujX7kqtwAIMdARu0iEe2lwLoMNZFMsbMjHe8pCT5BOYEJgCHLC','https://res.cloudinary.com/dndakokcz/image/upload/v1716644736/wjhe4frrbgrqzref8b1v.jpg',_binary '',3);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -450,7 +456,7 @@ CREATE TABLE `user_role` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_role` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -459,6 +465,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
+INSERT INTO `user_role` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_ASSISTANT'),(3,'ROLE_STUDENT');
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -471,4 +478,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-25 13:54:41
+-- Dump completed on 2024-05-30 23:07:58

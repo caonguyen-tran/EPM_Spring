@@ -28,4 +28,5 @@ public interface ScoreService {
 
     List<Score> findByActivityId(int activityId);
     
+    Score findByActivityWithScoreType(int activityId, String scoreType);
 }

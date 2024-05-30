@@ -72,12 +72,12 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
         criteriaQuery.select(criteriaBuilder.array(join, userStudent, activity, semester, student, term, classes, faculty));
 
         predicates.add(criteriaBuilder.equal(join.get("rollup"), true));
-
+        predicates.add(criteriaBuilder.equal(join.get("accept"), false));
         if (activityId != null && !activityId.isEmpty()) {
             predicates.add(criteriaBuilder.equal(activity.get("id"), Integer.parseInt(activityId)));
         }
-        
-        if(facultyId != null && !facultyId.isEmpty()){
+
+        if (facultyId != null && !facultyId.isEmpty()) {
             predicates.add(criteriaBuilder.equal(faculty.get("id"), Integer.parseInt(facultyId)));
         }
         criteriaQuery.where(predicates.toArray(Predicate[]::new));
@@ -96,4 +96,17 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
         s.remove(joinActivity);
     }
 
+    @Override
+    public void updateAccept(JoinActivity joinActivity) {
+        Session s = this.factory.getObject().getCurrentSession();
+        joinActivity.setAccept(true);
+        s.save(joinActivity);
+    }
+
+    @Override
+    public JoinActivity getJoinActivityById(int joinActivityId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("JoinActivity.findById");
+        return (JoinActivity) q.getSingleResult();
+    }
 }
