@@ -10,13 +10,11 @@ import com.epm.services.FacultyService;
 import com.epm.services.JoinActivityService;
 import com.epm.services.ScoreService;
 import com.epm.services.SemesterService;
-import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -54,8 +52,9 @@ public class AdminJoiningController {
         String facultyId = params.get("facultyId");
         String classId = params.get("classId");
         String semesterId = params.get("semesterId");
-
+        
         model.addAttribute("joins", this.joinActivityService.getParticipates(activityId, facultyId, classId, semesterId));
+        
         return "join";
     }
 }

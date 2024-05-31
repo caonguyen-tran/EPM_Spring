@@ -14,9 +14,9 @@ import com.epm.services.FacultyService;
 import com.epm.services.SemesterService;
 import com.epm.services.TermService;
 import com.epm.services.UserService;
+import com.epm.utils.TimestampConverter;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -58,6 +58,7 @@ public class AdminActivityController {
         model.addAttribute("faculties", facultyService.getFaculties());
         model.addAttribute("semesters", semesterService.getSemesters());
         model.addAttribute("activity", new Activity());
+        System.out.println("-----------");
         return "activity";
     }
 
@@ -67,8 +68,8 @@ public class AdminActivityController {
         Term term = new Term();
         Faculty faculty = new Faculty();
         String name = data.get("name");
-        Timestamp startDate = convertStringToTimestamp(data.get("startDate"));
-        Timestamp endDate = convertStringToTimestamp(data.get("endDate"));
+        Timestamp startDate = TimestampConverter.convertStringToTimestamp(data.get("startDate"));
+        Timestamp endDate = TimestampConverter.convertStringToTimestamp(data.get("endDate"));
         String description = data.get("description");
         int slots = Integer.parseInt(data.get("slots"));
         semester.setId(Integer.parseInt(data.get("semesterId")));
@@ -78,28 +79,10 @@ public class AdminActivityController {
 
         User createdUser = this.userService.getUserByUsername(auth.getName());
 
-        Activity activity = new Activity();
-        activity.setName(name);
-        activity.setStartDate(startDate);
-        activity.setEndDate(endDate);
-        activity.setDescription(description);
-        activity.setSlots(slots);
-        activity.setFacultyId(faculty);
-        activity.setTermId(term);
-        activity.setSemesterId(semester);
-        activity.setCreatedUserId(createdUser);
+        Activity activity = new Activity(name, startDate, endDate, description, slots, faculty, semester, term, createdUser);
         activity.setFile(file);
 
         this.activityService.createActivity(activity);
         return "activity";
-    }
-
-    public Timestamp convertStringToTimestamp(String date) throws ParseException {
-        String pattern = "yyyy-MM-dd'T'HH:mm";
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
-        java.util.Date parsedDate = dateFormat.parse(date);
-        Timestamp timestamp = new Timestamp(parsedDate.getTime());
-        return timestamp;
     }
 }

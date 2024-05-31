@@ -5,14 +5,10 @@
 package com.epm.controllers;
 
 import com.epm.services.ActivityService;
-import com.epm.services.FacultyService;
-import com.epm.services.SemesterService;
-import com.epm.services.TermService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -29,6 +25,7 @@ public class AdminHomeController {
     @RequestMapping("/")
     public String index(Model model) {
         model.addAttribute("activities", this.activityService.getActivities());
+        System.out.println("-------");
         return "index";
     }
 

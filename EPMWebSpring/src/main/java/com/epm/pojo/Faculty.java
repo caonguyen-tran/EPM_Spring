@@ -56,7 +56,7 @@ public class Faculty implements Serializable {
     @Column(name = "created_date")
     @Temporal(TemporalType.DATE)
     private Date createdDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "facultyId", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "facultyId")
     private Set<Activity> activitySet;
     @OneToMany(mappedBy = "facultyId")
     private Set<Classes> classesSet;

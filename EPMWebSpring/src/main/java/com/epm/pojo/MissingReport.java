@@ -86,6 +86,13 @@ public class MissingReport implements Serializable {
         this.userId = userId;
     }
 
+    public MissingReport(String status, String note, User userId, Activity activityId) {
+        this.status = status;
+        this.note = note;
+        this.userId = userId;
+        this.activityId = activityId;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -180,5 +187,5 @@ public class MissingReport implements Serializable {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-    
+
 }

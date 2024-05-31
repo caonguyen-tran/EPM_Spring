@@ -8,6 +8,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,7 +52,7 @@ public class Assistant implements Serializable {
     @Column(name = "email")
     private String email;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @OneToOne
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
     private User userId;
 
     public Assistant() {
