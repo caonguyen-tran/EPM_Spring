@@ -87,10 +87,10 @@ public class Student implements Serializable {
     @Column(name = "email")
     private String email;
     @JoinColumn(name = "class_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Classes classId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @OneToOne()
+    @OneToOne(fetch = FetchType.LAZY)
     private User userId;
 
     public Student() {

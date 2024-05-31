@@ -69,22 +69,21 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "active")
     private boolean active;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdUserId", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdUserId")
     private Set<Activity> activitySet;
     @OneToOne(mappedBy = "userId", fetch = FetchType.LAZY)
     @Basic(optional = false)
     private Student student;
-    @Basic(optional = false)
-    @OneToOne(mappedBy = "userId", fetch = FetchType.LAZY)
+    @OneToOne(optional = false, mappedBy = "userId", fetch = FetchType.LAZY)
     private Assistant assistant;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<Liked> likedSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<JoinActivity> joinActivitySet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<Comment> commentSet;
     @JoinColumn(name = "user_role_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private UserRole userRoleId;
     @Transient
     private MultipartFile file;

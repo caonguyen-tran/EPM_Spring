@@ -85,13 +85,13 @@ public class Activity implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Faculty facultyId;
     @JoinColumn(name = "semester_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Semester semesterId;
     @JoinColumn(name = "term_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Term termId;
     @JoinColumn(name = "created_user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private User createdUserId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Set<Liked> likedSet;
@@ -117,6 +117,18 @@ public class Activity implements Serializable {
         this.id = id;
         this.image = image;
         this.slots = slots;
+    }
+    
+    public Activity(String name, Date startDate, Date endDate,String description, int slots, Faculty facultyId, Semester semesterId, Term termId, User createdUserId){
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.description = description;
+        this.slots = slots;
+        this.facultyId = facultyId;
+        this.semesterId = semesterId;
+        this.termId = termId;
+        this.createdUserId = createdUserId;
     }
 
     public Integer getId() {
