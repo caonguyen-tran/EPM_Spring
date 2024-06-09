@@ -4,6 +4,7 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -70,6 +71,7 @@ public class User implements Serializable {
     @Column(name = "active")
     private boolean active;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdUserId")
+    @JsonIgnore
     private Set<Activity> activitySet;
     @OneToOne(mappedBy = "userId", fetch = FetchType.LAZY)
     @Basic(optional = false)
@@ -77,13 +79,16 @@ public class User implements Serializable {
     @OneToOne(optional = false, mappedBy = "userId", fetch = FetchType.LAZY)
     private Assistant assistant;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @JsonIgnore
     private Set<Liked> likedSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @JsonIgnore
     private Set<JoinActivity> joinActivitySet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @JsonIgnore
     private Set<Comment> commentSet;
     @JoinColumn(name = "user_role_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private UserRole userRoleId;
     @Transient
     private MultipartFile file;

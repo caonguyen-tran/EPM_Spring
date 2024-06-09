@@ -39,6 +39,7 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
     @Autowired
     private LocalSessionFactoryBean factory;
 
+    //Get list register or participates by user id
     @Override
     public List<JoinActivity> findByUserIdAndRollup(int userId, Boolean rollup) {
         Session s = this.factory.getObject().getCurrentSession();
