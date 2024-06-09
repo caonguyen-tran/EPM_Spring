@@ -4,6 +4,7 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -52,6 +53,7 @@ public class Term implements Serializable {
     @Column(name = "description")
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "termId", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Activity> activitySet;
 
     public Term() {

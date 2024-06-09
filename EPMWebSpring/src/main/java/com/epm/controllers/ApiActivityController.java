@@ -4,6 +4,8 @@
  */
 package com.epm.controllers;
 
+import com.epm.dto.response.ActivityResponse;
+import com.epm.mapper.ActivityMapper;
 import com.epm.pojo.Activity;
 import com.epm.pojo.Faculty;
 import com.epm.pojo.Semester;
@@ -45,12 +47,14 @@ public class ApiActivityController {
 
     @Autowired
     private ActivityService activityService;
+    
+    private ActivityMapper activityMapper;
 
-    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
-    public ResponseEntity<List<Activity>> list() {
-        return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
-    }
+//    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @CrossOrigin
+//    public ResponseEntity<List<Activity>> list() {
+//        return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
+//    }
     
     @GetMapping(path = "/userId/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
@@ -86,5 +90,11 @@ public class ApiActivityController {
         activity.setFile(file);
 
         this.activityService.createActivity(activity);
+    }
+    
+    @GetMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public List<ActivityResponse> getActivity(){
+        List<Activity> lists = this.activityService.getActivities();
+        return (List<ActivityResponse>) lists.stream().map(activityMapper::toActivityResponse);
     }
 }

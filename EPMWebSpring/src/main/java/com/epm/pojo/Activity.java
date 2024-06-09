@@ -4,6 +4,7 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -82,26 +83,31 @@ public class Activity implements Serializable {
     @Column(name = "close")
     private Boolean close;
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Faculty facultyId;
     @JoinColumn(name = "semester_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Semester semesterId;
     @JoinColumn(name = "term_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Term termId;
     @JoinColumn(name = "created_user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private User createdUserId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @JsonIgnore
     private Set<Liked> likedSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @JsonIgnore
     private Set<JoinActivity> joinActivitySet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @JsonIgnore
     private Set<Score> scoreSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @JsonIgnore
     private Set<Comment> commentSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    @JsonIgnore
     private Set<MissingReport> missingReportSet;
     @Transient
     private MultipartFile file;
