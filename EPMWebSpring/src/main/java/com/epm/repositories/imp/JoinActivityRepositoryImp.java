@@ -111,4 +111,23 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
         q.setParameter("id", joinActivityId);
         return (JoinActivity) q.getSingleResult();
     }
+
+    @Override
+    public List<JoinActivity> getJoinActivityByActivityId(int activityId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder criteriaBuilder = s.getCriteriaBuilder();
+        CriteriaQuery<JoinActivity> criteriaQuery = criteriaBuilder.createQuery(JoinActivity.class);
+        Root root = criteriaQuery.from(JoinActivity.class);
+        
+        criteriaQuery.select(root);
+        
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(criteriaBuilder.equal(root.get("rollup"), true));
+        predicates.add(criteriaBuilder.equal(root.get("accept"), false));
+        predicates.add(criteriaBuilder.equal(root.get("activityId"), activityId));
+                
+        criteriaQuery.where(predicates.toArray(Predicate[]::new));
+        Query query = s.createQuery(criteriaQuery);
+        return query.getResultList();
+    }
 }

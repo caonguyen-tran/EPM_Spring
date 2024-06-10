@@ -18,6 +18,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -47,14 +48,8 @@ public class ApiActivityController {
 
     @Autowired
     private ActivityService activityService;
-    
-    private ActivityMapper activityMapper;
 
-//    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @CrossOrigin
-//    public ResponseEntity<List<Activity>> list() {
-//        return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
-//    }
+    private final ActivityMapper activityMapper = new ActivityMapper();
     
     @GetMapping(path = "/userId/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
@@ -92,9 +87,9 @@ public class ApiActivityController {
         this.activityService.createActivity(activity);
     }
     
-    @GetMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/")
     public List<ActivityResponse> getActivity(){
         List<Activity> lists = this.activityService.getActivities();
-        return (List<ActivityResponse>) lists.stream().map(activityMapper::toActivityResponse);
+        return lists.stream().map(activity -> activityMapper.toActivityResponse(activity)).collect(Collectors.toList());
     }
 }

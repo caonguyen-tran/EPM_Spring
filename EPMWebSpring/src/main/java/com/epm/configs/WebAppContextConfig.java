@@ -4,8 +4,6 @@
  */
 package com.epm.configs;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.epm.formatter.ActivityFormatter;
 import com.epm.formatter.FacultyFormatter;
 import com.epm.formatter.SemesterFormatter;
@@ -36,7 +34,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
     "com.epm.controllers",
     "com.epm.services",
     "com.epm.repositories",
-    "com.epm.components"
+    "com.epm.components",
+    "com.epm.mapper"
 })
 public class WebAppContextConfig implements WebMvcConfigurer {
 
