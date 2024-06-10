@@ -4,7 +4,9 @@
  */
 package com.epm.services;
 
+import com.epm.pojo.JoinActivity;
 import com.epm.pojo.ScoreStudent;
+import java.util.List;
 
 /**
  *
@@ -12,4 +14,5 @@ import com.epm.pojo.ScoreStudent;
  */
 public interface ScoreStudentService {
     ScoreStudent createScoreStudent(ScoreStudent scoreStudent);
+    int createMultipleScoreStudent(List<JoinActivity> listJoinActivities, int scoreId);
 }

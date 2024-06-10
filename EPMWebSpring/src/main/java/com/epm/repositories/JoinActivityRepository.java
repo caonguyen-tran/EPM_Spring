@@ -24,4 +24,6 @@ public interface JoinActivityRepository {
     public void updateAccept(JoinActivity joinActivity);
 
     public JoinActivity getJoinActivityById(int joinActivityId);
+
+    public List<JoinActivity> getJoinActivityByActivityId(int activityId);
 }

@@ -4,6 +4,7 @@
  */
 package com.epm.repositories;
 
+import com.epm.pojo.JoinActivity;
 import com.epm.pojo.ScoreStudent;
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface ScoreStudentRepository {
     List<ScoreStudent> findByJoinActivityId(int joinActivityId);   
     
     ScoreStudent createScoreStudent(ScoreStudent scoreStudent);
+
+    public int createMultipleScoreStudent(List<JoinActivity> listJoinActivities, int scoreId);
 }

@@ -44,7 +44,6 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar = :avatar"),
     @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active")})
 public class User implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,8 +73,9 @@ public class User implements Serializable {
     @JsonIgnore
     private Set<Activity> activitySet;
     @OneToOne(mappedBy = "userId", fetch = FetchType.LAZY)
-    @Basic(optional = false)
+    @JsonIgnore
     private Student student;
+    @JsonIgnore
     @OneToOne(optional = false, mappedBy = "userId", fetch = FetchType.LAZY)
     private Assistant assistant;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")

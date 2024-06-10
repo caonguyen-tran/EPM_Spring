@@ -6,13 +6,25 @@ package com.epm.mapper;
 
 import com.epm.dto.response.ActivityResponse;
 import com.epm.pojo.Activity;
-import org.mapstruct.Mapper;
 
 /**
  *
  * @author ACER
  */
-@Mapper(componentModel = "spring")
-public interface ActivityMapper {
-    ActivityResponse toActivityResponse(Activity activity);
+public class ActivityMapper {
+    public ActivityResponse toActivityResponse(Activity activity){
+        ActivityResponse ar = new ActivityResponse();
+        
+        ar.setId(activity.getId());
+        ar.setName(activity.getName());
+        ar.setStartDate(activity.getStartDate());
+        ar.setEndDate(activity.getEndDate());
+        ar.setDescription(activity.getDescription());
+        ar.setImage(activity.getImage());
+        ar.setActive(activity.getActive());
+        ar.setFaculty(activity.getFacultyId());
+        ar.setSemester(activity.getSemesterId());
+        ar.setTerm(activity.getTermId());
+        return ar;
+    }
 }
