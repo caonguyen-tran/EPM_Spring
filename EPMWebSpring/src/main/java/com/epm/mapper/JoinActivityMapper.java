@@ -12,6 +12,7 @@ import com.epm.pojo.JoinActivity;
  * @author ACER
  */
 public class JoinActivityMapper {
+    private ActivityMapper activityMapper;
     
     public JoinActivityResponse toJoinActivity(JoinActivity joinActivity){
         JoinActivityResponse rs = new JoinActivityResponse();
@@ -21,7 +22,7 @@ public class JoinActivityMapper {
         rs.setAccept(joinActivity.getAccept());
         rs.setRollup(joinActivity.getRollup());
         rs.setNote(joinActivity.getNote());
-        rs.setActivity(joinActivity.getActivityId());
+        rs.setActivityResponse(activityMapper.toActivityResponse(joinActivity.getActivityId()));
         rs.setUser(joinActivity.getUserId());
         return rs;
     }
