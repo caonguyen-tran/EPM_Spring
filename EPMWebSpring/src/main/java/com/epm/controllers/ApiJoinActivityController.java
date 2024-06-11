@@ -37,7 +37,6 @@ public class ApiJoinActivityController {
     public void rejectJoin(@PathVariable(value = "joinId") int joinId){
         JoinActivity j = new JoinActivity();
         j.setId(joinId);
-        System.out.println(joinId);
         this.joinActivityService.deleteJoinActivity(j);
     }
     

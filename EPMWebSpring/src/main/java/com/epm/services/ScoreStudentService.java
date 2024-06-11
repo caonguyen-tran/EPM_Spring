@@ -13,6 +13,16 @@ import java.util.List;
  * @author ACER
  */
 public interface ScoreStudentService {
+
+    List<ScoreStudent> findAll();
+
+    ScoreStudent findById(int scoreStudentId);
+
+    List<ScoreStudent> findByUserId(int userId);
+
+    List<ScoreStudent> findByJoinActivityId(int joinActivityId);
+
     ScoreStudent createScoreStudent(ScoreStudent scoreStudent);
+
     int createMultipleScoreStudent(List<JoinActivity> listJoinActivities, int scoreId);
 }

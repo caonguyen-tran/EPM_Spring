@@ -20,7 +20,26 @@ import org.springframework.stereotype.Service;
 public class ScoreStudentServiceImp implements ScoreStudentService{
     @Autowired
     private ScoreStudentRepository scoreStudentRepository;
+    
+    @Override
+    public List<ScoreStudent> findAll() {
+        return this.scoreStudentRepository.findAll();
+    }
 
+    @Override
+    public ScoreStudent findById(int scoreStudentId) {
+        return this.scoreStudentRepository.findById(scoreStudentId);
+    }
+
+    @Override
+    public List<ScoreStudent> findByUserId(int userId) {
+        return this.scoreStudentRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<ScoreStudent> findByJoinActivityId(int joinActivityId) {
+        return this.scoreStudentRepository.findByJoinActivityId(joinActivityId);
+    }
     @Override
     public ScoreStudent createScoreStudent(ScoreStudent scoreStudent) {
         return this.scoreStudentRepository.createScoreStudent(scoreStudent);

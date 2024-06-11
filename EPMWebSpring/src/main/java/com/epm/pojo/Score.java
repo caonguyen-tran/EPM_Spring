@@ -4,6 +4,7 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -68,6 +69,7 @@ public class Score implements Serializable {
     @ManyToOne(optional = false)
     private Activity activityId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "scoreId")
+    @JsonIgnore
     private Set<ScoreStudent> scoreStudentSet;
 
     public Score() {
