@@ -6,15 +6,19 @@ package com.epm.mapper;
 
 import com.epm.dto.response.JoinActivityResponse;
 import com.epm.pojo.JoinActivity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author ACER
  */
+@Component
 public class JoinActivityMapper {
+    @Autowired
     private ActivityMapper activityMapper;
     
-    public JoinActivityResponse toJoinActivity(JoinActivity joinActivity){
+    public JoinActivityResponse toJoinActivityResponse(JoinActivity joinActivity){
         JoinActivityResponse rs = new JoinActivityResponse();
         rs.setId(joinActivity.getId());
         rs.setDateRegister(joinActivity.getDateRegister());

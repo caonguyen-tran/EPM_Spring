@@ -32,7 +32,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     "com.epm.controllers",
     "com.epm.repositories",
     "com.epm.services",
-    "com.epm.components"
+    "com.epm.components",
+    "com.epm.mapper"
 })
 @Order(2)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {

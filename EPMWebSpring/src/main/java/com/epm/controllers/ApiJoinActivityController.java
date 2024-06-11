@@ -29,7 +29,8 @@ public class ApiJoinActivityController {
     @Autowired
     private JoinActivityService joinActivityService;
     
-    private final JoinActivityMapper joinActivityMapper = new JoinActivityMapper();
+    @Autowired
+    private JoinActivityMapper joinActivityMapper;
     
     @DeleteMapping("/join-activity/{joinId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -44,6 +45,6 @@ public class ApiJoinActivityController {
     @ResponseStatus(HttpStatus.OK)
     public List<JoinActivityResponse> getJoinActivityByActivityId(@PathVariable(value = "activityId") int activityId){
         List<JoinActivity> lists = this.joinActivityService.getJoinActivityByActivityId(activityId);
-        return lists.stream().map(joinActivity -> joinActivityMapper.toJoinActivity(joinActivity)).collect(Collectors.toList());
+        return lists.stream().map(joinActivity -> joinActivityMapper.toJoinActivityResponse(joinActivity)).collect(Collectors.toList());
     }
 }

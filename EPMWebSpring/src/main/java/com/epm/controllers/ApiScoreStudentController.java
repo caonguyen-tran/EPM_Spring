@@ -71,4 +71,10 @@ public class ApiScoreStudentController {
         this.joinActivityService.updateAccept(joinActivity);
         return new ResponseEntity<>(results, HttpStatus.CREATED);
     }
+    
+//    @PostMapping(path="/score-student/accept-all/{activityId}")
+//    public int createMultipleScoreStudent(@PathVariable("activityId") int activityId){
+//        List<JoinActivity> lists = this.joinActivityService.getJoinActivityByActivityId(activityId);
+//        
+//    }
 }
