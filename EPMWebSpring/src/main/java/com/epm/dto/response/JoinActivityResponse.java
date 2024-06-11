@@ -4,7 +4,6 @@
  */
 package com.epm.dto.response;
 
-import com.epm.pojo.User;
 import java.util.Date;
 
 /**
@@ -19,7 +18,7 @@ public class JoinActivityResponse {
     private String note;
     private Boolean accept;
     private ActivityResponse activityResponse;
-    private User user;
+    private UserResponse userResponse;
 
     public Integer getId() {
         return id;
@@ -77,12 +76,12 @@ public class JoinActivityResponse {
         this.activityResponse = activityResponse;
     }
 
-    public User getUser() {
-        return user;
+    public UserResponse getUserResponse() {
+        return userResponse;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserResponse(UserResponse userResponse) {
+        this.userResponse = userResponse;
     }
     
     

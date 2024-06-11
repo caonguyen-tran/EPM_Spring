@@ -18,6 +18,9 @@ public class JoinActivityMapper {
     @Autowired
     private ActivityMapper activityMapper;
     
+    @Autowired
+    private UserMapper userMapper;
+    
     public JoinActivityResponse toJoinActivityResponse(JoinActivity joinActivity){
         JoinActivityResponse rs = new JoinActivityResponse();
         rs.setId(joinActivity.getId());
@@ -27,7 +30,7 @@ public class JoinActivityMapper {
         rs.setRollup(joinActivity.getRollup());
         rs.setNote(joinActivity.getNote());
         rs.setActivityResponse(activityMapper.toActivityResponse(joinActivity.getActivityId()));
-        rs.setUser(joinActivity.getUserId());
+        rs.setUserResponse(userMapper.toUserResponse(joinActivity.getUserId()));
         return rs;
     }
 }
