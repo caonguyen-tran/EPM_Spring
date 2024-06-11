@@ -54,9 +54,7 @@ public class AdminScoreStudentController {
     public String acceptAllScore(@PathVariable(value = "activityId") int activityId){
         Score score = this.scoreService.findByActivityWithScoreType(activityId, "");
         List<JoinActivity> listJoins = this.joinActivityService.getJoinActivityByActivityId(activityId);
-        System.out.println(score.getId());
         int rs = this.scoreStudentService.createMultipleScoreStudent(listJoins, score.getId());
-        System.out.println(rs);
         return "join";
     }
 }

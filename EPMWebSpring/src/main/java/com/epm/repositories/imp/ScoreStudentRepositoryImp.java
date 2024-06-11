@@ -101,7 +101,7 @@ public class ScoreStudentRepositoryImp implements ScoreStudentRepository {
                 preparedStatement.setString(2, "" + ja.getId());
                 preparedStatement.addBatch();
                 ja.setAccept(true);
-                s.save(ja);
+                s.update(ja);
             }
 
             preparedStatement.executeBatch();

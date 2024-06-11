@@ -49,7 +49,8 @@ public class ApiActivityController {
     @Autowired
     private ActivityService activityService;
 
-    private final ActivityMapper activityMapper = new ActivityMapper();
+    @Autowired
+    private ActivityMapper activityMapper;
     
     @GetMapping(path = "/userId/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin

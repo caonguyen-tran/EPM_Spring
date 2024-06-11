@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -20,10 +21,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/user")
 public class ApiUserController {
-    
-//    @PostMapping(path="/log-in")
-//    public ResponseEntity userLogIn(){
-//        List l = new ArrayList();
-//        return ResponseEntity(l, HttpStatus.OK);
-//    }
 }

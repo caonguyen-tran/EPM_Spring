@@ -6,11 +6,13 @@ package com.epm.mapper;
 
 import com.epm.dto.response.ActivityResponse;
 import com.epm.pojo.Activity;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author ACER
  */
+@Component
 public class ActivityMapper {
     public ActivityResponse toActivityResponse(Activity activity){
         ActivityResponse ar = new ActivityResponse();
@@ -21,6 +23,7 @@ public class ActivityMapper {
         ar.setEndDate(activity.getEndDate());
         ar.setDescription(activity.getDescription());
         ar.setImage(activity.getImage());
+        ar.setSlots(activity.getSlots());
         ar.setActive(activity.getActive());
         ar.setFaculty(activity.getFacultyId());
         ar.setSemester(activity.getSemesterId());
