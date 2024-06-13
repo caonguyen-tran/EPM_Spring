@@ -21,6 +21,7 @@ public class UserMapper {
         ur.setUsername(user.getUsername());
         ur.setActive(user.getActive());
         ur.setAvatar(user.getAvatar());
+        ur.setUserRole(user.getUserRoleId());
         return ur;
     }
 }

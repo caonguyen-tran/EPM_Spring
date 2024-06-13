@@ -4,6 +4,8 @@
  */
 package com.epm.dto.response;
 
+import com.epm.pojo.UserRole;
+
 /**
  *
  * @author ACER
@@ -13,6 +15,7 @@ public class UserResponse {
     private String username;
     private String avatar;
     private boolean active;
+    private UserRole userRole;
 
     public Integer getId() {
         return id;
@@ -45,6 +48,12 @@ public class UserResponse {
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-    
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
 }
