@@ -7,6 +7,9 @@ package com.epm.repositories.imp;
 import com.epm.pojo.JoinActivity;
 import com.epm.pojo.ScoreStudent;
 import com.epm.repositories.ScoreStudentRepository;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -29,6 +32,9 @@ public class ScoreStudentRepositoryImp implements ScoreStudentRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
+
+    @Autowired
+    private Connection connection;
 
     @Override
     public List<ScoreStudent> findAll() {
@@ -85,5 +91,28 @@ public class ScoreStudentRepositoryImp implements ScoreStudentRepository {
     public void save(ScoreStudent scoreStudent) {
         Session s = this.factory.getObject().getCurrentSession();
         s.save(scoreStudent);
+    }
+  
+    @Override
+    public int createMultipleScoreStudent(List<JoinActivity> listJoinActivities, int scoreId) {
+        Session s = this.factory.getObject().getCurrentSession();
+
+        String sql = "INSERT INTO score_student (score_id, join_activity_id) VALUES (?, ?)";
+
+        try ( PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            for (JoinActivity ja : listJoinActivities) {
+                preparedStatement.setString(1, "" + scoreId);
+                preparedStatement.setString(2, "" + ja.getId());
+                preparedStatement.addBatch();
+                ja.setAccept(true);
+                s.update(ja);
+            }
+
+            preparedStatement.executeBatch();
+            connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return 1;
     }
 }

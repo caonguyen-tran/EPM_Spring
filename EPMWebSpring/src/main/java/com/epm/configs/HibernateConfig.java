@@ -4,6 +4,8 @@
  */
 package com.epm.configs;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
 import javax.sql.DataSource;
 import static org.hibernate.cfg.AvailableSettings.DIALECT;
@@ -67,5 +69,10 @@ public class HibernateConfig {
         transactionManager.setSessionFactory(
                 getSessionFactory().getObject());
         return transactionManager;
+    }
+    
+    @Bean
+    public Connection connection() throws SQLException{
+        return dataSource().getConnection();
     }
 }

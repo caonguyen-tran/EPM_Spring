@@ -28,4 +28,8 @@ public interface JoinActivityRepository {
     JoinActivity findByUserAndActivity(int userId, int activityId);
     
     void update(JoinActivity joinActivity);
+  
+    public JoinActivity getJoinActivityById(int joinActivityId);
+
+    public List<JoinActivity> getJoinActivityByActivityId(int activityId);
 }

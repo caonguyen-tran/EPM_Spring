@@ -49,42 +49,44 @@
     </form>
 </div>
 
-<table class="table table-striped mt-1">
-    <tr>
-        <th>Mã</th>
-        <th>Tên hoạt động</th>
-        <th>Điều</th>
-        <th>Tên sinh viên</th>
-        <th>Lớp</th>
-        <th>Khoa</th>
-        <th>Ngày tham gia</th>
-        <th>Bằng chứng</th>
-        <th>Ghi chú</th>
-        <th>Xác nhận</th>
-    </tr>
-
-    <c:forEach items="${joins}" var="j">
+<div style="min-height: 700px">
+    <table class="table table-striped mt-1">
         <tr>
-            <td>${j[0].id}</td>
-            <td>${j[2].name}</td>
-            <td>${j[5].name}</td>
-            <td>${j[4].lastname} ${j[4].firstname}</td>
-            <td>${j[6].name}</td>
-            <td>${j[7].name}</td>
-            <td>${j[0].dateRegister}</td>
-            <td style="width: 150px"><img class="card-img-top" src="${j[0].proofJoining}" style="width:200px;"></td>
-            <td>${j[0].note}</td>
-            <td>
-                <div>
-                    <c:url value="/api/score-student/accept" var="url1"/>
-                    <button onclick="createScoreStudent('${url1}', ${j[0].id}, ${j[2].id})" class="btn btn-primary" type="button" style="width: 100px; margin-bottom: 5px">Xác nhận</button>
-                    <c:url value="/api/join-activity/${j[0].id}" var="url2"/>
-                    <button onclick="deleteJoined('${url2}', '${j[0].id}')" class="btn btn-danger" type="button" style="width: 100px">Từ chối</button>
-                </div>
-            </td>
+            <th>Mã</th>
+            <th>Tên hoạt động</th>
+            <th>Điều</th>
+            <th>Tên sinh viên</th>
+            <th>Lớp</th>
+            <th>Khoa</th>
+            <th>Ngày tham gia</th>
+            <th>Bằng chứng</th>
+            <th>Ghi chú</th>
+            <th>Xác nhận</th>
         </tr>
-    </c:forEach>
-</table>
+
+        <c:forEach items="${joins}" var="j">
+            <tr>
+                <td>${j[0].id}</td>
+                <td>${j[2].name}</td>
+                <td>${j[5].name}</td>
+                <td>${j[4].lastname} ${j[4].firstname}</td>
+                <td>${j[6].name}</td>
+                <td>${j[7].name}</td>
+                <td>${j[0].dateRegister}</td>
+                <td style="width: 150px"><img class="card-img-top" src="${j[0].proofJoining}" style="width:200px;"></td>
+                <td>${j[0].note}</td>
+                <td>
+                    <div>
+                        <c:url value="/api/score-student/accept" var="url1"/>
+                        <button onclick="createScoreStudent('${url1}', ${j[0].id}, ${j[2].id})" class="btn btn-primary" type="button" style="width: 100px; margin-bottom: 5px">Xác nhận</button>
+                        <c:url value="/api/join-activity/${j[0].id}" var="url2"/>
+                        <button onclick="deleteJoined('${url2}', '${j[0].id}')" class="btn btn-danger" type="button" style="width: 100px">Từ chối</button>
+                    </div>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+</div>
 
 
 <script src="<c:url value="/js/script.js" />"></script>

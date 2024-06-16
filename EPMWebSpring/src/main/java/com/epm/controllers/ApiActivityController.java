@@ -4,6 +4,8 @@
  */
 package com.epm.controllers;
 
+import com.epm.dto.response.ActivityResponse;
+import com.epm.mapper.ActivityMapper;
 import com.epm.pojo.Activity;
 import com.epm.pojo.Faculty;
 import com.epm.pojo.Semester;
@@ -17,6 +19,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -58,6 +61,16 @@ public class ApiActivityController {
         return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
     }
 
+    
+    private ActivityMapper activityMapper;
+    
+    @GetMapping(path = "/userId/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<List<Activity>> listActivityJoining(@PathVariable(value = "userId") int userId){
+        return new ResponseEntity<>(this.activityService.getActivitiesJoined(userId), HttpStatus.OK);
+    }
+
+  
     @GetMapping(path = "/joined", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<List<Object[]>> listActivityJoining(@RequestParam Map<String, String> params) {
@@ -103,5 +116,11 @@ public class ApiActivityController {
         activity.setFile(file);
 
         this.activityService.createActivity(activity);
+    }
+    
+    @GetMapping(path = "/")
+    public List<ActivityResponse> getActivity(){
+        List<Activity> lists = this.activityService.getActivities();
+        return lists.stream().map(activity -> activityMapper.toActivityResponse(activity)).collect(Collectors.toList());
     }
 }

@@ -28,4 +28,6 @@ public interface JoinActivityService {
     JoinActivity findByUserAndActivity(int userId, int activityId);
     
     void update(JoinActivity joinActivity);
+
+    public List<JoinActivity> getJoinActivityByActivityId(int activityId);
 }

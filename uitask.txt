@@ -1,0 +1,33 @@
+Chung
+- màn hình login user, assistant
+- màn hình register cho user
+Cho assistant
++ trang quản lý hoạt động
+- tạo hoạt động mới (tạo xong sẽ được hiện lên newfeed)
+- xem danh sách các hoạt động đã tạo
+(khi ấn vào từng hd -> xem chi tiết, chỉnh sửa hoặc xóa hành động)
++ trang quản lý điểm rèn luyện
+- xem thành tích khóa ngoại của một sinh viên
+- xem danh sách các hoạt động báo thiếu
+- xác nhận hoạt từ chối(xóa) điểm cho sinh viên
+- nạp danh sách điểm danh theo dạng csv
++ trang thống kê
+- xem thống kê đrl theo lớp, thành tích
+- xuất danh sách điểm chi tiết dưới dạng pdf, csv
+Cho sinh viên
++ trang newfeed
+- xem các hoạt động được đăng(newfeed này assistant hoạt động được)
+- đăng ký tham gia nguyện vọng(tích hợp kế nút like là hợp lý nguyên nhờ)
+- tương tác like với comment được
++ trang hoạt động của tôi
+- xem các hoạt động ngoại khóa mình đã tham gia(nên chia ra theo kỳ, theo năm)
+- xem đrl của từng điều, tổng điểm(nên chia ra theo kỳ, theo năm)
+- thực hiện báo thiếu hoạt động
++ trang thông tin cá nhân
+- xem và chỉnh sửa thông tin cá nhân
+(thay avatar chẳng hạn hay là chỉ xem hoi cũng dc, trang này chưa quan trọng lắm)
+Dành cho chat thời gian thực(firebase)
++ trang chat(làm trang giao diện v cho dễ chứ kiểu fb thì hard quá)
+- chat vs tlsv
+- chat nhóm(có cả sv cả tlsv)
+

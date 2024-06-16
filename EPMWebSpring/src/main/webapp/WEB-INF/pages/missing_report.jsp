@@ -24,31 +24,33 @@
     <button type="submit" class="btn btn-primary">Tìm</button>
 </form>
 
-<table class="table table-striped mt-1">
-    <tr>
-        <th>Mã</th>
-        <th>Tên hoạt động</th>
-        <th>Điều</th>
-        <th>Tên sinh viên</th>
-        <th>Khoa</th>
-        <th>Ngày tạo báo thiếu</th>
-        <th>Bằng chứng</th>
-        <th>Xác nhận</th>
-    </tr>
-
-    <c:forEach items="${reports}" var="r">
+<div style="min-height: 700px">
+    <table class="table table-striped mt-1">
         <tr>
-            <td>${r[0].id}</td>
-            <td>${r[1].name}</td>
-            <td>${r[3].id}</td>
-            <td>${r[4].lastname} ${r[4].firstname}</td>
-            <td>${r[6].name}</td>
-            <td>${r[0].createdDate}</td>
-            <td style="width: 150px"><img class="card-img-top" src="${r[0].proofJoining}" style="width:200px;"></td>
-            <td>
-                <c:url value="/" var="url" />
-                <a class="btn btn-info" href="<c:url value="" />">Xác nhận</a>
-            </td>
+            <th>Mã</th>
+            <th>Tên hoạt động</th>
+            <th>Điều</th>
+            <th>Tên sinh viên</th>
+            <th>Khoa</th>
+            <th>Ngày tạo báo thiếu</th>
+            <th>Bằng chứng</th>
+            <th>Xác nhận</th>
         </tr>
-    </c:forEach>
-</table>
+
+        <c:forEach items="${reports}" var="r">
+            <tr>
+                <td>${r[0].id}</td>
+                <td>${r[1].name}</td>
+                <td>${r[3].id}</td>
+                <td>${r[4].lastname} ${r[4].firstname}</td>
+                <td>${r[6].name}</td>
+                <td>${r[0].createdDate}</td>
+                <td style="width: 150px"><img class="card-img-top" src="${r[0].proofJoining}" style="width:200px;"></td>
+                <td>
+                    <c:url value="/" var="url" />
+                    <a class="btn btn-info" href="<c:url value="" />">Xác nhận</a>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+</div>

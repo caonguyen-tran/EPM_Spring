@@ -11,8 +11,10 @@ import com.epm.services.JoinActivityService;
 import com.epm.services.ScoreService;
 import com.epm.services.ScoreStudentService;
 import java.util.HashMap;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -45,6 +47,14 @@ public class AdminScoreStudentController {
         scoreStudent.setScoreId(s);
         
         this.scoreStudentService.createScoreStudent(scoreStudent);
+        return "join";
+    }
+    
+    @PostMapping(value="/join/accept-all/{activityId}")
+    public String acceptAllScore(@PathVariable(value = "activityId") int activityId){
+        Score score = this.scoreService.findByActivityWithScoreType(activityId, "");
+        List<JoinActivity> listJoins = this.joinActivityService.getJoinActivityByActivityId(activityId);
+        int rs = this.scoreStudentService.createMultipleScoreStudent(listJoins, score.getId());
         return "join";
     }
 }

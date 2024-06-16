@@ -46,7 +46,6 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByVerificationCode", query = "SELECT u FROM User u WHERE u.verificationCode = :verificationCode"),
 })
 public class User implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,6 +80,7 @@ public class User implements Serializable {
     @Basic(optional = false)
     @JsonIgnore
     private Student student;
+    @JsonIgnore
     @OneToOne(optional = false, mappedBy = "userId", fetch = FetchType.LAZY)
     @JsonIgnore
     private Assistant assistant;

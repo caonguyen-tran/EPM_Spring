@@ -32,7 +32,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     "com.epm.controllers",
     "com.epm.repositories",
     "com.epm.services",
-    "com.epm.components"
+    "com.epm.components",
+    "com.epm.mapper"
 })
 @Order(2)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -63,9 +64,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.exceptionHandling()
                 .accessDeniedPage("/login?accessDenied");
-        http.authorizeRequests().antMatchers("/").permitAll()
-            .antMatchers("/activity")
-                .access("hasRole('ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/").access("hasRole('ROLE_ADMIN')");
+        
         http.csrf().disable();
     }
     
