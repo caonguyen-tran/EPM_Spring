@@ -48,4 +48,14 @@ public class SemesterRepositoryImp implements SemesterRepository{
         
         return (Semester) query.getSingleResult();
     }
+
+    @Override
+    public List<Semester> findBySemesterName(String name) {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+        Query query = s.createNamedQuery("Semester.findByName");
+        query.setParameter("name", name);
+        
+        return query.getResultList();
+    }
+    
 }

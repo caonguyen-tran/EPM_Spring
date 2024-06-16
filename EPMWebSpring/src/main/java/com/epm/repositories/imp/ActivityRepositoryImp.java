@@ -7,12 +7,16 @@ package com.epm.repositories.imp;
 import com.epm.pojo.Activity;
 import com.epm.pojo.JoinActivity;
 import com.epm.pojo.MissingReport;
+import com.epm.pojo.Semester;
 import com.epm.repositories.ActivityRepository;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,18 +49,45 @@ public class ActivityRepositoryImp implements ActivityRepository {
     }
 
     @Override
-    public List<Activity> getActivitiesJoined(int accountStudentId) {
-        Session s = this.sessionFactory.getObject().getCurrentSession();
-        CriteriaBuilder b = s.getCriteriaBuilder();
-        CriteriaQuery q = b.createQuery(Activity.class);
-        Root r = q.from(Activity.class);
-        q.select(r);
+    public List<Object[]> getActivitiesJoined(int userId, int semesterId, String yearStudy) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
 
-        Join<Activity, JoinActivity> joiningActivities = r.join("joinActivitySet");
+        Root<Activity> rootActivity = cq.from(Activity.class);
+        Join<Activity, JoinActivity> joinActivity = rootActivity.join("joinActivitySet");
 
-        q.where(b.equal(joiningActivities.get("accountStudentId"), accountStudentId));
+        cq.multiselect(rootActivity, rootActivity.get("semesterId"));
 
-        return s.createQuery(q).getResultList();
+        Predicate userIdPredicate = cb.equal(joinActivity.get("userId"), userId);
+        
+        Predicate rollUpPredicate = cb.equal(joinActivity.get("rollup"), true);
+
+        Subquery<Integer> subqueryMaxSemesterId = cq.subquery(Integer.class);
+        Root<Semester> rootSemesterSub = subqueryMaxSemesterId.from(Semester.class);
+        subqueryMaxSemesterId.select(cb.max(rootSemesterSub.get("id")));
+
+        Predicate semesterIdPredicate = null;
+        if (semesterId > 0) {
+            semesterIdPredicate = cb.equal(rootActivity.get("semesterId"), semesterId);
+        }
+
+        if (semesterId <= 0 && yearStudy.isEmpty()) {
+            semesterIdPredicate = cb.equal(rootActivity.get("semesterId"), subqueryMaxSemesterId);
+        }
+
+        if (semesterId <= 0 && !yearStudy.isEmpty()) {
+            Subquery<Integer> subquerySemesterIdByYearStudy = cq.subquery(Integer.class);
+            Root<Semester> rootSemesterByYearStudy = subquerySemesterIdByYearStudy.from(Semester.class);
+            subquerySemesterIdByYearStudy.select(rootSemesterByYearStudy.get("id"));
+            subquerySemesterIdByYearStudy.where(cb.equal(rootSemesterByYearStudy.get("yearStudy"), yearStudy));
+
+            semesterIdPredicate = cb.in(rootActivity.get("semesterId")).value(subquerySemesterIdByYearStudy);
+        }
+
+        cq.where(cb.and(userIdPredicate, rollUpPredicate, semesterIdPredicate));
+
+        return session.createQuery(cq).getResultList();
     }
 
     @Override

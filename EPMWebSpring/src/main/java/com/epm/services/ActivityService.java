@@ -16,14 +16,14 @@ public interface ActivityService {
     List<Activity> getActivities();
 
     void createActivity(Activity activity);
-
-    List<Activity> getActivitiesJoined(int userId);
-
+    
+    List<Object[]> getActivitiesJoined(int userId, int semesterId, String yearStudy);
+    
     List<Activity> getActivitiesMissingByUserId(int userId);
-
+    
     List<Activity> findByTermId(int termId);
-
+    
     Activity findById(int activityId);
-
+    
     List<Activity> findBySemesterId(int semesterId);
 }

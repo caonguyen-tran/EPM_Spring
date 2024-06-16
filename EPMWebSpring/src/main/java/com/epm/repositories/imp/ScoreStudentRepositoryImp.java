@@ -88,6 +88,12 @@ public class ScoreStudentRepositoryImp implements ScoreStudentRepository {
     }
 
     @Override
+    public void save(ScoreStudent scoreStudent) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.save(scoreStudent);
+    }
+  
+    @Override
     public int createMultipleScoreStudent(List<JoinActivity> listJoinActivities, int scoreId) {
         Session s = this.factory.getObject().getCurrentSession();
 

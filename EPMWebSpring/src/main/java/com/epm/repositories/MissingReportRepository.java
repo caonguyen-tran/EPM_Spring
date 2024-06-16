@@ -12,6 +12,10 @@ import java.util.List;
  * @author Win11
  */
 public interface MissingReportRepository {
+
     void addMissingReport(MissingReport mr);
+
     public List<Object[]> getListMissingReports(int facultyId);
+
+    List<Object[]> getListMRByStudent(int userId, int semesterId, String yearStudy);
 }

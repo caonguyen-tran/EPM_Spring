@@ -29,4 +29,10 @@ public interface ScoreService {
     List<Score> findByActivityId(int activityId);
     
     Score findByActivityWithScoreType(int activityId, String scoreType);
+    
+    List<Object[]> getScoresWithTerm(int userId, int semesterId, String yearStudy);
+    
+    List<Object[]> getTotalScoresByTerm(int userId, int semesterId, String yearStudy);
+    
+    Score getScoreByNameAndActivity(String scoreName, int activityId);
 }

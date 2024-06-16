@@ -17,16 +17,16 @@ sinh viên
 
 nhân
 trợ lý sinh viên
-+ Xem thành tích ngoại khóa của một sinh viên (xem điểm của 1 sinh viên theo kì và theo năm) done
-+ Xem danh sách các hoạt động sinh viên báo thiếu done
-+ Xem thống kê theo (lớp, xem theo điểm tổng)
-+ Xuất danh sách điểm chi tiết (từng điều, tổng điểm, các thông tin của sinh viên) dưới dạng PDF hoặc CSV done
-+ Nạp danh sách điểm danh theo CSV -> cập nhật điểm rèn luyện
++ Xem thành tích ngoại khóa của một sinh viên (xem điểm của 1 sinh viên theo kì và theo năm) done tam on
++ Xem danh sách các hoạt động sinh viên báo thiếu already done
++ Xem thống kê theo (lớp, xem theo điểm tổng) cang
++ Xuất danh sách điểm chi tiết (từng điều, tổng điểm, các thông tin của sinh viên) dưới dạng PDF hoặc CSV done tam on
++ Nạp danh sách điểm danh theo CSV -> cập nhật điểm rèn luyện already done
 sinh viên
-+ Đăng ký
-+ Xem điểm rèn luyện của từng Điều, tổng điểm done
-+ Thực hiện báo thiếu hoạt động -> có minh chứng done
-+ Xem các hoạt động mình đã đăng ký tham gia done
++ Đăng ký already done
++ Xem điểm rèn luyện của từng Điều, tổng điểm already done
++ Thực hiện báo thiếu hoạt động -> có minh chứng already done
++ Xem các hoạt động mình đã tham gia already done
 
 
 -> Thống kê điểm rèn luyện: theo khoa: 

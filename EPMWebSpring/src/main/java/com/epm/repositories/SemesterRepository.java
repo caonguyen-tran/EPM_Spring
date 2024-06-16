@@ -17,4 +17,6 @@ public interface SemesterRepository {
     List<Semester> getSemestersByStudyYear(String studyYear);
     
     Semester findById(int semesterId);
+    
+    List<Semester> findBySemesterName(String name);
 }
