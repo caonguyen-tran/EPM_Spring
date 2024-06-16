@@ -13,9 +13,9 @@ import com.epm.pojo.Activity;
 public interface ActivityRepository {
     List<Activity> getActivities();
 
-    public void createActivity(Activity activity);
+    void createActivity(Activity activity);
     
-    List<Activity> getActivitiesJoined(int userId);
+    List<Object[]> getActivitiesJoined(int userId, int semesterId, String yearStudy);
     
     List<Activity> getActivitiesMissingByUserId(int userId);
     
@@ -24,4 +24,5 @@ public interface ActivityRepository {
     Activity findById(int activityId);
     
     List<Activity> findBySemesterId(int semesterId);
+
 }

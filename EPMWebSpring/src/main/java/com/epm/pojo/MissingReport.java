@@ -4,6 +4,7 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -65,10 +66,12 @@ public class MissingReport implements Serializable {
     @Column(name = "note")
     private String note;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
+    @JsonIgnore
     private User userId;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
+    @JsonIgnore
     private Activity activityId;
     @Transient
     private MultipartFile file;

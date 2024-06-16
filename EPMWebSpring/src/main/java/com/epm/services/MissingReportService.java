@@ -6,11 +6,16 @@ package com.epm.services;
 
 import com.epm.pojo.MissingReport;
 import java.util.List;
+
 /**
  *
  * @author Win11
  */
 public interface MissingReportService {
+
     void addMissingReport(MissingReport mr);
+
     List<Object[]> getListMissingReports(int facultyId);
+
+    List<Object[]> getListMRByStudent(int userId, int semesterId, String yearStudy);
 }

@@ -24,4 +24,8 @@ public interface JoinActivityService {
     void updateAccept(JoinActivity joinActivity);
     
     JoinActivity getJoinActivityById(int joinActivityId);
+    
+    JoinActivity findByUserAndActivity(int userId, int activityId);
+    
+    void update(JoinActivity joinActivity);
 }

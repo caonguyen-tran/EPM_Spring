@@ -18,4 +18,9 @@ public interface StudentRepository {
     Student findById(int studentId);
     
     Student findByClassId(int classId);
+    
+    Student findStudentByEmail(String email);
+    
+    void update(Student student);
+    
 }

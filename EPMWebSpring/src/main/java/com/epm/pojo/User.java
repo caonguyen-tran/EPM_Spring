@@ -4,6 +4,7 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -41,7 +42,9 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar = :avatar"),
-    @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active")})
+    @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active"),
+    @NamedQuery(name = "User.findByVerificationCode", query = "SELECT u FROM User u WHERE u.verificationCode = :verificationCode"),
+})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -69,21 +72,30 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "active")
     private boolean active;
+    @Column(name = "verification_code", length = 64)
+    private String verificationCode;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdUserId")
+    @JsonIgnore
     private Set<Activity> activitySet;
     @OneToOne(mappedBy = "userId", fetch = FetchType.LAZY)
     @Basic(optional = false)
+    @JsonIgnore
     private Student student;
     @OneToOne(optional = false, mappedBy = "userId", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Assistant assistant;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @JsonIgnore
     private Set<Liked> likedSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @JsonIgnore
     private Set<JoinActivity> joinActivitySet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @JsonIgnore
     private Set<Comment> commentSet;
     @JoinColumn(name = "user_role_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
+    @JsonIgnore
     private UserRole userRoleId;
     @Transient
     private MultipartFile file;
@@ -240,6 +252,20 @@ public class User implements Serializable {
      */
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    /**
+     * @return the verificationCode
+     */
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    /**
+     * @param verificationCode the verificationCode to set
+     */
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
     }
     
 }

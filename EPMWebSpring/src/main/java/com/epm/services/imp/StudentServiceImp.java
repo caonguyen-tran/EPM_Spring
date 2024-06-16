@@ -39,5 +39,15 @@ public class StudentServiceImp implements StudentService{
     public Student findByClassId(int classId) {
         return this.studentRepository.findByClassId(classId);
     }
+
+    @Override
+    public Student findStudentByEmail(String email) {
+        return this.studentRepository.findStudentByEmail(email);
+    }
+
+    @Override
+    public void update(Student student) {
+        this.studentRepository.update(student);
+    }
     
 }

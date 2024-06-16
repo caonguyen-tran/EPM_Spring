@@ -80,4 +80,10 @@ public class ScoreStudentRepositoryImp implements ScoreStudentRepository {
         s.save(scoreStudent);
         return scoreStudent;
     }
+
+    @Override
+    public void save(ScoreStudent scoreStudent) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.save(scoreStudent);
+    }
 }

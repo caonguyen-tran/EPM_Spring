@@ -4,6 +4,7 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -65,12 +66,15 @@ public class JoinActivity implements Serializable {
     @Column(name = "accept")
     private Boolean accept;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
+    @JsonIgnore
     private Activity activityId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
+    @JsonIgnore
     private User userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "joinActivityId")
+    @JsonIgnore
     private Set<ScoreStudent> scoreStudentSet;
     @Transient
     private MultipartFile file;

@@ -59,4 +59,19 @@ public class StudentRepositoryImp implements StudentRepository{
         
         return s.createQuery(q).getSingleResult();
     }
+
+    @Override
+    public Student findStudentByEmail(String email) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("Student.findByEmail");
+        q.setParameter("email", email);
+        return (Student) q.getSingleResult();
+    }
+
+    @Override
+    public void update(Student student) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        s.update(student);
+    }
+
 }

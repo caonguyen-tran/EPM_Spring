@@ -22,4 +22,6 @@ public interface ScoreStudentRepository {
     List<ScoreStudent> findByJoinActivityId(int joinActivityId);   
     
     ScoreStudent createScoreStudent(ScoreStudent scoreStudent);
+    
+    void save(ScoreStudent scoreStudent);
 }

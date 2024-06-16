@@ -4,8 +4,6 @@
  */
 package com.epm.configs;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.epm.formatter.ActivityFormatter;
 import com.epm.formatter.FacultyFormatter;
 import com.epm.formatter.SemesterFormatter;
@@ -84,4 +82,5 @@ public class WebAppContextConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/");
     }
+    
 }

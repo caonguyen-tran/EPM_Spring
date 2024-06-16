@@ -15,6 +15,7 @@ import com.epm.pojo.User;
 import com.epm.repositories.JoinActivityRepository;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -109,5 +110,29 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
         Query q = s.createNamedQuery("JoinActivity.findById");
         q.setParameter("id", joinActivityId);
         return (JoinActivity) q.getSingleResult();
+    }
+
+    @Override
+    public JoinActivity findByUserAndActivity(int userId, int activityId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<JoinActivity> q = b.createQuery(JoinActivity.class);
+        Root<JoinActivity> r = q.from(JoinActivity.class);
+
+        Predicate userPredicate = b.equal(r.get("userId"), userId);
+        Predicate activityPredicate = b.equal(r.get("activityId"), activityId);
+        q.select(r).where(b.and(userPredicate, activityPredicate));
+
+        try {
+            return s.createQuery(q).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public void update(JoinActivity joinActivity) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.update(joinActivity);
     }
 }

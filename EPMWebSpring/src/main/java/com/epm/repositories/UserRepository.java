@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Win11
  */
-public interface UserRepository {
+public interface UserRepository{
 
     User getUserByUsername(String username);
 
@@ -22,4 +22,12 @@ public interface UserRepository {
     List<User> getAssistantUsers();
 
     User findByStudentId(int studentId);
+    
+    User findByVerificationCode(String verificationCode);
+    
+    void save(User u);
+    
+    void update(User u);
+    
+    User findByEmail(String email);
 }

@@ -5,11 +5,26 @@
 package com.epm.services;
 
 import com.epm.pojo.ScoreStudent;
+import java.io.IOException;
+import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
  * @author ACER
  */
 public interface ScoreStudentService {
+    List<ScoreStudent> findAll();
+
+    ScoreStudent findById(int scoreStudentId);
+
+    List<ScoreStudent> findByUserId(int userId);
+    
+    List<ScoreStudent> findByJoinActivityId(int joinActivityId);   
+    
     ScoreStudent createScoreStudent(ScoreStudent scoreStudent);
+    
+    void save(ScoreStudent scoreStudent);
+    
+    void loadCsv(MultipartFile file, int activityId) throws IOException;
 }
