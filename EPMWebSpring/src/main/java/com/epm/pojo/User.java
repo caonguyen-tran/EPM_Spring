@@ -44,6 +44,7 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar = :avatar"),
     @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active")})
 public class User implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,6 +70,8 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "active")
     private boolean active;
+    @Column(name = "verification_code", length = 64)
+    private String verificationCode;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdUserId")
     @JsonIgnore
     private Set<Activity> activitySet;
@@ -146,6 +149,14 @@ public class User implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
     }
 
     @XmlTransient
@@ -246,5 +257,5 @@ public class User implements Serializable {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-    
+
 }
