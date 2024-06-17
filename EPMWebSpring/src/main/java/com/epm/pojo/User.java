@@ -82,7 +82,6 @@ public class User implements Serializable {
     private Student student;
     @JsonIgnore
     @OneToOne(optional = false, mappedBy = "userId", fetch = FetchType.LAZY)
-    @JsonIgnore
     private Assistant assistant;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     @JsonIgnore

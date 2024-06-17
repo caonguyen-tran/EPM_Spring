@@ -75,26 +75,6 @@ public class ScoreStudentServiceImp implements ScoreStudentService {
     }
 
     @Override
-    public List<ScoreStudent> findAll() {
-        return this.scoreStudentRepository.findAll();
-    }
-
-    @Override
-    public ScoreStudent findById(int scoreStudentId) {
-        return this.scoreStudentRepository.findById(scoreStudentId);
-    }
-
-    @Override
-    public List<ScoreStudent> findByUserId(int userId) {
-        return this.scoreStudentRepository.findByUserId(userId);
-    }
-
-    @Override
-    public List<ScoreStudent> findByJoinActivityId(int joinActivityId) {
-        return this.scoreStudentRepository.findByJoinActivityId(joinActivityId);
-    }
-
-    @Override
     public void save(ScoreStudent scoreStudent) {
         this.scoreStudentRepository.save(scoreStudent);
     }

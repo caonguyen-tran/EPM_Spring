@@ -13,6 +13,7 @@ import com.epm.services.JoinActivityService;
 import com.epm.services.ScoreService;
 import com.epm.services.ScoreStudentService;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +74,8 @@ public class ApiScoreStudentController {
             return ResponseEntity.ok("File processed successfully");
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file");
-        
+        }
+    }
     
 //    @PostMapping(path="/score-student/accept-all/{activityId}")
 //    public int createMultipleScoreStudent(@PathVariable("activityId") int activityId){
@@ -81,9 +83,9 @@ public class ApiScoreStudentController {
 //        
 //    }
     
-    @GetMapping(path="/score-student/scores/{userId}")
-    public List<ScoreStudentResponse> getScoresOfUser(@PathVariable("userId") int userId){
+    @GetMapping(path = "/score-student/scores/{userId}")
+    public ResponseEntity<String> getScoresOfUser(@PathVariable("userId") int userId){
         List<ScoreStudent> listScoreStudents = this.scoreStudentService.findByUserId(userId);
-        return listScoreStudents.stream().map(scoreStudentMapper::toScoreStudentResponse).collect(Collectors.toList());
+        return (ResponseEntity<String>) listScoreStudents.stream().map(scoreStudentMapper::toScoreStudentResponse).collect(Collectors.toList());
     }
 }
