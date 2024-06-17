@@ -4,6 +4,9 @@
  */
 package com.epm.pojo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -21,10 +24,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -60,15 +65,21 @@ public class Comment implements Serializable {
     private String image;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Activity activityId;
     @OneToMany(mappedBy = "commentParent")
+    @JsonManagedReference
     private Set<Comment> commentSet;
     @JoinColumn(name = "comment_parent", referencedColumnName = "id")
     @ManyToOne
+    @JsonBackReference
     private Comment commentParent;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private User userId;
+    @Transient
+    private MultipartFile file;
 
     public Comment() {
     }
@@ -170,6 +181,20 @@ public class Comment implements Serializable {
     @Override
     public String toString() {
         return "com.epm.pojo.Comment[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
     
 }

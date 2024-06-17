@@ -114,4 +114,13 @@ public class UserRepositoryImp implements UserRepository {
 
         return userQuery.getSingleResult();
     }
+
+    @Override
+    public User findById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("User.findById");
+        q.setParameter("id", id);
+
+        return (User) q.getSingleResult();
+    }
 }
