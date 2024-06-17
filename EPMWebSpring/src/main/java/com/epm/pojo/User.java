@@ -46,6 +46,7 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByVerificationCode", query = "SELECT u FROM User u WHERE u.verificationCode = :verificationCode"),
 })
 public class User implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -154,6 +155,14 @@ public class User implements Serializable {
         this.active = active;
     }
 
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
     @XmlTransient
     public Set<Activity> getActivitySet() {
         return activitySet;
@@ -252,19 +261,4 @@ public class User implements Serializable {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-
-    /**
-     * @return the verificationCode
-     */
-    public String getVerificationCode() {
-        return verificationCode;
-    }
-
-    /**
-     * @param verificationCode the verificationCode to set
-     */
-    public void setVerificationCode(String verificationCode) {
-        this.verificationCode = verificationCode;
-    }
-    
 }
