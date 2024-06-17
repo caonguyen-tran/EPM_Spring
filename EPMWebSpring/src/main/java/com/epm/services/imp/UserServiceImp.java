@@ -178,4 +178,9 @@ public class UserServiceImp implements UserService {
         return this.userRepo.findByEmail(email);
     }
 
+    @Override
+    public User findById(int id) {
+        return this.userRepo.findById(id);
+    }
+
 }

@@ -30,4 +30,6 @@ public interface UserRepository{
     void update(User u);
     
     User findByEmail(String email);
+    
+    User findById(int id);
 }
