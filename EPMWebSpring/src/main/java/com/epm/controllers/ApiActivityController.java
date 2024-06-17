@@ -64,11 +64,6 @@ public class ApiActivityController {
     
     private ActivityMapper activityMapper;
     
-    @GetMapping(path = "/userId/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
-    public ResponseEntity<List<Activity>> listActivityJoining(@PathVariable(value = "userId") int userId){
-        return new ResponseEntity<>(this.activityService.getActivitiesJoined(userId), HttpStatus.OK);
-    }
 
   
     @GetMapping(path = "/joined", produces = MediaType.APPLICATION_JSON_VALUE)
