@@ -44,8 +44,8 @@ public class UserRepositoryImp implements UserRepository {
 
     @Override
     public boolean authUser(String username, String password) {
-        User  u = this.getUserByUsername(username);
-        
+        User u = this.getUserByUsername(username);
+
         return this.passEncoder.matches(password, u.getPassword());
     }
 
@@ -62,23 +62,56 @@ public class UserRepositoryImp implements UserRepository {
         CriteriaQuery<User> q = b.createQuery(User.class);
         Root r = q.from(User.class);
         q.select(r);
-        
+
         q.where(b.equal(r.get("userRoleId"), 2));
-        
+
         return s.createQuery(q).getResultList();
     }
 
     @Override
     public User findByStudentId(int studentId) {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createNamedQuery("Student.findById");
-        q.setParameter("id", studentId);
-        Student student = (Student) q.getSingleResult();
-        
-        Query query = s.createNamedQuery("User.findById");
-        query.setParameter("id", student.getUserId().getId());
-        
-        return (User) query.getSingleResult();
+        Query<Student> studentQuery = s.createNamedQuery("Student.findById", Student.class);
+        studentQuery.setParameter("id", studentId);
+        Student student = studentQuery.getSingleResult();
+
+        Query<User> userQuery = s.createNamedQuery("User.findById", User.class);
+        userQuery.setParameter("id", student.getUserId().getId());
+
+        return userQuery.getSingleResult();
     }
 
+    @Override
+    public User findByVerificationCode(String verificationCode) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("User.findByVerificationCode");
+        q.setParameter("verificationCode", verificationCode);
+
+        return (User) q.getSingleResult();
+    }
+
+    @Override
+    public void save(User u) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.save(u);
+    }
+
+    @Override
+    public void update(User u) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.update(u);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query<Student> studentQuery = s.createNamedQuery("Student.findByEmail", Student.class);
+        studentQuery.setParameter("email", email);
+        Student student = studentQuery.getSingleResult();
+
+        Query<User> userQuery = s.createNamedQuery("User.findById", User.class);
+        userQuery.setParameter("id", student.getUserId().getId());
+
+        return userQuery.getSingleResult();
+    }
 }

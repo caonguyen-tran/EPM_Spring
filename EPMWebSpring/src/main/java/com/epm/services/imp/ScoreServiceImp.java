@@ -145,4 +145,19 @@ public class ScoreServiceImp implements ScoreService {
     public Score findByActivityWithScoreType(int activityId, String scoreType) {
         return this.scoreRepo.findByActivityIdWithScoreType(activityId, scoreType);
     }
+
+    @Override
+    public List<Object[]> getScoresWithTerm(int userId, int semesterId, String yearStudy) {
+        return this.scoreRepo.getScoresWithTerm(userId, semesterId, yearStudy);
+    }
+
+    @Override
+    public List<Object[]> getTotalScoresByTerm(int userId, int semesterId, String yearStudy) {
+        return this.scoreRepo.getTotalScoresByTerm(userId, semesterId, yearStudy);
+    }
+
+    @Override
+    public Score getScoreByNameAndActivity(String scoreName, int activityId) {
+        return this.scoreRepo.getScoreByNameAndActivity(scoreName,activityId);
+    }
 }

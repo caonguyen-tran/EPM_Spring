@@ -12,6 +12,7 @@ import com.epm.pojo.Semester;
 import com.epm.pojo.Term;
 import com.epm.pojo.User;
 import com.epm.services.ActivityService;
+import com.epm.services.SemesterService;
 import com.epm.services.UserService;
 import com.epm.utils.TimestampConverter;
 import java.sql.Timestamp;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,6 +45,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api/activities")
 public class ApiActivityController {
+
     @Autowired
     private UserService userService;
 
@@ -50,23 +53,45 @@ public class ApiActivityController {
     private ActivityService activityService;
 
     @Autowired
+    private SemesterService semesterService;
+
+    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<List<Activity>> list() {
+        return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
+    }
+
+    
     private ActivityMapper activityMapper;
     
-    @GetMapping(path = "/userId/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+
+  
+    @GetMapping(path = "/joined", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
-    public ResponseEntity<List<Activity>> listActivityJoining(@PathVariable(value = "userId") int userId){
-        return new ResponseEntity<>(this.activityService.getActivitiesJoined(userId), HttpStatus.OK);
+    public ResponseEntity<List<Object[]>> listActivityJoining(@RequestParam Map<String, String> params) {
+        List<Semester> s = this.semesterService.findBySemesterName(params.get("semester"));
+        String yearStudy = params.get("yearStudy");
+        int semesterId = 0;
+        for (Semester semester : s) {
+            if (semester.getYearStudy().equals(yearStudy)) {
+                semesterId = semester.getId();
+                break;
+            }
+        }
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User u = this.userService.getUserByUsername(auth.getName());
+        List<Object[]> activities = this.activityService.getActivitiesJoined(u.getId(), semesterId, yearStudy);
+        if (!activities.isEmpty()) {
+            return new ResponseEntity<>(activities, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    
-    @GetMapping(path = "/missing/userId/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
-    public ResponseEntity<List<Activity>> getActivitiesMissing(@PathVariable(value = "userId") int userId){
-        return new ResponseEntity<>(this.activityService.getActivitiesMissingByUserId(userId), HttpStatus.OK);
-    }
-    
+
+
     @PostMapping(path = "/create", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createActivity(@RequestBody Map<String, String> data, @RequestPart MultipartFile file) throws ParseException{
+    public void createActivity(@RequestBody Map<String, String> data, @RequestPart MultipartFile file) throws ParseException {
         Semester semester = new Semester();
         Term term = new Term();
         Faculty faculty = new Faculty();

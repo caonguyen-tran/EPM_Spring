@@ -56,7 +56,7 @@ public class Semester implements Serializable {
     @Size(max = 6)
     @Column(name = "year_study")
     private String yearStudy;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "semesterId", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "semesterId")
     @JsonIgnore
     private Set<Activity> activitySet;
 

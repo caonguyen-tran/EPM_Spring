@@ -42,7 +42,9 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar = :avatar"),
-    @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active")})
+    @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active"),
+    @NamedQuery(name = "User.findByVerificationCode", query = "SELECT u FROM User u WHERE u.verificationCode = :verificationCode"),
+})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -76,6 +78,7 @@ public class User implements Serializable {
     @JsonIgnore
     private Set<Activity> activitySet;
     @OneToOne(mappedBy = "userId", fetch = FetchType.LAZY)
+    @Basic(optional = false)
     @JsonIgnore
     private Student student;
     @JsonIgnore
@@ -92,6 +95,7 @@ public class User implements Serializable {
     private Set<Comment> commentSet;
     @JoinColumn(name = "user_role_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private UserRole userRoleId;
     @Transient
     private MultipartFile file;
@@ -257,5 +261,4 @@ public class User implements Serializable {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-
 }

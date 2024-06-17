@@ -21,6 +21,18 @@ public interface UserService extends UserDetailsService {
     boolean authUser(String username, String password);
 
     List<User> getAssistantUsers();
-    
+
     User findByStudentId(int studentId);
+
+    void sendVerificationEmail(User user, String siteURL, String email);
+
+    User findByVerificationCode(String verificationCode);
+
+    boolean verify(String verificationCode);
+
+    void save(User u);
+    
+    void update(User u);
+    
+    User findByEmail(String email);
 }

@@ -67,6 +67,7 @@ public class Score implements Serializable {
     private int numberOfScore;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Activity activityId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "scoreId")
     @JsonIgnore

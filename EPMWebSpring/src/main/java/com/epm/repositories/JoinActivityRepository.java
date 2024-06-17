@@ -19,11 +19,15 @@ public interface JoinActivityRepository {
 
     List<JoinActivity> getParticipateByFaculty(int facultyId);
 
-    public void deleteJoinActivity(JoinActivity joinActivity);
+    void deleteJoinActivity(JoinActivity joinActivity);
 
-    public void updateAccept(JoinActivity joinActivity);
+    void updateAccept(JoinActivity joinActivity);
 
-    public JoinActivity getJoinActivityById(int joinActivityId);
-
+    JoinActivity getJoinActivityById(int joinActivityId);
+    
+    JoinActivity findByUserAndActivity(int userId, int activityId);
+    
+    void update(JoinActivity joinActivity);
+  
     public List<JoinActivity> getJoinActivityByActivityId(int activityId);
 }

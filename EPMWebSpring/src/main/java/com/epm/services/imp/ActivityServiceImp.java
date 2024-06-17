@@ -8,6 +8,11 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.epm.pojo.Activity;
 import com.epm.repositories.ActivityRepository;
+import com.epm.repositories.JoinActivityRepository;
+import com.epm.repositories.ScoreRepository;
+import com.epm.repositories.ScoreStudentRepository;
+import com.epm.repositories.StudentRepository;
+import com.epm.repositories.UserRepository;
 import com.epm.services.ActivityService;
 import java.io.IOException;
 import java.util.List;
@@ -22,13 +27,15 @@ import org.springframework.stereotype.Service;
  * @author ACER
  */
 @Service
-public class ActivityServiceImp implements ActivityService{
+public class ActivityServiceImp implements ActivityService {
+
     @Autowired
     private ActivityRepository activityRepo;
-    
-    @Autowired 
+
+    @Autowired
     private Cloudinary cloudinary;
-    
+
+
     @Override
     public List<Activity> getActivities() {
         return this.activityRepo.getActivities();
@@ -36,7 +43,7 @@ public class ActivityServiceImp implements ActivityService{
 
     @Override
     public void createActivity(Activity activity) {
-        if(!activity.getFile().isEmpty()){
+        if (!activity.getFile().isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(activity.getFile().getBytes(),
                         ObjectUtils.asMap("resource_type", "auto"));
@@ -46,11 +53,6 @@ public class ActivityServiceImp implements ActivityService{
             }
         }
         this.activityRepo.createActivity(activity);
-    }
-
-    @Override
-    public List<Activity> getActivitiesJoined(int accountStudentId) {
-        return this.activityRepo.getActivitiesJoined(accountStudentId);
     }
 
     @Override
@@ -72,5 +74,12 @@ public class ActivityServiceImp implements ActivityService{
     public List<Activity> findBySemesterId(int semesterId) {
         return this.activityRepo.findBySemesterId(semesterId);
     }
+
+    @Override
+    public List<Object[]> getActivitiesJoined(int userId, int semesterId, String yearStudy) {
+        return this.activityRepo.getActivitiesJoined(userId, semesterId, yearStudy);
+    }
+
     
+
 }

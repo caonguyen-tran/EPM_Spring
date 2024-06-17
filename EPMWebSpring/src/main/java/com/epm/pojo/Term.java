@@ -52,7 +52,7 @@ public class Term implements Serializable {
     @Size(max = 160)
     @Column(name = "description")
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "termId", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "termId")
     @JsonIgnore
     private Set<Activity> activitySet;
 

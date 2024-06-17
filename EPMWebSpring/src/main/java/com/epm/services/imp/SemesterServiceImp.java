@@ -34,4 +34,9 @@ public class SemesterServiceImp implements SemesterService{
     public Semester findById(int semesterId) {
         return this.semesterRepository.findById(semesterId);
     }
+
+    @Override
+    public List<Semester> findBySemesterName(String name) {
+        return this.semesterRepository.findBySemesterName(name);
+    }
 }

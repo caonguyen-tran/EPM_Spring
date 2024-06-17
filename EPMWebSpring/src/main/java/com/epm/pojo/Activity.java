@@ -84,15 +84,19 @@ public class Activity implements Serializable {
     private Boolean close = false;
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Faculty facultyId;
     @JoinColumn(name = "semester_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Semester semesterId;
     @JoinColumn(name = "term_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Term termId;
     @JoinColumn(name = "created_user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JsonIgnore
     private User createdUserId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     @JsonIgnore

@@ -67,9 +67,11 @@ public class JoinActivity implements Serializable {
     private Boolean accept;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Activity activityId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private User userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "joinActivityId")
     @JsonIgnore

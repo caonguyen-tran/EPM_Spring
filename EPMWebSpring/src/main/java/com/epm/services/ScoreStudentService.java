@@ -6,7 +6,9 @@ package com.epm.services;
 
 import com.epm.pojo.JoinActivity;
 import com.epm.pojo.ScoreStudent;
+import java.io.IOException;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -19,10 +21,14 @@ public interface ScoreStudentService {
     ScoreStudent findById(int scoreStudentId);
 
     List<ScoreStudent> findByUserId(int userId);
-
-    List<ScoreStudent> findByJoinActivityId(int joinActivityId);
-
+    
+    List<ScoreStudent> findByJoinActivityId(int joinActivityId);   
+    
     ScoreStudent createScoreStudent(ScoreStudent scoreStudent);
+    
+    void save(ScoreStudent scoreStudent);
+    
+    void loadCsv(MultipartFile file, int activityId) throws IOException;
 
     int createMultipleScoreStudent(List<JoinActivity> listJoinActivities, int scoreId);
 }

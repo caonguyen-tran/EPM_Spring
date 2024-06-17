@@ -52,6 +52,16 @@ public class JoinActivitityServiceImp implements JoinActivityService{
     }
 
     @Override
+    public JoinActivity findByUserAndActivity(int userId, int activityId) {
+        return this.joinActivityRepository.findByUserAndActivity(userId, activityId);
+    }
+    
+    @Override
+    public void update(JoinActivity joinActivity){
+        this.joinActivityRepository.update(joinActivity);
+    }
+  
+    @Override
     public List<JoinActivity> getJoinActivityByActivityId(int activityId) {
         return this.joinActivityRepository.getJoinActivityByActivityId(activityId);
     }
