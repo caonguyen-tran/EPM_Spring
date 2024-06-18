@@ -95,7 +95,7 @@ public class Activity implements Serializable {
     @JsonIgnore
     private Term termId;
     @JoinColumn(name = "created_user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JsonIgnore
     private User createdUserId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")

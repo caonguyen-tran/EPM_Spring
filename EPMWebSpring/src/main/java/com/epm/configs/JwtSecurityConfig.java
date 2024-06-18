@@ -65,8 +65,10 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/api/**");
 
         http.authorizeRequests().antMatchers("/api/login/").permitAll();
-        http.authorizeRequests().antMatchers("/api/users/").permitAll();
+        http.authorizeRequests().antMatchers("/api/user/login/").permitAll();
         http.authorizeRequests().antMatchers("/api/process_register/").permitAll();
+        http.authorizeRequests().antMatchers("/api/activities/").permitAll();
+        http.authorizeRequests().antMatchers("/api/activities/{activityId}/").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/comments/").permitAll();
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
@@ -79,7 +81,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/activities/create").hasAuthority("ROLE_ASSISTANT")
                 .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/api/assistant/**", "/api/join-activity/**").hasAuthority("ROLE_ASSISTANT")
-                .antMatchers("/api/comments/**", "/api/likes/**", "/api/missing-report/**", "/api/score/**", "/api/current-user/**").permitAll()
+                .antMatchers("/api/comments/**", "/api/likes/**", "/api/missing-report/**", "/api/score/**", "/api/user/current-user/**").permitAll()
                 .antMatchers("/api/report/**", "/api/score-student/**", "/api/statistics/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_ASSISTANT")
                 .anyRequest().authenticated();
     }

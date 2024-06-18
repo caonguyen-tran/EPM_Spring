@@ -6,6 +6,7 @@ package com.epm.mapper;
 
 import com.epm.dto.response.ActivityResponse;
 import com.epm.pojo.Activity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ActivityMapper {
+    @Autowired
+    private UserMapper userMapper;
+    
     public ActivityResponse toActivityResponse(Activity activity){
         ActivityResponse ar = new ActivityResponse();
         
@@ -28,6 +32,7 @@ public class ActivityMapper {
         ar.setFaculty(activity.getFacultyId());
         ar.setSemester(activity.getSemesterId());
         ar.setTerm(activity.getTermId());
+        ar.setUseResponse(userMapper.toUserResponse(activity.getCreatedUserId()));
         return ar;
     }
 }

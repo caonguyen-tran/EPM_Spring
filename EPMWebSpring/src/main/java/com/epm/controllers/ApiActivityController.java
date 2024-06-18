@@ -60,12 +60,10 @@ public class ApiActivityController {
     public ResponseEntity<List<Activity>> list() {
         return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
     }
-
     
+    @Autowired 
     private ActivityMapper activityMapper;
-    
 
-  
     @GetMapping(path = "/joined", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<List<Object[]>> listActivityJoining(@RequestParam Map<String, String> params) {
@@ -78,7 +76,7 @@ public class ApiActivityController {
                 break;
             }
         }
-        
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User u = this.userService.getUserByUsername(auth.getName());
         List<Object[]> activities = this.activityService.getActivitiesJoined(u.getId(), semesterId, yearStudy);
@@ -87,7 +85,6 @@ public class ApiActivityController {
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 
     @PostMapping(path = "/create", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -112,10 +109,16 @@ public class ApiActivityController {
 
         this.activityService.createActivity(activity);
     }
-    
+
     @GetMapping(path = "/")
-    public List<ActivityResponse> getActivity(){
+    public List<ActivityResponse> getActivity() {
         List<Activity> lists = this.activityService.getActivities();
-        return lists.stream().map(activity -> activityMapper.toActivityResponse(activity)).collect(Collectors.toList());
+        return lists.stream().map(activityMapper::toActivityResponse).collect(Collectors.toList());
+    }
+    
+    @GetMapping(path="/{activityId}")
+    public ActivityResponse getActivityById(@PathVariable("activityId") int activityId){
+        Activity activity = this.activityService.findById(activityId);
+        return this.activityMapper.toActivityResponse(activity);
     }
 }
