@@ -67,7 +67,7 @@ public class ApiScoreStudentController {
         return new ResponseEntity<>(results, HttpStatus.CREATED);
     }
 
-    @PostMapping("/upload-csv")
+    @PostMapping("/score-student/upload-csv")
     public ResponseEntity<String> uploadCsv(@RequestPart MultipartFile file, @RequestParam("activityId") int activityId) {
         try {
             scoreStudentService.loadCsv(file, activityId);

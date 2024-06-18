@@ -6,6 +6,7 @@ package com.epm.configs;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.epm.services.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -56,19 +57,27 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http)
             throws Exception {
-        http.formLogin().usernameParameter("username").passwordParameter("password");
-
-        http.formLogin().defaultSuccessUrl("/")
+        http.formLogin()
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/")
                 .failureUrl("/login?error");
-        http.logout().logoutSuccessUrl("/login");
+
+        http.logout()
+                .logoutSuccessUrl("/login");
 
         http.exceptionHandling()
                 .accessDeniedPage("/login?accessDenied");
-        http.authorizeRequests().antMatchers("/").access("hasRole('ROLE_ADMIN')");
-        
+
+        http.authorizeRequests()
+                .antMatchers("/", "/activity", "/report", "/join", "/register", "/join/accept", "/join/accept-all/{activityId}", "/dashboard")
+                .hasAuthority("ROLE_ADMIN")
+                .antMatchers("/api/**").hasAuthority("ROLE_ADMIN")
+                .anyRequest().authenticated();
+
         http.csrf().disable();
     }
-    
+
     @Bean
     public Cloudinary cloudinary() {
         Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
