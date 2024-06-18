@@ -36,9 +36,10 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Controller
 public class AdminActivityController {
+
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -47,8 +48,10 @@ public class AdminActivityController {
 
     @Autowired
     private TermService termService;
+    
     @Autowired
     private FacultyService facultyService;
+    
     @Autowired
     private SemesterService semesterService;
 
