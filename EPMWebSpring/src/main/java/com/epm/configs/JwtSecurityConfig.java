@@ -64,9 +64,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/api/**");
 
-        http.authorizeRequests().antMatchers("/api/login/").permitAll();
-        http.authorizeRequests().antMatchers("/api/users/").permitAll();
-        http.authorizeRequests().antMatchers("/api/process_register/").permitAll();
+        http.authorizeRequests().antMatchers("/api/user/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/comments/").permitAll();
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
@@ -75,8 +73,8 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
 
         http.authorizeRequests()
-                .antMatchers("/api/activities/**").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_STUDENT")
-                .antMatchers("/api/activities/create").hasAuthority("ROLE_ASSISTANT")
+                .antMatchers("/api/activities/**").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_STUDENT", "ROLE_ADMIN")
+                .antMatchers("/api/activities/create").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_ADMIN")
                 .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/api/assistant/**", "/api/join-activity/**").hasAuthority("ROLE_ASSISTANT")
                 .antMatchers("/api/comments/**", "/api/likes/**", "/api/missing-report/**", "/api/score/**", "/api/current-user/**").permitAll()

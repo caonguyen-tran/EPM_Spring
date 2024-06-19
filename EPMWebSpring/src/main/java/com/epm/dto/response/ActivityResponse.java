@@ -4,6 +4,7 @@
  */
 package com.epm.dto.response;
 
+import com.epm.pojo.Activity;
 import com.epm.pojo.Faculty;
 import com.epm.pojo.Semester;
 import com.epm.pojo.Term;
@@ -16,6 +17,7 @@ import lombok.Data;
  */
 @Data
 public class ActivityResponse {
+
     private Integer id;
     private String name;
     private Date startDate;
@@ -27,8 +29,8 @@ public class ActivityResponse {
     private Faculty faculty;
     private Semester semester;
     private Term term;
-    
-    public ActivityResponse(){
+
+    public ActivityResponse() {
     }
 
     public Integer getId() {
@@ -118,6 +120,5 @@ public class ActivityResponse {
     public void setTerm(Term term) {
         this.term = term;
     }
-    
-    
+
 }
