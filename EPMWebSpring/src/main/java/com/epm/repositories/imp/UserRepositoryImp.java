@@ -45,7 +45,7 @@ public class UserRepositoryImp implements UserRepository {
     @Override
     public boolean authUser(String username, String password) {
         User u = this.getUserByUsername(username);
-
+        
         return this.passEncoder.matches(password, u.getPassword());
     }
 

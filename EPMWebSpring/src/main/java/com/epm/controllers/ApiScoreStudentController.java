@@ -4,7 +4,6 @@
  */
 package com.epm.controllers;
 
-import com.epm.dto.response.ScoreStudentResponse;
 import com.epm.mapper.ScoreStudentMapper;
 import com.epm.pojo.JoinActivity;
 import com.epm.pojo.Score;

@@ -4,6 +4,7 @@
  */
 package com.epm.services.imp;
 
+import com.epm.pojo.JoinActivity;
 import com.epm.repositories.RegisterRepository;
 import com.epm.services.RegisterService;
 import java.util.List;
@@ -22,5 +23,25 @@ public class RegisterServiceImp implements RegisterService{
     @Override
     public List<Object[]> getRegisters() {
         return this.registerRepository.getRegisters();
+    }
+
+    @Override
+    public void submitRegister(JoinActivity joinActivity) {
+        this.registerRepository.submitRegister(joinActivity);
+    }
+
+    @Override
+    public List<Object[]> getRegistersByUser(int userId) {
+        return this.registerRepository.getRegistersByUser(userId);
+    }
+
+    @Override
+    public void removeRegister(JoinActivity joinActivity) {
+        this.registerRepository.removeRegister(joinActivity);
+    }
+
+    @Override
+    public JoinActivity getRegisterById(int registerId) {
+        return this.registerRepository.getRegisterById(registerId);
     }
 }

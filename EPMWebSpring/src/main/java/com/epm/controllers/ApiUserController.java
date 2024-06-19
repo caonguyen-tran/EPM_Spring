@@ -68,7 +68,7 @@ public class ApiUserController {
         String username = request.get("username");
         String password = request.get("password");
 
-        if (this.userService.authUser(username, password)) {
+        if (this.userService.authUser(username, password) == true) {
             String token = this.jwtService.generateTokenLogin(username);
 
             return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, token);
