@@ -31,10 +31,11 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class RegisterRepositoryImp implements RegisterRepository{
+public class RegisterRepositoryImp implements RegisterRepository {
+
     @Autowired
     private LocalSessionFactoryBean localSessionFactoryBean;
-    
+
     @Override
     public List<Object[]> getRegisters() {
         Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
@@ -48,13 +49,52 @@ public class RegisterRepositoryImp implements RegisterRepository{
         Join<Activity, Term> term = activity.join("termId", JoinType.INNER);
         Join<Student, Classes> classes = student.join("classId", JoinType.INNER);
         Join<Classes, Faculty> faculty = classes.join("facultyId", JoinType.INNER);
-        
+
         criteriaQuery.select(criteriaBuilder.array(register, userStudent, activity, student, term, classes, faculty));
-        
+
         criteriaQuery.where(criteriaBuilder.equal(register.get("rollup"), false));
-        
+
         Query query = s.createQuery(criteriaQuery);
         return query.getResultList();
     }
-    
+
+    @Override
+    public void submitRegister(JoinActivity joinActivity) {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+        s.save(joinActivity);
+    }
+
+    @Override
+    public List<Object[]> getRegistersByUser(int userId) {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+        CriteriaBuilder criteriaBuilder = s.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+
+        Root<JoinActivity> register = criteriaQuery.from(JoinActivity.class);
+        Join<JoinActivity, User> userStudent = register.join("userId", JoinType.INNER);
+        Join<JoinActivity, Activity> activity = register.join("activityId", JoinType.INNER);
+        Join<Activity, Term> term = activity.join("termId", JoinType.INNER);
+
+        criteriaQuery.select(criteriaBuilder.array(register, userStudent, activity, term));
+
+        criteriaQuery.where(criteriaBuilder.equal(register.get("rollup"), false));
+        criteriaQuery.where(criteriaBuilder.equal(register.get("userId"), userId));
+
+        Query query = s.createQuery(criteriaQuery);
+        return query.getResultList();
+    }
+
+    @Override
+    public void removeRegister(JoinActivity joinActivity) {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+        s.remove(joinActivity);
+    }
+
+    @Override
+    public JoinActivity getRegisterById(int registerId) {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+        Query query = s.createNamedQuery("JoinActivity.findById");
+        query.setParameter("id", registerId);
+        return (JoinActivity) query.getSingleResult();
+    }
 }

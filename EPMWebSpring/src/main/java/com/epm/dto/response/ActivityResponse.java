@@ -9,6 +9,7 @@ import com.epm.pojo.Faculty;
 import com.epm.pojo.Semester;
 import com.epm.pojo.Term;
 import java.util.Date;
+import java.util.Set;
 import lombok.Data;
 
 /**
@@ -29,8 +30,9 @@ public class ActivityResponse {
     private Faculty faculty;
     private Semester semester;
     private Term term;
-
-    public ActivityResponse() {
+    private UserResponse useResponse;
+    
+    public ActivityResponse(){
     }
 
     public Integer getId() {
@@ -120,5 +122,4 @@ public class ActivityResponse {
     public void setTerm(Term term) {
         this.term = term;
     }
-
 }

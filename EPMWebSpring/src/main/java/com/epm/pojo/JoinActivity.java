@@ -54,9 +54,9 @@ public class JoinActivity implements Serializable {
     private Integer id;
     @Column(name = "date_register")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateRegister;
+    private Date dateRegister = new Date();
     @Column(name = "rollup")
-    private Boolean rollup;
+    private Boolean rollup = false;
     @Size(max = 255)
     @Column(name = "proof_joining")
     private String proofJoining;
@@ -64,7 +64,7 @@ public class JoinActivity implements Serializable {
     @Column(name = "note")
     private String note;
     @Column(name = "accept")
-    private Boolean accept;
+    private Boolean accept = false;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     @JsonIgnore
