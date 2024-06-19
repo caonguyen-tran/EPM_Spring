@@ -71,13 +71,12 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/activities/{activityId}/").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/comments/").permitAll();
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .antMatchers(HttpMethod.DELETE, "/api/**").hasAuthority("ROLE_ADMIN").and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests().and()
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
 
         http.authorizeRequests()
-                .antMatchers("/api/activities/**").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_STUDENT")
+                .antMatchers("/api/activities/**", "/api/register/**", "/api/register/{registerId}").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_STUDENT")
                 .antMatchers("/api/activities/create").hasAuthority("ROLE_ASSISTANT")
                 .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/api/assistant/**", "/api/join-activity/**").hasAuthority("ROLE_ASSISTANT")

@@ -4,6 +4,7 @@
  */
 package com.epm.services;
 
+import com.epm.pojo.JoinActivity;
 import java.util.List;
 
 /**
@@ -12,4 +13,8 @@ import java.util.List;
  */
 public interface RegisterService {
     List<Object[]> getRegisters();
+    void submitRegister(JoinActivity joinActivity);
+    List<Object[]> getRegistersByUser(int userId);
+    void removeRegister(JoinActivity joinActivity);
+    JoinActivity getRegisterById(int registerId);
 }
