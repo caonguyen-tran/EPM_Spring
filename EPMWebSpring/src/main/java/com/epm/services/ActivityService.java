@@ -26,4 +26,12 @@ public interface ActivityService {
     Activity findById(int activityId);
     
     List<Activity> findBySemesterId(int semesterId);
+    
+    void update(Activity activity);
+    
+    void delete(Activity activity);
+    
+    boolean deleteActivity(int id);
+    
+    Object[] getActivity(int activityId);
 }

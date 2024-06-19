@@ -24,5 +24,11 @@ public interface ActivityRepository {
     Activity findById(int activityId);
     
     List<Activity> findBySemesterId(int semesterId);
+    
+    void update(Activity activity);
+    
+    void delete(Activity activity);
+    
+    Object[] getActivity(int activityId);
 
 }
