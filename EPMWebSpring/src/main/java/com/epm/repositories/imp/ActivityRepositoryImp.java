@@ -11,6 +11,7 @@ import com.epm.pojo.Semester;
 import com.epm.repositories.ActivityRepository;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -135,5 +136,36 @@ public class ActivityRepositoryImp implements ActivityRepository {
         q.where(b.equal(missingActivities.get("userId"), userId));
 
         return s.createQuery(q).getResultList();
+    }
+
+    @Override
+    public void update(Activity activity) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        s.update(activity);
+    }
+
+    @Override
+    public void delete(Activity activity) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        s.delete(activity);
+    }
+
+    @Override
+    public Object[] getActivity(int activityId) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
+        Root r = q.from(Activity.class);
+        q.select(r);
+        
+        q.multiselect(r, r.get("termId"), r.get("semesterId"), r.get("facultyId"));
+
+        q.where(b.equal(r.get("id"), activityId));
+
+        try {
+            return s.createQuery(q).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

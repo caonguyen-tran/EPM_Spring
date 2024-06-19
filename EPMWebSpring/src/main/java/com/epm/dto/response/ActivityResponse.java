@@ -4,6 +4,7 @@
  */
 package com.epm.dto.response;
 
+import com.epm.pojo.Activity;
 import com.epm.pojo.Faculty;
 import com.epm.pojo.Semester;
 import com.epm.pojo.Term;
@@ -17,6 +18,7 @@ import lombok.Data;
  */
 @Data
 public class ActivityResponse {
+
     private Integer id;
     private String name;
     private Date startDate;
@@ -29,8 +31,7 @@ public class ActivityResponse {
     private Semester semester;
     private Term term;
     private UserResponse useResponse;
-    
-    public ActivityResponse(){
+    public ActivityResponse() {
     }
 
     public Integer getId() {

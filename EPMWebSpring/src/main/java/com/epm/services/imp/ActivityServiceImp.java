@@ -8,11 +8,6 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.epm.pojo.Activity;
 import com.epm.repositories.ActivityRepository;
-import com.epm.repositories.JoinActivityRepository;
-import com.epm.repositories.ScoreRepository;
-import com.epm.repositories.ScoreStudentRepository;
-import com.epm.repositories.StudentRepository;
-import com.epm.repositories.UserRepository;
 import com.epm.services.ActivityService;
 import java.io.IOException;
 import java.util.List;
@@ -80,6 +75,32 @@ public class ActivityServiceImp implements ActivityService {
         return this.activityRepo.getActivitiesJoined(userId, semesterId, yearStudy);
     }
 
+    @Override
+    public void update(Activity activity) {
+        this.activityRepo.update(activity);
+    }
+
+    @Override
+    public boolean deleteActivity(int id) {
+        Activity activity = this.activityRepo.findById(id);
+
+        if (activity == null) {
+            return false;
+        }
+
+        activityRepo.delete(activity);
+        return true;
+    }
+
+    @Override
+    public void delete(Activity activity) {
+        this.activityRepo.delete(activity);
+    }
+
+    @Override
+    public Object[] getActivity(int activityId) {
+        return this.activityRepo.getActivity(activityId);
+    }
     
 
 }

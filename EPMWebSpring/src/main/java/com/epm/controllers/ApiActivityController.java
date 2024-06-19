@@ -27,6 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  *
@@ -60,8 +62,8 @@ public class ApiActivityController {
     public ResponseEntity<List<Activity>> list() {
         return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
     }
-    
-    @Autowired 
+  
+    @Autowired
     private ActivityMapper activityMapper;
 
     @GetMapping(path = "/joined", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -120,5 +122,65 @@ public class ApiActivityController {
     public ActivityResponse getActivityById(@PathVariable("activityId") int activityId){
         Activity activity = this.activityService.findById(activityId);
         return this.activityMapper.toActivityResponse(activity);
+    }
+
+    @GetMapping("/{id}")
+    @CrossOrigin
+    public ResponseEntity<Object[]> getActivityDetail(@PathVariable int id) {
+        Activity activity = this.activityService.findById(id);
+        if (activity == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        
+        return new ResponseEntity<>(this.activityService.getActivity(id), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/update/{id}", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateActivity(@PathVariable int id, @RequestBody Map<String, String> data, @RequestPart(required = false) MultipartFile file) throws ParseException {
+        Activity activity = this.activityService.findById(id);
+
+        if (activity == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Activity not found");
+        }
+
+        Semester semester = new Semester();
+        Term term = new Term();
+        Faculty faculty = new Faculty();
+
+        String name = data.get("name");
+        Timestamp startDate = TimestampConverter.convertStringToTimestamp(data.get("startDate"));
+        Timestamp endDate = TimestampConverter.convertStringToTimestamp(data.get("endDate"));
+        String description = data.get("description");
+        int slots = Integer.parseInt(data.get("slots"));
+        semester.setId(Integer.parseInt(data.get("semesterId")));
+        term.setId(Integer.parseInt(data.get("termId")));
+        faculty.setId(Integer.parseInt(data.get("facultyId")));
+
+        activity.setName(name);
+        activity.setStartDate(startDate);
+        activity.setEndDate(endDate);
+        activity.setDescription(description);
+        activity.setSlots(slots);
+        activity.setSemesterId(semester);
+        activity.setTermId(term);
+        activity.setFacultyId(faculty);
+
+        if (file != null && !file.isEmpty()) {
+            activity.setFile(file);
+        }
+
+        this.activityService.update(activity);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteActivity(@PathVariable int id) {
+        boolean isDeleted = activityService.deleteActivity(id);
+
+        if (!isDeleted) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
