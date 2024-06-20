@@ -9,7 +9,6 @@ import com.epm.pojo.JoinActivity;
 import com.epm.pojo.MissingReport;
 import com.epm.pojo.Semester;
 import com.epm.repositories.ActivityRepository;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -61,7 +60,7 @@ public class ActivityRepositoryImp implements ActivityRepository {
         cq.multiselect(rootActivity, rootActivity.get("semesterId"));
 
         Predicate userIdPredicate = cb.equal(joinActivity.get("userId"), userId);
-        
+
         Predicate rollUpPredicate = cb.equal(joinActivity.get("rollup"), true);
 
         Subquery<Integer> subqueryMaxSemesterId = cq.subquery(Integer.class);
@@ -157,13 +156,30 @@ public class ActivityRepositoryImp implements ActivityRepository {
         CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
         Root r = q.from(Activity.class);
         q.select(r);
-        
+
         q.multiselect(r, r.get("termId"), r.get("semesterId"), r.get("facultyId"));
 
         q.where(b.equal(r.get("id"), activityId));
 
         try {
             return s.createQuery(q).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Object[]> getAllActivities() {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
+        Root r = q.from(Activity.class);
+        q.select(r);
+        
+        q.multiselect(r, r.get("termId"), r.get("semesterId"), r.get("facultyId"));
+
+        try {
+            return s.createQuery(q).getResultList();
         } catch (NoResultException e) {
             return null;
         }

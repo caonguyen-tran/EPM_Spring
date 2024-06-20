@@ -1,6 +1,6 @@
 Chung
 - màn hình login user, assistant
-- màn hình register cho user
+- màn hình register cho user done
 Cho assistant
 + trang quản lý hoạt động
 - tạo hoạt động mới (tạo xong sẽ được hiện lên newfeed)

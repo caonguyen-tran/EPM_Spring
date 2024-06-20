@@ -34,4 +34,6 @@ public interface ActivityService {
     boolean deleteActivity(int id);
     
     Object[] getActivity(int activityId);
+    
+    List<Object[]> getAllActivities();
 }
