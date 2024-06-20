@@ -61,7 +61,8 @@ public class ApiActivityController {
     public ResponseEntity<List<Activity>> list() {
         return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
     }
-
+  
+    @Autowired
     private ActivityMapper activityMapper;
 
     @GetMapping(path = "/joined", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -110,11 +111,20 @@ public class ApiActivityController {
         this.activityService.createActivity(activity);
     }
 
+
 //    @GetMapping(path = "/")
 //    public List<ActivityResponse> getActivity() {
 //        List<Activity> lists = this.activityService.getActivities();
 //        return lists.stream().map(activity -> activityMapper.toActivityResponse(activity)).collect(Collectors.toList());
 //    }
+
+    
+    @GetMapping(path="/{activityId}")
+    public ActivityResponse getActivityById(@PathVariable("activityId") int activityId){
+        Activity activity = this.activityService.findById(activityId);
+        return this.activityMapper.toActivityResponse(activity);
+    }
+
 
     @GetMapping("/{id}")
     @CrossOrigin

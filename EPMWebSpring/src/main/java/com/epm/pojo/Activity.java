@@ -70,7 +70,7 @@ public class Activity implements Serializable {
     @Column(name = "description")
     private String description;
     @Column(name = "active")
-    private Boolean active;
+    private Boolean active = false;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -81,7 +81,7 @@ public class Activity implements Serializable {
     @Column(name = "slots")
     private int slots;
     @Column(name = "close")
-    private Boolean close;
+    private Boolean close = false;
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     @JsonIgnore
@@ -95,7 +95,7 @@ public class Activity implements Serializable {
     @JsonIgnore
     private Term termId;
     @JoinColumn(name = "created_user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JsonIgnore
     private User createdUserId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
