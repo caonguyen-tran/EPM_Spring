@@ -30,4 +30,6 @@ public interface JoinActivityService {
     void update(JoinActivity joinActivity);
 
     public List<JoinActivity> getJoinActivityByActivityId(int activityId);
+    
+    List<JoinActivity> getJoinActivityByUserAndSemester(int semesterId, int userId);
 }

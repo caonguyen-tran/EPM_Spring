@@ -27,4 +27,6 @@ public interface ScoreStudentRepository {
     void save(ScoreStudent scoreStudent);
 
     public int createMultipleScoreStudent(List<JoinActivity> listJoinActivities, int scoreId);
+
+    public List<Object[]> getScoreStudentByUserAndSemester(List<JoinActivity> listJoinActivity);
 }
