@@ -11,6 +11,7 @@ import com.epm.pojo.JoinActivity;
 import com.epm.pojo.User;
 import com.epm.services.JoinActivityService;
 import com.epm.services.RegisterService;
+import com.epm.services.ScoreStudentService;
 import com.epm.utils.StatusResponse;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +37,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiRegisterController {
     @Autowired
     private RegisterService registerService;
+    
+    @Autowired
+    private JoinActivityService joinActivityService;
+    
+    @Autowired
+    private ScoreStudentService scoreStudentService;
 
     @GetMapping(path = "/")
     public List<JoinActivityResponse> getRegisterByUser() {
@@ -66,9 +73,21 @@ public class ApiRegisterController {
     }
     
     @DeleteMapping(path="/{registerId}")
-    public ResponseStruct<String> removeRegister(@PathVariable(value="registerId") int registerId){
+    public ResponseStruct<String> removeRegister(@PathVariable(value="registerId") int registerId, @RequestBody HashMap<String, String> data){
+        int userId = Integer.parseInt(data.get("userId"));
         JoinActivity joinActivity = this.registerService.getRegisterById(registerId);
-        this.registerService.removeRegister(joinActivity);
-        return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, HttpStatus.NO_CONTENT);
+        if(userId == joinActivity.getUserId().getId()){
+            this.registerService.removeRegister(joinActivity);
+            return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseStruct(StatusResponse.FAIL_RESPONSE, HttpStatus.UNAUTHORIZED);
+    }
+    
+    @GetMapping(path="/test")
+    public ResponseStruct<List<Object[]>> testFunction(@RequestBody HashMap<String, String> data){
+        int userId = Integer.parseInt(data.get("userId"));
+        int semseterId = Integer.parseInt(data.get("semseterId"));
+        
+        return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, this.scoreStudentService.getScoreStudentByUserAndSemester(this.joinActivityService.getJoinActivityByUserAndSemester(semseterId, userId)));
     }
 }

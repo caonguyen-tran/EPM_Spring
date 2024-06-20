@@ -4,19 +4,25 @@
  */
 package com.epm.repositories.imp;
 
+import com.epm.pojo.Activity;
 import com.epm.pojo.JoinActivity;
+import com.epm.pojo.Score;
 import com.epm.pojo.ScoreStudent;
 import com.epm.repositories.ScoreStudentRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -117,5 +123,24 @@ public class ScoreStudentRepositoryImp implements ScoreStudentRepository {
             ex.printStackTrace();
         }
         return 1;
+    }
+
+    @Override
+    public List<Object[]> getScoreStudentByUserAndSemester(List<JoinActivity> listJoinActivity) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder criteriaBuilder = s.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        
+        Root<ScoreStudent> scoreStudent = criteriaQuery.from(ScoreStudent.class);
+        Join<ScoreStudent, JoinActivity> joinActivity = scoreStudent.join("joinActivityId", JoinType.INNER);
+        Join<ScoreStudent, Score> score = scoreStudent.join("scoreId", JoinType.INNER);
+        Join<JoinActivity, Activity> activity = joinActivity.join("activityId", JoinType.INNER);
+        
+        List<Integer> joinActivityId = listJoinActivity.stream().map(JoinActivity::getId).collect(Collectors.toList());
+        
+        criteriaQuery.select(criteriaBuilder.array(joinActivity, score, activity)).where(scoreStudent.get("joinActivityId").in(joinActivityId));
+        
+        Query query = s.createQuery(criteriaQuery);
+        return query.getResultList();
     }
 }
