@@ -31,8 +31,7 @@ public class ActivityResponse {
     private Semester semester;
     private Term term;
     private UserResponse useResponse;
-    
-    public ActivityResponse(){
+    public ActivityResponse() {
     }
 
     public Integer getId() {
