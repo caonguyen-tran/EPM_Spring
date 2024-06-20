@@ -4,10 +4,16 @@
  */
 package com.epm.services.imp;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.epm.pojo.JoinActivity;
 import com.epm.repositories.JoinActivityRepository;
 import com.epm.services.JoinActivityService;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +25,9 @@ import org.springframework.stereotype.Service;
 public class JoinActivitityServiceImp implements JoinActivityService{
     @Autowired
     private JoinActivityRepository joinActivityRepository;
+    
+    @Autowired
+    private Cloudinary cloudinary;
     
     
     @Override
@@ -57,8 +66,17 @@ public class JoinActivitityServiceImp implements JoinActivityService{
     }
     
     @Override
-    public void update(JoinActivity joinActivity){
-        this.joinActivityRepository.update(joinActivity);
+    public JoinActivity update(JoinActivity joinActivity){
+        if (!joinActivity.getFile().isEmpty()) {
+            try {
+                Map res = this.cloudinary.uploader().upload(joinActivity.getFile().getBytes(),
+                        ObjectUtils.asMap("resource_type", "auto"));
+                joinActivity.setProofJoining(res.get("secure_url").toString());
+            } catch (IOException ex) {
+                Logger.getLogger(ActivityServiceImp.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return this.joinActivityRepository.update(joinActivity);
     }
   
     @Override

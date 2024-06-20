@@ -27,7 +27,7 @@ public interface JoinActivityRepository {
     
     JoinActivity findByUserAndActivity(int userId, int activityId);
     
-    void update(JoinActivity joinActivity);
+    JoinActivity update(JoinActivity joinActivity);
   
     public List<JoinActivity> getJoinActivityByActivityId(int activityId);
 
