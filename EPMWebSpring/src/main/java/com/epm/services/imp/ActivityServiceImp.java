@@ -101,6 +101,11 @@ public class ActivityServiceImp implements ActivityService {
     public Object[] getActivity(int activityId) {
         return this.activityRepo.getActivity(activityId);
     }
+
+    @Override
+    public List<Object[]> getAllActivities() {
+        return this.activityRepo.getAllActivities();
+    }
     
 
 }

@@ -71,6 +71,9 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/activities/{activityId}/").permitAll();
         http.authorizeRequests().antMatchers("/api/user/**").permitAll();
         http.authorizeRequests().antMatchers("/api/register/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/semesters/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/faculties/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/terms/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/comments/").permitAll();
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests().and()

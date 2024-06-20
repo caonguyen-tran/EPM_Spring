@@ -19,7 +19,6 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -112,17 +111,20 @@ public class ApiActivityController {
         this.activityService.createActivity(activity);
     }
 
-    @GetMapping(path = "/")
-    public List<ActivityResponse> getActivity() {
-        List<Activity> lists = this.activityService.getActivities();
-        return lists.stream().map(activityMapper::toActivityResponse).collect(Collectors.toList());
-    }
+
+//    @GetMapping(path = "/")
+//    public List<ActivityResponse> getActivity() {
+//        List<Activity> lists = this.activityService.getActivities();
+//        return lists.stream().map(activity -> activityMapper.toActivityResponse(activity)).collect(Collectors.toList());
+//    }
+
     
     @GetMapping(path="/{activityId}")
     public ActivityResponse getActivityById(@PathVariable("activityId") int activityId){
         Activity activity = this.activityService.findById(activityId);
         return this.activityMapper.toActivityResponse(activity);
     }
+
 
     @GetMapping("/{id}")
     @CrossOrigin
@@ -174,6 +176,7 @@ public class ApiActivityController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @CrossOrigin
     public ResponseEntity<Void> deleteActivity(@PathVariable int id) {
         boolean isDeleted = activityService.deleteActivity(id);
 
@@ -182,5 +185,11 @@ public class ApiActivityController {
         }
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+    
+    @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<List<Object[]>> listAll() {
+        return new ResponseEntity<>(this.activityService.getAllActivities(), HttpStatus.OK);
     }
 }

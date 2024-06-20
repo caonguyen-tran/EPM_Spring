@@ -30,5 +30,7 @@ public interface ActivityRepository {
     void delete(Activity activity);
     
     Object[] getActivity(int activityId);
+    
+    List<Object[]> getAllActivities();
 
 }
