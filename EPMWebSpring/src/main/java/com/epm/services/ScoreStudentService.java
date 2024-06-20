@@ -31,4 +31,6 @@ public interface ScoreStudentService {
     void loadCsv(MultipartFile file, int activityId) throws IOException;
 
     int createMultipleScoreStudent(List<JoinActivity> listJoinActivities, int scoreId);
+    
+    List<Object[]> getScoreStudentByUserAndSemester(List<JoinActivity> listJoinActivity);
 }

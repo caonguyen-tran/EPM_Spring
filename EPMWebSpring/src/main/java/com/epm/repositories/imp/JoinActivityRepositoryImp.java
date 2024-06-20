@@ -8,6 +8,8 @@ import com.epm.pojo.Activity;
 import com.epm.pojo.Classes;
 import com.epm.pojo.Faculty;
 import com.epm.pojo.JoinActivity;
+import com.epm.pojo.Score;
+import com.epm.pojo.ScoreStudent;
 import com.epm.pojo.Semester;
 import com.epm.pojo.Student;
 import com.epm.pojo.Term;
@@ -151,6 +153,27 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
         predicates.add(criteriaBuilder.equal(root.get("accept"), false));
         predicates.add(criteriaBuilder.equal(root.get("activityId"), activityId));
                 
+        criteriaQuery.where(predicates.toArray(Predicate[]::new));
+        Query query = s.createQuery(criteriaQuery);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<JoinActivity> getJoinActivityByUserAndSemester(int semesterId, int userId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder criteriaBuilder = s.getCriteriaBuilder();
+        CriteriaQuery<JoinActivity> criteriaQuery = criteriaBuilder.createQuery(JoinActivity.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        Root<JoinActivity> join = criteriaQuery.from(JoinActivity.class);
+        Join<JoinActivity, Activity> activity = join.join("activityId", JoinType.INNER);
+        Join<Activity, Semester> semester = activity.join("semesterId", JoinType.INNER);
+
+        predicates.add(criteriaBuilder.equal(join.get("userId"), userId));
+        predicates.add(criteriaBuilder.equal(join.get("accept"), true));
+        predicates.add(criteriaBuilder.equal(semester.get("id"), semesterId));
+        
         criteriaQuery.where(predicates.toArray(Predicate[]::new));
         Query query = s.createQuery(criteriaQuery);
         return query.getResultList();

@@ -127,4 +127,9 @@ public class ScoreStudentServiceImp implements ScoreStudentService {
     public int createMultipleScoreStudent(List<JoinActivity> listJoinActivities, int scoreId) {
         return this.scoreStudentRepository.createMultipleScoreStudent(listJoinActivities, scoreId);
     }
+
+    @Override
+    public List<Object[]> getScoreStudentByUserAndSemester(List<JoinActivity> listJoinActivity) {
+        return this.scoreStudentRepository.getScoreStudentByUserAndSemester(listJoinActivity);
+    }
 }
