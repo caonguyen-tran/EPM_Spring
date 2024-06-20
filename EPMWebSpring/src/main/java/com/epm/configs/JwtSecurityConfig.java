@@ -86,7 +86,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/activities/**").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_STUDENT", "ROLE_ADMIN")
                 .antMatchers("/api/activities/create").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_ADMIN")
                 .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/api/assistant/**", "/api/join-activity/**").hasAuthority("ROLE_ASSISTANT")
+                .antMatchers("/api/assistant/**", "/api/join-activity/**").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_ADMIN")
                 .antMatchers("/api/comments/**", "/api/likes/**", "/api/missing-report/**", "/api/score/**", "/api/user/current-user/**").permitAll()
                 .antMatchers("/api/report/**", "/api/score-student/**", "/api/statistics/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_ASSISTANT")
                 .anyRequest().authenticated();

@@ -134,9 +134,10 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
     }
 
     @Override
-    public void update(JoinActivity joinActivity) {
+    public JoinActivity update(JoinActivity joinActivity) {
         Session s = this.factory.getObject().getCurrentSession();
         s.update(joinActivity);
+        return joinActivity;
     }
   
     @Override

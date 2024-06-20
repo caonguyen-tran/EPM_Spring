@@ -6,6 +6,7 @@ package com.epm.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -45,6 +48,9 @@ public class ScoreStudent implements Serializable {
     @JoinColumn(name = "score_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Score scoreId;
+    @Column(name="date_confirm")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateConfirm = new Date();
 
     public ScoreStudent() {
     }
@@ -101,5 +107,12 @@ public class ScoreStudent implements Serializable {
     public String toString() {
         return "com.epm.pojo.ScoreStudent[ id=" + id + " ]";
     }
-    
+
+    public Date getDateConfirm() {
+        return dateConfirm;
+    }
+
+    public void setDateConfirm(Date dateConfirm) {
+        this.dateConfirm = dateConfirm;
+    }
 }
