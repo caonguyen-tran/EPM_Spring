@@ -63,9 +63,6 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/api/**");
-        http.authorizeRequests().antMatchers("/api/login/").permitAll();
-        http.authorizeRequests().antMatchers("/api/user/login/").permitAll();
-        http.authorizeRequests().antMatchers("/api/process_register/").permitAll();
         http.authorizeRequests().antMatchers("/api/activities/").permitAll();
         http.authorizeRequests().antMatchers("/api/activities/{activityId}/").permitAll();
         http.authorizeRequests().antMatchers("/api/user/**").permitAll();
@@ -73,6 +70,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/semesters/**").permitAll();
         http.authorizeRequests().antMatchers("/api/faculties/**").permitAll();
         http.authorizeRequests().antMatchers("/api/terms/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/class/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/comments/").permitAll();
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
@@ -86,9 +84,11 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/activities/**").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_STUDENT", "ROLE_ADMIN")
                 .antMatchers("/api/activities/create").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_ADMIN")
                 .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/api/assistant/**", "/api/join-activity/**").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_ADMIN")
-                .antMatchers("/api/comments/**", "/api/likes/**", "/api/missing-report/**", "/api/score/**", "/api/user/current-user/**").permitAll()
-                .antMatchers("/api/report/**", "/api/score-student/**", "/api/statistics/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_ASSISTANT")
+                .antMatchers("/api/missing-report/**").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_ADMIN")
+                .antMatchers("/api/missing-report/create").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_ADMIN", "ROLE_STUDENT")
+                .antMatchers("/api/assistant/**", "/api/join-activity/**", "/api/student/**").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_ADMIN")
+                .antMatchers("/api/comments/**", "/api/likes/**", "/api/score-student/**", "/api/score/**", "/api/user/current-user/**").permitAll()
+                .antMatchers("/api/report/**", "/api/statistics/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_ASSISTANT")
                 .anyRequest().authenticated();
     }
 }

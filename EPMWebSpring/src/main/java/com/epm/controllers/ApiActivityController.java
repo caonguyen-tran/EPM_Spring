@@ -61,27 +61,37 @@ public class ApiActivityController {
     public ResponseEntity<List<Activity>> list() {
         return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
     }
-  
+
     @Autowired
     private ActivityMapper activityMapper;
 
     @GetMapping(path = "/joined", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<List<Object[]>> listActivityJoining(@RequestParam Map<String, String> params) {
-        List<Semester> s = this.semesterService.findBySemesterName(params.get("semester"));
+        List<Semester> s = null;
+        String semesterName = params.get("semester");
         String yearStudy = params.get("yearStudy");
         int semesterId = 0;
-        for (Semester semester : s) {
-            if (semester.getYearStudy().equals(yearStudy)) {
-                semesterId = semester.getId();
-                break;
+
+        if (semesterName != null && !semesterName.isEmpty()) {
+            s = this.semesterService.findBySemesterName(semesterName);
+            if (s != null && yearStudy != null && !yearStudy.isEmpty()) {
+                for (Semester semester : s) {
+                    if (semester.getYearStudy().equals(yearStudy)) {
+                        semesterId = semester.getId();
+                        break;
+                    }
+                }
+            } else if (s != null) {
+                semesterId = s.get(0).getId();
             }
         }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User u = this.userService.getUserByUsername(auth.getName());
         List<Object[]> activities = this.activityService.getActivitiesJoined(u.getId(), semesterId, yearStudy);
-        if (!activities.isEmpty()) {
+
+        if (activities != null && !activities.isEmpty()) {
             return new ResponseEntity<>(activities, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -111,20 +121,16 @@ public class ApiActivityController {
         this.activityService.createActivity(activity);
     }
 
-
 //    @GetMapping(path = "/")
 //    public List<ActivityResponse> getActivity() {
 //        List<Activity> lists = this.activityService.getActivities();
 //        return lists.stream().map(activity -> activityMapper.toActivityResponse(activity)).collect(Collectors.toList());
 //    }
-
-    
-    @GetMapping(path="/{activityId}")
-    public ActivityResponse getActivityById(@PathVariable("activityId") int activityId){
+    @GetMapping(path = "/{activityId}")
+    public ActivityResponse getActivityById(@PathVariable("activityId") int activityId) {
         Activity activity = this.activityService.findById(activityId);
         return this.activityMapper.toActivityResponse(activity);
     }
-
 
     @GetMapping("/{id}")
     @CrossOrigin
@@ -133,7 +139,7 @@ public class ApiActivityController {
         if (activity == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        
+
         return new ResponseEntity<>(this.activityService.getActivity(id), HttpStatus.OK);
     }
 
@@ -186,7 +192,7 @@ public class ApiActivityController {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-    
+
     @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<List<Object[]>> listAll() {

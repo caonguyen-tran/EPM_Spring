@@ -22,5 +22,7 @@ public interface StudentRepository {
     Student findStudentByEmail(String email);
     
     void update(Student student);
+
+    List<Object[]> getListStudents(int classId);
     
 }
