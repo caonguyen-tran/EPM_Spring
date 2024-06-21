@@ -18,4 +18,6 @@ public interface MissingReportService {
     List<Object[]> getListMissingReports(int facultyId);
 
     List<Object[]> getListMRByStudent(int userId, int semesterId, String yearStudy);
+    
+    List<Object[]> listMissingReport(int semesterId, String yearStudy);
 }

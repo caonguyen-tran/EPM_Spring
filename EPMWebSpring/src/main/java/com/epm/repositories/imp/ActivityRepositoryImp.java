@@ -57,7 +57,7 @@ public class ActivityRepositoryImp implements ActivityRepository {
         Root<Activity> rootActivity = cq.from(Activity.class);
         Join<Activity, JoinActivity> joinActivity = rootActivity.join("joinActivitySet");
 
-        cq.multiselect(rootActivity, rootActivity.get("semesterId"));
+        cq.multiselect(rootActivity, rootActivity.get("semesterId"), rootActivity.get("termId"), joinActivity);
 
         Predicate userIdPredicate = cb.equal(joinActivity.get("userId"), userId);
 
