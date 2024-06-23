@@ -9,9 +9,7 @@ import com.epm.dto.response.ResponseStruct;
 import com.epm.pojo.Activity;
 import com.epm.pojo.JoinActivity;
 import com.epm.pojo.User;
-import com.epm.services.JoinActivityService;
 import com.epm.services.RegisterService;
-import com.epm.services.ScoreStudentService;
 import com.epm.utils.StatusResponse;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,12 +35,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiRegisterController {
     @Autowired
     private RegisterService registerService;
-    
-    @Autowired
-    private JoinActivityService joinActivityService;
-    
-    @Autowired
-    private ScoreStudentService scoreStudentService;
 
     @GetMapping(path = "/")
     public List<JoinActivityResponse> getRegisterByUser() {
@@ -82,13 +73,5 @@ public class ApiRegisterController {
             return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, HttpStatus.NO_CONTENT);
         }
         return new ResponseStruct(StatusResponse.FAIL_RESPONSE, HttpStatus.UNAUTHORIZED);
-    }
-    
-    @GetMapping(path="/test")
-    public ResponseStruct<List<Object[]>> testFunction(@RequestBody HashMap<String, String> data){
-        int userId = Integer.parseInt(data.get("userId"));
-        int semseterId = Integer.parseInt(data.get("semseterId"));
-        
-        return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, this.scoreStudentService.getScoreStudentByUserAndSemester(this.joinActivityService.getJoinActivityByUserAndSemester(semseterId, userId)));
     }
 }
