@@ -1,0 +1,80 @@
+/GET
+
+/api/activities/joined  : Lấy list tham gia theo kì, year_study của userId
+
+/api/activities/ : Lấy danh sách hoạt động
+
+/api/activities/{id} : Lấy chi tiết hoạt động
+
+/api/comments/activity: Lấy danh sách comment của activity
+
+/api/faculties/ : Lấy danh sách khoa 
+
+/api/join-activity/{activityId}: Lấy danh sách tham gia theo activityId
+
+/api/likes/count : Lấy số lượt like của hoạt động
+
+/api/likes/exists : lấy active like (like or not like) của userId
+
+/api/missing-report/faculty/{facultyId} : Lấy danh sách báo thiếu theo facultyId
+
+/api/missing-report/get-missing-report-of-student : Lấy danh sách báo thiếu theo học kì của userId
+
+/api/register/personal-register/{userId} : Lấy danh sách đăng ký của userId
+
+/api/report/pdf/{studentId} : xuất danh sách điểm của studentId ra pdf
+
+/api/report/csv/{studentId} : xuất danh sách điểm của studentId ra csv
+
+/api/score/scores-by-term : Lấy danh sách điểm theo điều của userId
+
+/api/score/total-scores-by-term: Lấy tổng điểm theo điều của userId
+
+/api/score-student/result : lấy danh điểm của userId theo kì
+
+/api/semesters/ : lấy danh sách kì
+
+/api/statistics/class/{classId}/achievements/ : Lấy thành tích của class Id
+
+/api/terms/ : Lấy danh sách điều
+
+/api/user/current-user : Lấy thông tin của user 
+
+/api/user/verify : Lấy thông tin verify theo verificationCode
+
+/POST 
+
+/api/activities/create : Tạo hoạt động
+
+/api/activities/update/{id} : update hoạt động 
+
+/api/comments/create : tạo comment 
+
+/api/comments/update : cập nhật comments
+
+/api/join-activity/{joinActivityId} : Cập nhật xác nhận đã tham gia khi nộp proofjoining
+
+/api/likes/like : like
+
+/api/missing-report/create : Tạo báo thiếu từ userId → thiếu xóa báo thiếu
+
+/api/register/ : đăng ký tham gia hoạt động của userId
+
+/api/score-student/accept: xác nhận cộng điểm cho join-activity 
+
+/api/score-student/upload-csv/ : nạp danh sách tham gia bằng csv
+
+/api/user/login : đăng nhập user
+
+/api/user/process-register : đăng ký user
+
+/DELETE 
+
+/api/activities/delete/{id} : xóa hoạt động
+
+/api/comments/delete : …
+
+/api/join-activity/{joinId} : xóa (từ chối) 1 join
+
+/api/register/{registerId} : xóa (từ chối) đăng ký tham gia hoạt động
+

@@ -38,9 +38,6 @@ public class AdminJoiningController {
 
     @Autowired
     private SemesterService semesterService;
-    
-    @Autowired
-    private ScoreService scoreService;
 
     @GetMapping(value = "/join")
     public String listJoining(Model model, @RequestParam Map<String, String> params) {

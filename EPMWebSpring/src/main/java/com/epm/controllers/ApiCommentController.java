@@ -51,7 +51,7 @@ public class ApiCommentController {
         if (commentParentId == null) {
             commentParentId = null;
         }
-        if (file == null){
+        if (file == null) {
             file = null;
         }
         Comment comment = commentService.addComment(u.getId(), activityId, content, file, commentParentId);
@@ -80,7 +80,6 @@ public class ApiCommentController {
         return ResponseEntity.ok(comments);
     }
 
-    
     @PostMapping(path = "/update", consumes = {
         MediaType.APPLICATION_JSON_VALUE,
         MediaType.MULTIPART_FORM_DATA_VALUE
@@ -88,15 +87,15 @@ public class ApiCommentController {
     public ResponseEntity<Boolean> updateComment(@RequestParam int commentId, @RequestParam String content, @RequestPart(required = false) MultipartFile file) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User u = userService.getUserByUsername(auth.getName());
-        
-        if (file == null){
+
+        if (file == null) {
             file = null;
         }
-        
+
         boolean update;
-        try{
+        try {
             update = commentService.updateComment(commentId, u.getId(), content, file);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(update, HttpStatus.OK);

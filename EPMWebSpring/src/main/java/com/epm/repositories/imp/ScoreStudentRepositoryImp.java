@@ -138,7 +138,7 @@ public class ScoreStudentRepositoryImp implements ScoreStudentRepository {
         
         List<Integer> joinActivityId = listJoinActivity.stream().map(JoinActivity::getId).collect(Collectors.toList());
         
-        criteriaQuery.select(criteriaBuilder.array(joinActivity, score, activity)).where(scoreStudent.get("joinActivityId").in(joinActivityId));
+        criteriaQuery.select(criteriaBuilder.array(scoreStudent,joinActivity, score, activity)).where(scoreStudent.get("joinActivityId").in(joinActivityId));
         
         Query query = s.createQuery(criteriaQuery);
         return query.getResultList();

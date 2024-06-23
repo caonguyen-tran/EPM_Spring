@@ -5,6 +5,7 @@
 package com.epm.controllers;
 
 import com.epm.dto.response.ActivityResponse;
+import com.epm.dto.response.ResponseStruct;
 import com.epm.mapper.ActivityMapper;
 import com.epm.pojo.Activity;
 import com.epm.pojo.Faculty;
@@ -14,11 +15,13 @@ import com.epm.pojo.User;
 import com.epm.services.ActivityService;
 import com.epm.services.SemesterService;
 import com.epm.services.UserService;
+import com.epm.utils.StatusResponse;
 import com.epm.utils.TimestampConverter;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -45,6 +48,7 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @RestController
 @RequestMapping("/api/activities")
+@CrossOrigin
 public class ApiActivityController {
 
     @Autowired
@@ -56,17 +60,16 @@ public class ApiActivityController {
     @Autowired
     private SemesterService semesterService;
 
-    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
-    public ResponseEntity<List<Activity>> list() {
-        return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
-    }
+//    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @CrossOrigin
+//    public ResponseEntity<List<Activity>> list() {
+//        return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
+//    }
   
     @Autowired
     private ActivityMapper activityMapper;
 
     @GetMapping(path = "/joined", produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
     public ResponseEntity<List<Object[]>> listActivityJoining(@RequestParam Map<String, String> params) {
         List<Semester> s = this.semesterService.findBySemesterName(params.get("semester"));
         String yearStudy = params.get("yearStudy");
@@ -112,29 +115,20 @@ public class ApiActivityController {
     }
 
 
-//    @GetMapping(path = "/")
-//    public List<ActivityResponse> getActivity() {
-//        List<Activity> lists = this.activityService.getActivities();
-//        return lists.stream().map(activity -> activityMapper.toActivityResponse(activity)).collect(Collectors.toList());
-//    }
-
-    
-    @GetMapping(path="/{activityId}")
-    public ActivityResponse getActivityById(@PathVariable("activityId") int activityId){
-        Activity activity = this.activityService.findById(activityId);
-        return this.activityMapper.toActivityResponse(activity);
+    @GetMapping(path = "/")
+    public List<ActivityResponse> getActivity() {
+        List<Activity> lists = this.activityService.getActivities();
+        return lists.stream().map(activity -> activityMapper.toActivityResponse(activity)).collect(Collectors.toList());
     }
 
-
     @GetMapping("/{id}")
-    @CrossOrigin
-    public ResponseEntity<Object[]> getActivityDetail(@PathVariable int id) {
+    public ResponseStruct<ActivityResponse> getActivityDetail(@PathVariable int id) {
         Activity activity = this.activityService.findById(id);
         if (activity == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return new ResponseStruct(StatusResponse.FAIL_RESPONSE, null);
         }
         
-        return new ResponseEntity<>(this.activityService.getActivity(id), HttpStatus.OK);
+        return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, activityMapper.toActivityResponse(this.activityService.findById(id)));
     }
 
     @PostMapping(path = "/update/{id}", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -176,7 +170,6 @@ public class ApiActivityController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @CrossOrigin
     public ResponseEntity<Void> deleteActivity(@PathVariable int id) {
         boolean isDeleted = activityService.deleteActivity(id);
 
@@ -188,7 +181,6 @@ public class ApiActivityController {
     }
     
     @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
     public ResponseEntity<List<Object[]>> listAll() {
         return new ResponseEntity<>(this.activityService.getAllActivities(), HttpStatus.OK);
     }
