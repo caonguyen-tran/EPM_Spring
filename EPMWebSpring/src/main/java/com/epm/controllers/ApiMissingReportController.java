@@ -91,8 +91,6 @@ public class ApiMissingReportController {
                 break;
             }
         }
-<<<<<<< HEAD
-
         Integer studentId = Integer.parseInt(params.get("studentId"));
 
         if (studentId != null) {
@@ -126,23 +124,15 @@ public class ApiMissingReportController {
             }
         }
         List<Object[]> listMROS = this.missingReportService.listMissingReport(semesterId, yearStudy);
-=======
-        int studentId = Integer.parseInt(params.get("studentId"));
-        User u = this.userService.findByStudentId(studentId);
-        List<Object[]> listMROS = this.missingReportService.getListMRByStudent(u.getId(), semesterId, yearStudy);
->>>>>>> dev1
         if (!listMROS.isEmpty()) {
             return new ResponseEntity<>(listMROS, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-<<<<<<< HEAD
-=======
     }
 
     @GetMapping(path = "/faculty/{facultyId}")
     public ResponseEntity<List<Object[]>> listMissingReports(@PathVariable(value = "facultyId") int facultyId) {
         List<Object[]> lists = this.missingReportService.getListMissingReports(facultyId);
         return new ResponseEntity(lists, HttpStatus.OK);
->>>>>>> dev1
     }
 }

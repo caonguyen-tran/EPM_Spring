@@ -63,17 +63,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/api/**");
-<<<<<<< HEAD
-        http.authorizeRequests().antMatchers("/api/activities/").permitAll();
-        http.authorizeRequests().antMatchers("/api/activities/{activityId}/").permitAll();
-        http.authorizeRequests().antMatchers("/api/user/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/register/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/semesters/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/faculties/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/terms/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/class/**").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/comments/").permitAll();
-=======
+        
         http.authorizeRequests().antMatchers("/api/login/").permitAll()
                 .antMatchers("/api/user/login/").permitAll()
                 .antMatchers("/api/process_register/").permitAll()
@@ -83,8 +73,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/semesters/**").permitAll()
                 .antMatchers("/api/faculties/**").permitAll()
                 .antMatchers("/api/terms/**").permitAll();
-
->>>>>>> dev1
+        
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/activities/joined/", "/api/activities/", "/api/activities/{id}", "/api/activities/all/").permitAll()
@@ -109,21 +98,5 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
-<<<<<<< HEAD
-
-        http.authorizeRequests()
-                .antMatchers("/api/activities/**", "/api/register/**", "/api/register/{registerId}").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_STUDENT")
-                .antMatchers("/api/activities/create").hasAuthority("ROLE_ASSISTANT")
-                .antMatchers("/api/activities/**").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_STUDENT", "ROLE_ADMIN")
-                .antMatchers("/api/activities/create").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_ADMIN")
-                .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/api/missing-report/**").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_ADMIN")
-                .antMatchers("/api/missing-report/create").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_ADMIN", "ROLE_STUDENT")
-                .antMatchers("/api/assistant/**", "/api/join-activity/**", "/api/student/**").hasAnyAuthority("ROLE_ASSISTANT", "ROLE_ADMIN")
-                .antMatchers("/api/comments/**", "/api/likes/**", "/api/score-student/**", "/api/score/**", "/api/user/current-user/**").permitAll()
-                .antMatchers("/api/report/**", "/api/statistics/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_ASSISTANT")
-                .anyRequest().authenticated();
-=======
->>>>>>> dev1
     }
 }

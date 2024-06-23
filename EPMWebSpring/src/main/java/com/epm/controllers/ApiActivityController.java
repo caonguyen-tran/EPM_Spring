@@ -59,22 +59,17 @@ public class ApiActivityController {
 
     @Autowired
     private SemesterService semesterService;
-
-<<<<<<< HEAD
+    
     @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<List<Activity>> list() {
         return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
     }
-
-=======
 //    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @CrossOrigin
 //    public ResponseEntity<List<Activity>> list() {
 //        return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
 //    }
-  
->>>>>>> dev1
     @Autowired
     private ActivityMapper activityMapper;
 
@@ -132,8 +127,11 @@ public class ApiActivityController {
 
         this.activityService.createActivity(activity);
     }
-
-<<<<<<< HEAD
+    @GetMapping(path = "/")
+    public List<ActivityResponse> getActivity() {
+        List<Activity> lists = this.activityService.getActivities();
+        return lists.stream().map(activity -> activityMapper.toActivityResponse(activity)).collect(Collectors.toList());
+    }
 //    @GetMapping(path = "/")
 //    public List<ActivityResponse> getActivity() {
 //        List<Activity> lists = this.activityService.getActivities();
@@ -143,13 +141,6 @@ public class ApiActivityController {
     public ActivityResponse getActivityById(@PathVariable("activityId") int activityId) {
         Activity activity = this.activityService.findById(activityId);
         return this.activityMapper.toActivityResponse(activity);
-=======
-
-    @GetMapping(path = "/")
-    public List<ActivityResponse> getActivity() {
-        List<Activity> lists = this.activityService.getActivities();
-        return lists.stream().map(activity -> activityMapper.toActivityResponse(activity)).collect(Collectors.toList());
->>>>>>> dev1
     }
 
     @GetMapping("/{id}")
@@ -158,13 +149,8 @@ public class ApiActivityController {
         if (activity == null) {
             return new ResponseStruct(StatusResponse.FAIL_RESPONSE, null);
         }
-<<<<<<< HEAD
-
-        return new ResponseEntity<>(this.activityService.getActivity(id), HttpStatus.OK);
-=======
         
         return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, activityMapper.toActivityResponse(this.activityService.findById(id)));
->>>>>>> dev1
     }
 
     @PostMapping(path = "/update/{id}", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
