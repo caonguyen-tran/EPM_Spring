@@ -41,9 +41,6 @@ public class AdminActivityController {
     private UserService userService;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
     private ActivityService activityService;
 
     @Autowired

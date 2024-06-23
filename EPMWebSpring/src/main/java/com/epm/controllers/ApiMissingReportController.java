@@ -23,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -90,6 +91,9 @@ public class ApiMissingReportController {
                 break;
             }
         }
+        int studentId = Integer.parseInt(params.get("studentId"));
+        User u = this.userService.findByStudentId(studentId);
+        List<Object[]> listMROS = this.missingReportService.getListMRByStudent(u.getId(), semesterId, yearStudy);
 
         Integer studentId = Integer.parseInt(params.get("studentId"));
 
@@ -128,5 +132,12 @@ public class ApiMissingReportController {
             return new ResponseEntity<>(listMROS, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+    }
+
+    @GetMapping(path = "/faculty/{facultyId}")
+    public ResponseEntity<List<Object[]>> listMissingReports(@PathVariable(value = "facultyId") int facultyId) {
+        List<Object[]> lists = this.missingReportService.getListMissingReports(facultyId);
+        return new ResponseEntity(lists, HttpStatus.OK);
     }
 }

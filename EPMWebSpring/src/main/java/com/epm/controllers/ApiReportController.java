@@ -4,31 +4,20 @@
  */
 package com.epm.controllers;
 
-import com.epm.pojo.Activity;
-import com.epm.pojo.MissingReport;
-import com.epm.pojo.User;
-import com.epm.services.ActivityService;
-
 import com.epm.services.MissingReportService;
 import com.epm.services.ReportService;
-import com.epm.services.UserService;
 import com.epm.utils.CSVGenerator;
 import com.epm.utils.PDFGenerator;
-
 import com.epm.utils.StudentReportDTO;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-
-import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import org.springframework.http.HttpStatus;
 
 
 /**
@@ -41,9 +30,6 @@ public class ApiReportController {
 
     @Autowired
     private ReportService reportService;
-
-    @Autowired
-    private MissingReportService missingReportService;
 
     @GetMapping(value = "/pdf/{studentId}", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> generatePdfReport(@PathVariable int studentId) throws IOException {
@@ -66,16 +52,4 @@ public class ApiReportController {
 
         return ResponseEntity.ok().headers(headers).contentType(MediaType.parseMediaType("text/csv")).body(new InputStreamResource(bis));
     }
-
-    @GetMapping(path = "/")
-    public ResponseEntity<List<Object[]>> listMissingReports(@RequestParam HashMap<String, String> params) {
-        int facultyId = 0;
-        if (!params.isEmpty()) {
-            facultyId = Integer.parseInt(params.get("facultyId"));
-        }
-
-        List<Object[]> lists = this.missingReportService.getListMissingReports(facultyId);
-        return new ResponseEntity(lists, HttpStatus.OK);
-    }
-
 }
