@@ -49,5 +49,10 @@ public class StudentServiceImp implements StudentService{
     public void update(Student student) {
         this.studentRepository.update(student);
     }
+
+    @Override
+    public List<Object[]> getListStudents(int classId) {
+        return this.studentRepository.getListStudents(classId);
+    }
     
 }

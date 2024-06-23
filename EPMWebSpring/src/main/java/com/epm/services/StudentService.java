@@ -23,4 +23,6 @@ public interface StudentService {
     Student findStudentByEmail(String email);
     
     void update(Student student);
+    
+    List<Object[]> getListStudents(int classId);
 }

@@ -29,5 +29,12 @@ public class ClassServiceImp implements ClassService{
     public List<Classes> getClasses() {
         return this.classRepo.getClasses();
     }
+
+    @Override
+    public List<Object[]> getClassFaculty() {
+        return this.classRepo.getClassFaculty();
+    }
+    
+    
     
 }

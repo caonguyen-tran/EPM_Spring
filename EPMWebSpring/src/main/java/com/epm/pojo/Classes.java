@@ -55,6 +55,7 @@ public class Classes implements Serializable {
     private Set<Student> studentSet;
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Faculty facultyId;
 
     public Classes() {

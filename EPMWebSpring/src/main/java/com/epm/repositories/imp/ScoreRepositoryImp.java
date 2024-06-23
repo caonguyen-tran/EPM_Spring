@@ -89,7 +89,7 @@ public class ScoreRepositoryImp implements ScoreRepository {
         Join<JoinActivity, Activity> joinActivityActivity = joinActivity.join("activityId");
         Join<Activity, Semester> joinActivitySemester = joinActivityActivity.join("semesterId");
 
-        cq.multiselect(joinActivityActivity.get("name"), joinActivity, joinScore, joinActivityActivity.get("termId"));
+        cq.multiselect(joinActivity, joinScore, joinActivityActivity.get("termId"));
 
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(cb.equal(joinActivity.get("userId"), userId));
