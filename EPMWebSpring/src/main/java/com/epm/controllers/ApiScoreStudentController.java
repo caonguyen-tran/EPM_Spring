@@ -23,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -92,5 +93,13 @@ public class ApiScoreStudentController {
         int semseterId = Integer.parseInt(data.get("semseterId"));
         
         return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, this.scoreStudentService.getScoreStudentByUserAndSemester(this.joinActivityService.getJoinActivityByUserAndSemester(semseterId, userId)));
+    }
+    
+    @GetMapping(path="/score-student/detail/{joinActivityId}")
+    public ResponseEntity<List<Object[]>> getScoreByJA(@PathVariable("joinActivityId") int joinActivityId){
+        List<Object[]> listScore = this.scoreStudentService.getScoreByJoinActivity(joinActivityId);
+        if (listScore != null && !listScore.isEmpty())
+            return new ResponseEntity<>(listScore, HttpStatus.OK);
+        return null;
     }
 }

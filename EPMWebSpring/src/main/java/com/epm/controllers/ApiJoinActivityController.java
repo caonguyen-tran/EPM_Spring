@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,5 +76,13 @@ public class ApiJoinActivityController {
         }
 
         return new ResponseStruct(StatusResponse.FAIL_RESPONSE, null);
+    }
+    
+    @GetMapping("/join-activity/detail/{joinActivityId}")
+    public ResponseEntity<Object[]> getJoinActivity(@PathVariable("joinActivityId") int joinActivityId){
+        Object[] joinActivity = this.joinActivityService.getAcByJAId(joinActivityId);
+        if(joinActivity != null)
+            return new ResponseEntity<>(joinActivity, HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

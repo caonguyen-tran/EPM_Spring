@@ -59,12 +59,12 @@ public class ApiActivityController {
 
     @Autowired
     private SemesterService semesterService;
-    
-    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
-    public ResponseEntity<List<Activity>> list() {
-        return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
-    }
+//    
+//    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @CrossOrigin
+//    public ResponseEntity<List<Activity>> list() {
+//        return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
+//    }
 //    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @CrossOrigin
 //    public ResponseEntity<List<Activity>> list() {
