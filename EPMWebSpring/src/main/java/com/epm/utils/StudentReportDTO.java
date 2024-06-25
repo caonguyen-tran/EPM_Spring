@@ -10,6 +10,7 @@ import com.epm.pojo.Score;
 import com.epm.pojo.Semester;
 import com.epm.pojo.Student;
 import com.epm.pojo.Term;
+import com.epm.pojo.User;
 
 /**
  *
@@ -18,6 +19,7 @@ import com.epm.pojo.Term;
 public class StudentReportDTO {
 
     private Student student;
+    private User user;
     private Semester semester;
     private Activity activity;
     private Score score;
@@ -25,13 +27,14 @@ public class StudentReportDTO {
     private Classes classes;
     private String achievement;
 
-    public StudentReportDTO(Student student, Semester semester, Activity activity, Score score, Term term, Classes classes) {
+    public StudentReportDTO(Student student, Semester semester, Activity activity, Score score, Term term, Classes classes, User user) {
         this.student = student;
         this.semester = semester;
         this.activity = activity;
         this.score = score;
         this.term = term;
         this.classes = classes;
+        this.user = user;
     }
 
     /**

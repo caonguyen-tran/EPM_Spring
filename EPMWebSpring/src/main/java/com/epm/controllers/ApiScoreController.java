@@ -55,8 +55,21 @@ public class ApiScoreController {
             }
         }
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User u = this.userService.getUserByUsername(auth.getName());
+        Integer studentId = null;
+
+        try {
+            studentId = Integer.parseInt(params.get("studentId"));
+        } catch (NumberFormatException | NullPointerException e) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User u = this.userService.getUserByUsername(auth.getName());
+            List<Object[]> scores = this.scoreService.getScoresWithTerm(u.getId(), semesterId, yearStudy);
+            if (!scores.isEmpty()) {
+                return new ResponseEntity<>(scores, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        User u = this.userService.findByStudentId(studentId);
         List<Object[]> scores = this.scoreService.getScoresWithTerm(u.getId(), semesterId, yearStudy);
         if (!scores.isEmpty()) {
             return new ResponseEntity<>(scores, HttpStatus.OK);
@@ -77,8 +90,37 @@ public class ApiScoreController {
             }
         }
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User u = this.userService.getUserByUsername(auth.getName());
+        Integer studentId = null;
+
+        try {
+            studentId = Integer.parseInt(params.get("studentId"));
+        } catch (NumberFormatException | NullPointerException e) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User u = this.userService.getUserByUsername(auth.getName());
+            List<Object[]> totalScores = this.scoreService.getTotalScoresByTerm(u.getId(), semesterId, yearStudy);
+            if (totalScores.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            Map<String, Object> response = new HashMap<>();
+            List<Map<String, Object>> termScores = new ArrayList<>();
+            double overallTotalScore = 0;
+
+            for (Object[] result : totalScores) {
+                Map<String, Object> termScore = new HashMap<>();
+                termScore.put("termId", result[0]);
+                termScore.put("totalScore", result[1]);
+                termScores.add(termScore);
+
+                overallTotalScore += ((Number) result[1]).doubleValue();
+            }
+
+            response.put("termScores", termScores);
+            response.put("overallTotalScore", overallTotalScore);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+
+        User u = this.userService.findByStudentId(studentId);
         List<Object[]> totalScores = this.scoreService.getTotalScoresByTerm(u.getId(), semesterId, yearStudy);
         if (totalScores.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -100,6 +142,7 @@ public class ApiScoreController {
         response.put("overallTotalScore", overallTotalScore);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
 }
