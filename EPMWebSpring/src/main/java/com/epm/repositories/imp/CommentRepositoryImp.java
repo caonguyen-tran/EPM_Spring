@@ -4,13 +4,20 @@
  */
 package com.epm.repositories.imp;
 
+import com.epm.dto.response.CommentResponse;
+import com.epm.pojo.Activity;
 import com.epm.pojo.Comment;
+import com.epm.pojo.JoinActivity;
 import com.epm.repositories.CommentRepository;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -29,21 +36,28 @@ public class CommentRepositoryImp implements CommentRepository {
     private LocalSessionFactoryBean factory;
 
     @Override
-    public List<Object[]> findByActivityId(int activityId) {
-        Session s = this.factory.getObject().getCurrentSession();
-        CriteriaBuilder b = s.getCriteriaBuilder();
-        CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
-        Root<Comment> r = q.from(Comment.class);
+    public List<Comment> findByActivityId(int activityId) {
+        try {
+            Session s = this.factory.getObject().getCurrentSession();
+            CriteriaBuilder criteriaBuilder = s.getCriteriaBuilder();
+            CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(Comment.class);
+            Root root = criteriaQuery.from(Comment.class);
+            criteriaQuery.select(root);
 
-        q.multiselect(
-                r.get("content"),
-                r.get("createdDate"),
-                r.get("image")
-        );
+            List<Predicate> predicates = new ArrayList();
+            predicates.add(criteriaBuilder.equal(root.get("activityId"), activityId));
+            predicates.add(criteriaBuilder.isNull(root.get("commentParent")));
 
-        q.where(b.equal(r.get("activityId"), activityId));
+            criteriaQuery.where(predicates.toArray(Predicate[]::new));
 
-        return s.createQuery(q).getResultList();
+            Query query = s.createQuery(criteriaQuery);
+
+            List<Comment> comments = query.list();
+
+            return comments;
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     @Override
@@ -86,4 +100,30 @@ public class CommentRepositoryImp implements CommentRepository {
         s.delete(c);
     }
 
+    @Override
+    public List<Comment> getComments(Activity activity) {
+        Session s = this.factory.getObject().getCurrentSession();
+        return null;
+    }
+
+    @Override
+    public void updateIsParent(Comment comment) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.update(comment);
+    }
+
+    @Override
+    public List<Comment> getCommentsChild(int commentParentId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder criteriaBuilder = s.getCriteriaBuilder();
+        CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(Comment.class);
+        Root root = criteriaQuery.from(Comment.class);
+
+        criteriaQuery.select(root);
+
+        criteriaQuery.where(criteriaBuilder.equal(root.get("commentParent"), commentParentId));
+
+        Query query = s.createQuery(criteriaQuery);
+        return query.getResultList();
+    }
 }
