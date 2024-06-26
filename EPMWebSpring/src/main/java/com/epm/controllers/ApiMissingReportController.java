@@ -91,11 +91,13 @@ public class ApiMissingReportController {
                 break;
             }
         }
-        int studentId = Integer.parseInt(params.get("studentId"));
-        User u = this.userService.findByStudentId(studentId);
-        List<Object[]> listMROS = this.missingReportService.getListMRByStudent(u.getId(), semesterId, yearStudy);
+        Integer studentId = null;
 
-        Integer studentId = Integer.parseInt(params.get("studentId"));
+        try {
+            studentId = Integer.parseInt(params.get("studentId"));
+        } catch (NumberFormatException | NullPointerException e) {
+            // userId will remain null if there's an exception
+        }
 
         if (studentId != null) {
             User u = this.userService.findByStudentId(studentId);
@@ -132,7 +134,6 @@ public class ApiMissingReportController {
             return new ResponseEntity<>(listMROS, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
     }
 
     @GetMapping(path = "/faculty/{facultyId}")

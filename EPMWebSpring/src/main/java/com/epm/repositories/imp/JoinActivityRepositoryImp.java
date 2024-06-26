@@ -179,4 +179,18 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
         Query query = s.createQuery(criteriaQuery);
         return query.getResultList();
     }
+
+    @Override
+    public Object[] getAcByJAId(int joinActivityId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
+        Root r = q.from(JoinActivity.class);
+        
+        q.multiselect(r, r.get("activityId"));
+        
+        q.where(b.equal(r.get("id"), joinActivityId));
+        
+        return s.createQuery(q).getSingleResult();
+    }
 }

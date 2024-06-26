@@ -2,15 +2,15 @@ Chung
 - màn hình login user, assistant
 - màn hình register cho user done
 Cho assistant
-+ trang quản lý hoạt động
-- tạo hoạt động mới (tạo xong sẽ được hiện lên newfeed)
-- xem danh sách các hoạt động đã tạo
++ trang quản lý hoạt động 
+- tạo hoạt động mới (tạo xong sẽ được hiện lên newfeed) done
+- xem danh sách các hoạt động đã tạo done
 (khi ấn vào từng hd -> xem chi tiết, chỉnh sửa hoặc xóa hành động)
 + trang quản lý điểm rèn luyện
-- xem thành tích khóa ngoại của một sinh viên
-- xem danh sách các hoạt động báo thiếu
-- xác nhận hoạt từ chối(xóa) điểm cho sinh viên
-- nạp danh sách điểm danh theo dạng csv
+- xem thành tích khóa ngoại của một sinh viên done
+- xem danh sách các hoạt động báo thiếu done
+- xác nhận hoạt từ chối(xóa) điểm cho sinh viên done
+- nạp danh sách điểm danh theo dạng csv done
 + trang thống kê
 - xem thống kê đrl theo lớp, thành tích
 - xuất danh sách điểm chi tiết dưới dạng pdf, csv
