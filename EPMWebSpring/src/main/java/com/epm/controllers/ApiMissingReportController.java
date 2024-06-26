@@ -94,10 +94,45 @@ public class ApiMissingReportController {
         int studentId = Integer.parseInt(params.get("studentId"));
         User u = this.userService.findByStudentId(studentId);
         List<Object[]> listMROS = this.missingReportService.getListMRByStudent(u.getId(), semesterId, yearStudy);
+
+        Integer studentId = Integer.parseInt(params.get("studentId"));
+
+        if (studentId != null) {
+            User u = this.userService.findByStudentId(studentId);
+            List<Object[]> listMROS = this.missingReportService.getListMRByStudent(u.getId(), semesterId, yearStudy);
+            if (!listMROS.isEmpty()) {
+                return new ResponseEntity<>(listMROS, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User u = this.userService.getUserByUsername(auth.getName());
+            List<Object[]> listMROS = this.missingReportService.getListMRByStudent(u.getId(), semesterId, yearStudy);
+            if (!listMROS.isEmpty()) {
+                return new ResponseEntity<>(listMROS, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping(path = "/get-list", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<List<Object[]>> listMissingReport(@RequestParam HashMap<String, String> params) {
+        List<Semester> s = this.semesterService.findBySemesterName(params.get("semester"));
+        String yearStudy = params.get("yearStudy");
+        int semesterId = 0;
+        for (Semester semester : s) {
+            if (semester.getYearStudy().equals(yearStudy)) {
+                semesterId = semester.getId();
+                break;
+            }
+        }
+        List<Object[]> listMROS = this.missingReportService.listMissingReport(semesterId, yearStudy);
         if (!listMROS.isEmpty()) {
             return new ResponseEntity<>(listMROS, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 
     @GetMapping(path = "/faculty/{facultyId}")

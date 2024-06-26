@@ -15,4 +15,6 @@ public interface ClassRepository {
     Classes findById(int classId);
     
     public List<Classes> getClasses();
+    
+    List<Object[]> getClassFaculty();
 }

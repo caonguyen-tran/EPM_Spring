@@ -35,7 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class MissingReportRepositoryImp implements MissingReportRepository{
+public class MissingReportRepositoryImp implements MissingReportRepository {
+
     @Autowired
     private LocalSessionFactoryBean factory;
 
@@ -58,13 +59,13 @@ public class MissingReportRepositoryImp implements MissingReportRepository{
         Join<User, Student> student = user.join("student", JoinType.INNER);
         Join<Student, Classes> classes = student.join("classId", JoinType.INNER);
         Join<Classes, Faculty> faculty = classes.join("facultyId", JoinType.INNER);
-        
+
         criteriaQuery.select(criteriaBuilder.array(missingReport, activity, user, term, student, classes, faculty));
-        
-        if(facultyId != 0){
+
+        if (facultyId != 0) {
             criteriaQuery.where(criteriaBuilder.equal(faculty.get("id"), facultyId));
         }
-        
+
         Query q = s.createQuery(criteriaQuery);
 
         return q.getResultList();
@@ -83,6 +84,36 @@ public class MissingReportRepositoryImp implements MissingReportRepository{
 
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(cb.equal(rootMissingReport.get("userId"), userId));
+
+        if (semesterId > 0) {
+            predicates.add(cb.equal(join.get("semesterId"), semesterId));
+        } else if (yearStudy != null && !yearStudy.isEmpty()) {
+            Subquery<Integer> subquerySemesterIdByYearStudy = cq.subquery(Integer.class);
+            Root<Semester> rootSemesterByYearStudy = subquerySemesterIdByYearStudy.from(Semester.class);
+            subquerySemesterIdByYearStudy.select(rootSemesterByYearStudy.get("id"));
+            subquerySemesterIdByYearStudy.where(cb.equal(rootSemesterByYearStudy.get("yearStudy"), yearStudy));
+            predicates.add(cb.in(join.get("semesterId")).value(subquerySemesterIdByYearStudy));
+        } else {
+
+        }
+
+        cq.where(predicates.toArray(new Predicate[0]));
+
+        return session.createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Object[]> listMissingReport(int semesterId, String yearStudy) {
+        Session session = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
+
+        Root<MissingReport> rootMissingReport = cq.from(MissingReport.class);
+        Join<MissingReport, Activity> join = rootMissingReport.join("activityId");
+
+        cq.multiselect(rootMissingReport, join);
+
+        List<Predicate> predicates = new ArrayList<>();
 
         if (semesterId > 0) {
             predicates.add(cb.equal(join.get("semesterId"), semesterId));

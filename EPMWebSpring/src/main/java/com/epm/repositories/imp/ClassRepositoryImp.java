@@ -7,6 +7,9 @@ package com.epm.repositories.imp;
 import com.epm.pojo.Classes;
 import com.epm.repositories.ClassRepository;
 import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,19 @@ public class ClassRepositoryImp implements ClassRepository {
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createNamedQuery("Classes.findAll");
         return q.getResultList();
+    }
+
+    @Override
+    public List<Object[]> getClassFaculty() {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery q = b.createQuery(Object[].class);
+        Root r = q.from(Classes.class);
+        q.select(r);
+
+        q.multiselect(r, r.get("facultyId"));
+
+        return s.createQuery(q).getResultList();
     }
 
 }

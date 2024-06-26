@@ -74,4 +74,19 @@ public class StudentRepositoryImp implements StudentRepository{
         s.update(student);
     }
 
+    @Override
+    public List<Object[]> getListStudents(int classId) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery q = b.createQuery(Object[].class);
+        Root r = q.from(Student.class);
+        q.select(r);
+        
+        q.multiselect(r, r.get("userId").get("id"));
+        
+        q.where(b.equal(r.get("classId"), classId));
+        
+        return s.createQuery(q).getResultList();
+    }
+
 }
