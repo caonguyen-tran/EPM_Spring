@@ -6,11 +6,14 @@ package com.epm.controllers;
 
 import com.epm.dto.response.JoinActivityResponse;
 import com.epm.dto.response.ResponseStruct;
+import com.epm.mapper.JoinActivityMapper;
 import com.epm.pojo.Activity;
 import com.epm.pojo.JoinActivity;
 import com.epm.pojo.User;
 import com.epm.services.RegisterService;
+import com.epm.services.UserService;
 import com.epm.utils.StatusResponse;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiRegisterController {
     @Autowired
     private RegisterService registerService;
+    
+    @Autowired
+    private UserService userService;
+    
+    @Autowired
+    private JoinActivityMapper joinActivityMapper;
 
     @GetMapping(path = "/")
     public List<JoinActivityResponse> getRegisterByUser() {
@@ -42,14 +51,12 @@ public class ApiRegisterController {
     }
 
     @PostMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseStruct<String> submidRegister(@RequestBody HashMap<String, String> req) {
+    public ResponseStruct<String> submidRegister(@RequestBody HashMap<String, String> req, Principal principal) {
         int activityId = Integer.parseInt(req.get("activityId"));
-        int userId = Integer.parseInt(req.get("userId"));
         
         Activity activity = new Activity();
         activity.setId(activityId);
-        User user = new User();
-        user.setId(userId);
+        User user = this.userService.getUserByUsername(principal.getName());
         
         JoinActivity joinActivity = new JoinActivity();
         joinActivity.setActivityId(activity);
@@ -59,9 +66,10 @@ public class ApiRegisterController {
         return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, "SUCCESSFULLY");
     }
     
-    @GetMapping(path="/personal-register/{userId}")
-    public ResponseStruct<List<Object[]>> getRegisterByUser(@PathVariable(value="userId") int userId){
-        return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, this.registerService.getRegistersByUser(userId));
+    @GetMapping(path="/personal-register")
+    public ResponseStruct<List<Object[]>> getRegisterByUser(Principal principal){
+        User user = this.userService.getUserByUsername(principal.getName());
+        return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, this.registerService.getRegistersByUser(user.getId()));
     }
     
     @DeleteMapping(path="/{registerId}")
@@ -73,5 +81,17 @@ public class ApiRegisterController {
             return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, HttpStatus.NO_CONTENT);
         }
         return new ResponseStruct(StatusResponse.FAIL_RESPONSE, HttpStatus.UNAUTHORIZED);
+    }
+    
+    @GetMapping(path="/user-and-activity/activity/{activityId}")
+    public ResponseStruct<JoinActivityResponse> getRegisterByUserAndActivity(@PathVariable(value="activityId") int activityId, Principal principal){
+        User user = this.userService.getUserByUsername(principal.getName());
+        JoinActivity ja = this.registerService.getRegisterByUserAndActivity(user.getId(), activityId);
+        
+        if(ja != null){
+            return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, joinActivityMapper.toJoinActivityResponse(ja));
+        }
+        
+        return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, null);
     }
 }

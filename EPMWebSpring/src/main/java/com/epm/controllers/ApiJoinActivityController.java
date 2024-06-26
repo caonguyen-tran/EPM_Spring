@@ -8,9 +8,12 @@ import com.epm.dto.response.JoinActivityResponse;
 import com.epm.dto.response.ResponseStruct;
 import com.epm.mapper.JoinActivityMapper;
 import com.epm.pojo.JoinActivity;
+import com.epm.pojo.User;
 import com.epm.services.JoinActivityService;
 import com.epm.services.RegisterService;
+import com.epm.services.UserService;
 import com.epm.utils.StatusResponse;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -46,6 +49,9 @@ public class ApiJoinActivityController {
 
     @Autowired
     private RegisterService registerService;
+    
+    @Autowired
+    private UserService userService;
 
     @DeleteMapping("/join-activity/{joinId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -63,15 +69,15 @@ public class ApiJoinActivityController {
     }
 
     @PostMapping(path = "/join-activity/{joinActivityId}")
-    public ResponseStruct<JoinActivityResponse> confirmJoin(@RequestParam Map<String, String> data, @RequestPart MultipartFile file, @PathVariable("joinActivityId") int joinActivityId) {
+    public ResponseStruct<JoinActivityResponse> confirmJoin(@RequestParam Map<String, String> data, @RequestPart MultipartFile file, @PathVariable("joinActivityId") int joinActivityId, Principal principal) {
         JoinActivity joinActivity = this.registerService.getRegisterById(joinActivityId);
-        int userId = Integer.parseInt(data.get("userId"));
+        User u = this.userService.getUserByUsername(principal.getName());
         String note = data.get("note");
         joinActivity.setFile(file);
         joinActivity.setNote(note);
         joinActivity.setRollup(true);
 
-        if (joinActivity.getUserId().getId() == userId) {
+        if (joinActivity.getUserId().getId() == u.getId()) {
             return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, joinActivityMapper.toJoinActivityResponse(this.joinActivityService.update(joinActivity)));
         }
 

@@ -17,4 +17,5 @@ public interface RegisterService {
     List<Object[]> getRegistersByUser(int userId);
     void removeRegister(JoinActivity joinActivity);
     JoinActivity getRegisterById(int registerId);
+    JoinActivity getRegisterByUserAndActivity(int userId, int activityId);
 }

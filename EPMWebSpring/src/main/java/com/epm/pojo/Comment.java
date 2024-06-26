@@ -68,11 +68,11 @@ public class Comment implements Serializable {
     @JsonIgnore
     private Activity activityId;
     @OneToMany(mappedBy = "commentParent")
-    @JsonManagedReference
+    @JsonIgnore
     private Set<Comment> commentSet;
     @JoinColumn(name = "comment_parent", referencedColumnName = "id")
     @ManyToOne
-    @JsonBackReference
+    @JsonIgnore
     private Comment commentParent;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -80,6 +80,8 @@ public class Comment implements Serializable {
     private User userId;
     @Transient
     private MultipartFile file;
+    @Column(name = "is_parent")
+    private Boolean isParent = false;
 
     public Comment() {
     }
@@ -158,6 +160,14 @@ public class Comment implements Serializable {
         this.userId = userId;
     }
 
+    public Boolean getIsParent() {
+        return isParent;
+    }
+
+    public void setIsParent(Boolean isParent) {
+        this.isParent = isParent;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -196,5 +206,5 @@ public class Comment implements Serializable {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-    
+
 }
