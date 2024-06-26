@@ -21,4 +21,6 @@ public interface RegisterRepository {
     public void removeRegister(JoinActivity joinActivity);
 
     public JoinActivity getRegisterById(int registerId);
+
+    public JoinActivity getRegisterByUserAndActivity(int userId, int activityId);
 }

@@ -41,7 +41,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @RequestMapping(value = "/api/user")
-@CrossOrigin
+@CrossOrigin()
 public class ApiUserController {
 
     @Autowired
@@ -63,7 +63,6 @@ public class ApiUserController {
     private UserMapper userMapper;
 
     @PostMapping(path = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
     public ResponseStruct<String> loginSubmit(@RequestBody HashMap<String, String> request) {
         String username = request.get("username");
         String password = request.get("password");
@@ -78,7 +77,6 @@ public class ApiUserController {
     }
 
     @GetMapping(path = "/current-user")
-    @CrossOrigin
     public ResponseStruct<UserResponse> getCurrentUser(Principal principal) {
         String username = principal.getName();
         User user = this.userService.getUserByUsername(username);
@@ -91,7 +89,6 @@ public class ApiUserController {
         MediaType.MULTIPART_FORM_DATA_VALUE
     })
     @ResponseStatus(HttpStatus.CREATED)
-    @CrossOrigin
     public void processRegister(@RequestParam Map<String, String> params, @RequestPart MultipartFile[] file, HttpServletRequest request) {
         User u = new User();
         String email = params.get("email");
@@ -132,7 +129,6 @@ public class ApiUserController {
     }
 
     @GetMapping("/verify")
-    @CrossOrigin
     public ResponseEntity<String> verifyUser(@RequestParam("code") String code) {
         String responseMessage;
         if (userService.verify(code)) {

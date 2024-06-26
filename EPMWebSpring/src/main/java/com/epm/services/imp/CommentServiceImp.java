@@ -74,6 +74,8 @@ public class CommentServiceImp implements CommentService {
 
         if (commentParentId != null) {
             Comment parentComment = commentRepository.findById(commentParentId);
+            parentComment.setIsParent(true);
+            updateIsParent(parentComment);
             comment.setCommentParent(parentComment);
         }
 
@@ -83,13 +85,8 @@ public class CommentServiceImp implements CommentService {
     }
 
     @Override
-    public List<Object[]> getCommentsByActivity(int activityId) {
-        Activity activity = activityRepository.findById(activityId);
-        if (activity == null) {
-            return new ArrayList<>();
-        }
-
-        return commentRepository.findByActivityId(activityId);
+    public List<Comment> getCommentsByActivity(int activityId) {
+        return this.commentRepository.findByActivityId(activityId);
     }
 
     @Override
@@ -135,4 +132,18 @@ public class CommentServiceImp implements CommentService {
         return true;
     }
 
+    @Override
+    public List<Comment> getComments(Activity activity) {
+        return new ArrayList<>(activity.getCommentSet());
+    }
+
+    @Override
+    public void updateIsParent(Comment comment) {
+        this.commentRepository.updateIsParent(comment);
+    }
+
+    @Override
+    public List<Comment> getCommentsChild(int commentParentId) {
+        return this.commentRepository.getCommentsChild(commentParentId);
+    }
 }

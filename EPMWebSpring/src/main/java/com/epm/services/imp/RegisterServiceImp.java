@@ -44,4 +44,9 @@ public class RegisterServiceImp implements RegisterService{
     public JoinActivity getRegisterById(int registerId) {
         return this.registerRepository.getRegisterById(registerId);
     }
+
+    @Override
+    public JoinActivity getRegisterByUserAndActivity(int userId, int activityId) {
+        return this.registerRepository.getRegisterByUserAndActivity(userId, activityId);
+    }
 }

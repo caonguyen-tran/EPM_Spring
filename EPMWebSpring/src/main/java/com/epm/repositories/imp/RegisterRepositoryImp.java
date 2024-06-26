@@ -12,11 +12,13 @@ import com.epm.pojo.Student;
 import com.epm.pojo.Term;
 import com.epm.pojo.User;
 import com.epm.repositories.RegisterRepository;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -70,16 +72,18 @@ public class RegisterRepositoryImp implements RegisterRepository {
         CriteriaBuilder criteriaBuilder = s.getCriteriaBuilder();
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
 
+        List<Predicate> predicates = new ArrayList<>();
+
         Root<JoinActivity> register = criteriaQuery.from(JoinActivity.class);
-        Join<JoinActivity, User> userStudent = register.join("userId", JoinType.INNER);
         Join<JoinActivity, Activity> activity = register.join("activityId", JoinType.INNER);
         Join<Activity, Term> term = activity.join("termId", JoinType.INNER);
 
-        criteriaQuery.select(criteriaBuilder.array(register, userStudent, activity, term));
+        criteriaQuery.select(criteriaBuilder.array(register, activity, term));
 
-        criteriaQuery.where(criteriaBuilder.equal(register.get("rollup"), false));
-        criteriaQuery.where(criteriaBuilder.equal(register.get("userId"), userId));
+        predicates.add(criteriaBuilder.equal(register.get("userId"), userId));
+        predicates.add(criteriaBuilder.equal(register.get("rollup"), false));
 
+        criteriaQuery.where(predicates.toArray(Predicate[]::new));
         Query query = s.createQuery(criteriaQuery);
         return query.getResultList();
     }
@@ -96,5 +100,15 @@ public class RegisterRepositoryImp implements RegisterRepository {
         Query query = s.createNamedQuery("JoinActivity.findById");
         query.setParameter("id", registerId);
         return (JoinActivity) query.getSingleResult();
+    }
+
+    @Override
+    public JoinActivity getRegisterByUserAndActivity(int userId, int activityId) {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+        String hql = "FROM JoinActivity WHERE userId.id = :userId AND activityId.id = :activityId";
+        Query<JoinActivity> query = s.createQuery(hql, JoinActivity.class);
+        query.setParameter("userId", userId);
+        query.setParameter("activityId", activityId);
+        return query.uniqueResult();
     }
 }

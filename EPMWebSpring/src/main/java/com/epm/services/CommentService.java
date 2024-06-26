@@ -4,6 +4,7 @@
  */
 package com.epm.services;
 
+import com.epm.pojo.Activity;
 import com.epm.pojo.Comment;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,9 +17,15 @@ public interface CommentService {
 
     Comment addComment(int userId, int activityId, String content, MultipartFile file, Integer commentParentId);
 
-    List<Object[]> getCommentsByActivity(int activityId);
+    List<Comment> getCommentsByActivity(int activityId);
 
     boolean deleteComment(int commentId, int userId);
 
     boolean updateComment(int commentId, int userId, String content, MultipartFile file);
+    
+    List<Comment> getComments(Activity activity);
+    
+    void updateIsParent(Comment comment);
+    
+    List<Comment> getCommentsChild(int commentParentId);
 }
