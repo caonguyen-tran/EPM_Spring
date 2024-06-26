@@ -82,58 +82,73 @@ public class ApiMissingReportController {
     @GetMapping(path = "/get-missing-report-of-student/", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<List<Object[]>> getMissingReportsOfStudent(@RequestParam HashMap<String, String> params) {
-        List<Semester> s = this.semesterService.findBySemesterName(params.get("semester"));
-        String yearStudy = params.get("yearStudy");
-        int semesterId = 0;
-        for (Semester semester : s) {
-            if (semester.getYearStudy().equals(yearStudy)) {
-                semesterId = semester.getId();
-                break;
-            }
-        }
+        Integer semesterId = null;
         Integer studentId = null;
-
         try {
-            studentId = Integer.parseInt(params.get("studentId"));
-        } catch (NumberFormatException | NullPointerException e) {
-            // userId will remain null if there's an exception
-        }
+            if (params.containsKey("semesterId") && params.get("semesterId") != null && !params.get("semesterId").isEmpty()) {
+                semesterId = Integer.parseInt(params.get("semesterId"));
+            }
+            if (params.containsKey("studentId") && params.get("studentId") != null && !params.get("studentId").isEmpty()) {
+                studentId = Integer.parseInt(params.get("studentId"));
+            }
 
-        if (studentId != null) {
+            List<Object[]> listMROS;
+
+            Semester s = this.semesterService.findById(semesterId);
+            String yearStudy = s.getYearStudy();
             User u = this.userService.findByStudentId(studentId);
-            List<Object[]> listMROS = this.missingReportService.getListMRByStudent(u.getId(), semesterId, yearStudy);
+            listMROS = this.missingReportService.getListMRByStudent(u.getId(), semesterId, yearStudy);
+
             if (!listMROS.isEmpty()) {
                 return new ResponseEntity<>(listMROS, HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            User u = this.userService.getUserByUsername(auth.getName());
-            List<Object[]> listMROS = this.missingReportService.getListMRByStudent(u.getId(), semesterId, yearStudy);
+        } catch (NumberFormatException | NullPointerException e) {
+            String yearStudy = params.get("yearStudy");
+            List<Object[]> listMROS;
+            if (semesterId != null) {
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                User u = this.userService.getUserByUsername(auth.getName());
+                listMROS = this.missingReportService.getListMRByStudent(u.getId(), semesterId, yearStudy);
+            } else if (studentId != null){
+                User u = this.userService.findByStudentId(studentId);
+                listMROS = this.missingReportService.getListMRByStudent(u.getId(), 0, yearStudy);
+            } else {
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                User u = this.userService.getUserByUsername(auth.getName());
+                listMROS = this.missingReportService.getListMRByStudent(u.getId(), 0, yearStudy);
+            }
+
             if (!listMROS.isEmpty()) {
                 return new ResponseEntity<>(listMROS, HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+        
     }
 
     @GetMapping(path = "/get-list", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<List<Object[]>> listMissingReport(@RequestParam HashMap<String, String> params) {
-        List<Semester> s = this.semesterService.findBySemesterName(params.get("semester"));
-        String yearStudy = params.get("yearStudy");
-        int semesterId = 0;
-        for (Semester semester : s) {
-            if (semester.getYearStudy().equals(yearStudy)) {
-                semesterId = semester.getId();
-                break;
+        Integer semesterId = null;
+        try {
+            semesterId = Integer.parseInt(params.get("semesterId"));
+            Semester s = this.semesterService.findById(semesterId);
+            String yearStudy = s.getYearStudy();
+            List<Object[]> listMROS = this.missingReportService.listMissingReport(semesterId, yearStudy);
+            if (!listMROS.isEmpty()) {
+                return new ResponseEntity<>(listMROS, HttpStatus.OK);
             }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (NumberFormatException | NullPointerException e) {
+            String yearStudy = params.get("yearStudy");
+            semesterId = 0;
+            List<Object[]> listMROS = this.missingReportService.listMissingReport(semesterId, yearStudy);
+            if (!listMROS.isEmpty()) {
+                return new ResponseEntity<>(listMROS, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        List<Object[]> listMROS = this.missingReportService.listMissingReport(semesterId, yearStudy);
-        if (!listMROS.isEmpty()) {
-            return new ResponseEntity<>(listMROS, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping(path = "/faculty/{facultyId}")

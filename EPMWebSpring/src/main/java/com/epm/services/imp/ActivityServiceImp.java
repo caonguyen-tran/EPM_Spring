@@ -103,8 +103,8 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
-    public List<Object[]> getAllActivities() {
-        return this.activityRepo.getAllActivities();
+    public List<Object[]> getAllActivities(int semesterId, String yearStudy) {
+        return this.activityRepo.getAllActivities(semesterId, yearStudy);
     }
     
 

@@ -29,6 +29,7 @@ public class ActivityMapper {
         ar.setImage(activity.getImage());
         ar.setSlots(activity.getSlots());
         ar.setActive(activity.getActive());
+        ar.setClose(activity.getClose());
         ar.setFaculty(activity.getFacultyId());
         ar.setSemester(activity.getSemesterId());
         ar.setTerm(activity.getTermId());

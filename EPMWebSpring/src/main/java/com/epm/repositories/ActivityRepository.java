@@ -31,6 +31,6 @@ public interface ActivityRepository {
     
     Object[] getActivity(int activityId);
     
-    List<Object[]> getAllActivities();
-
+    List<Object[]> getAllActivities(int semesterId, String yearStudy);
+    
 }
