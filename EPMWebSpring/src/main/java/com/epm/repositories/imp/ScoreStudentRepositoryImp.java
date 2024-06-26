@@ -143,4 +143,18 @@ public class ScoreStudentRepositoryImp implements ScoreStudentRepository {
         Query query = s.createQuery(criteriaQuery);
         return query.getResultList();
     }
+
+    @Override
+    public List<Object[]> getScoreByJoinActivity(int joinActivityId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery q = b.createQuery(Object[].class);
+        Root r = q.from(ScoreStudent.class);
+        
+        q.multiselect(r.get("scoreId"), r.get("dateConfirm"));
+        
+        q.where(b.equal(r.get("joinActivityId"), joinActivityId));
+        
+        return s.createQuery(q).getResultList();
+    }
 }

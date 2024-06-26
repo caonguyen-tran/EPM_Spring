@@ -127,7 +127,7 @@ public class UserServiceImp implements UserService {
         }
         
         content = content.replace("[[name]]", user.getUsername());
-        String verifyURL = siteURL + "/api/verify?code=" + user.getVerificationCode();
+        String verifyURL = siteURL + "/api/user/verify?code=" + user.getVerificationCode();
 
         content = content.replace("[[URL]]", verifyURL);
 

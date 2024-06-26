@@ -91,7 +91,13 @@ public class ApiMissingReportController {
                 break;
             }
         }
-        Integer studentId = Integer.parseInt(params.get("studentId"));
+        Integer studentId = null;
+
+        try {
+            studentId = Integer.parseInt(params.get("studentId"));
+        } catch (NumberFormatException | NullPointerException e) {
+            // userId will remain null if there's an exception
+        }
 
         if (studentId != null) {
             User u = this.userService.findByStudentId(studentId);

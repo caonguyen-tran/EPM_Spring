@@ -61,8 +61,6 @@ public class ActivityRepositoryImp implements ActivityRepository {
 
         Predicate userIdPredicate = cb.equal(joinActivity.get("userId"), userId);
 
-        Predicate rollUpPredicate = cb.equal(joinActivity.get("rollup"), true);
-
         Subquery<Integer> subqueryMaxSemesterId = cq.subquery(Integer.class);
         Root<Semester> rootSemesterSub = subqueryMaxSemesterId.from(Semester.class);
         subqueryMaxSemesterId.select(cb.max(rootSemesterSub.get("id")));
@@ -85,7 +83,7 @@ public class ActivityRepositoryImp implements ActivityRepository {
             semesterIdPredicate = cb.in(rootActivity.get("semesterId")).value(subquerySemesterIdByYearStudy);
         }
 
-        cq.where(cb.and(userIdPredicate, rollUpPredicate, semesterIdPredicate));
+        cq.where(cb.and(userIdPredicate, semesterIdPredicate));
 
         return session.createQuery(cq).getResultList();
     }
