@@ -35,5 +35,5 @@ public interface ActivityService {
     
     Object[] getActivity(int activityId);
     
-    List<Object[]> getAllActivities();
+    List<Object[]> getAllActivities(int semesterId, String yearStudy);
 }

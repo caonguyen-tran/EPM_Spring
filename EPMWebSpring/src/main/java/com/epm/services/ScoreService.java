@@ -35,4 +35,5 @@ public interface ScoreService {
     List<Object[]> getTotalScoresByTerm(int userId, int semesterId, String yearStudy);
     
     Score getScoreByNameAndActivity(String scoreName, int activityId);
+    
 }

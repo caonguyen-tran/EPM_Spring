@@ -79,7 +79,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/api/activities/joined/", "/api/activities/", "/api/activities/{id}", "/api/activities/all/").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/activities/joined", "/api/activities/", "/api/activities/{id}", "/api/activities/all").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/activities/create/", "/api/activities/update/{id}").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
                 .antMatchers(HttpMethod.DELETE, "/api/activities/delete/{id}").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
                 .antMatchers(HttpMethod.GET, "/api/join-activity/{activityId}").access("hasRole('ROLE_ADMIN')")
@@ -95,7 +95,6 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/score/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
                 .antMatchers(HttpMethod.GET, "/api/score-student/result").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
                 .antMatchers(HttpMethod.POST, "/api/score-student/accept", "/api/score-student/upload-csv").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
-                .antMatchers(HttpMethod.GET, "/api/statistics/class/{classId}/achievements").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
                 .antMatchers(HttpMethod.GET, "/api/user/verify").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/user/current-user").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
                 .antMatchers("/api/comments/**").permitAll()

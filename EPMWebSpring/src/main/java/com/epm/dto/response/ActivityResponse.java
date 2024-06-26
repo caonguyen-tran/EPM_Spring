@@ -27,6 +27,7 @@ public class ActivityResponse {
     private Boolean active;
     private String image;
     private int slots;
+    private Boolean close;
     private Faculty faculty;
     private Semester semester;
     private Term term;
@@ -120,5 +121,19 @@ public class ActivityResponse {
 
     public void setTerm(Term term) {
         this.term = term;
+    }
+
+    /**
+     * @return the close
+     */
+    public Boolean getClose() {
+        return close;
+    }
+
+    /**
+     * @param close the close to set
+     */
+    public void setClose(Boolean close) {
+        this.close = close;
     }
 }

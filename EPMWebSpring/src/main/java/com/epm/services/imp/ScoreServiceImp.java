@@ -160,4 +160,6 @@ public class ScoreServiceImp implements ScoreService {
     public Score getScoreByNameAndActivity(String scoreName, int activityId) {
         return this.scoreRepo.getScoreByNameAndActivity(scoreName,activityId);
     }
+
+
 }
