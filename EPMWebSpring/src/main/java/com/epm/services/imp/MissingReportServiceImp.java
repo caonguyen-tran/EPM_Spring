@@ -59,4 +59,9 @@ public class MissingReportServiceImp implements MissingReportService {
     public List<Object[]> listMissingReport(int semesterId, String yearStudy) {
         return this.missingReportRepo.listMissingReport(semesterId, yearStudy);
     }
+
+    @Override
+    public Object[] getMRById(int mrId) {
+        return this.missingReportRepo.getMRById(mrId);
+    }
 }
