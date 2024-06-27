@@ -91,10 +91,6 @@ public class ApiMissingReportController {
                 break;
             }
         }
-        int studentId = Integer.parseInt(params.get("studentId"));
-        User u = this.userService.findByStudentId(studentId);
-        List<Object[]> listMROS = this.missingReportService.getListMRByStudent(u.getId(), semesterId, yearStudy);
-
         Integer studentId = Integer.parseInt(params.get("studentId"));
 
         if (studentId != null) {

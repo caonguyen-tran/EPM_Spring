@@ -134,11 +134,11 @@ public class ApiActivityController {
 //        List<Activity> lists = this.activityService.getActivities();
 //        return lists.stream().map(activity -> activityMapper.toActivityResponse(activity)).collect(Collectors.toList());
 //    }
-    @GetMapping(path = "/{activityId}")
-    public ActivityResponse getActivityById(@PathVariable("activityId") int activityId) {
-        Activity activity = this.activityService.findById(activityId);
-        return this.activityMapper.toActivityResponse(activity);
-    }
+//    @GetMapping(path = "/{activityId}")
+//    public ActivityResponse getActivityById(@PathVariable("activityId") int activityId) {
+//        Activity activity = this.activityService.findById(activityId);
+//        return this.activityMapper.toActivityResponse(activity);
+//    }
 
     @GetMapping("/{id}")
     public ResponseStruct<ActivityResponse> getActivityDetail(@PathVariable int id) {
