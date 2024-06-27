@@ -121,10 +121,12 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
         CriteriaBuilder b = s.getCriteriaBuilder();
         CriteriaQuery<JoinActivity> q = b.createQuery(JoinActivity.class);
         Root<JoinActivity> r = q.from(JoinActivity.class);
+        
+        q.select(r);
 
         Predicate userPredicate = b.equal(r.get("userId"), userId);
         Predicate activityPredicate = b.equal(r.get("activityId"), activityId);
-        q.select(r).where(b.and(userPredicate, activityPredicate));
+        q.where(b.and(userPredicate, activityPredicate));
 
         try {
             return s.createQuery(q).getSingleResult();

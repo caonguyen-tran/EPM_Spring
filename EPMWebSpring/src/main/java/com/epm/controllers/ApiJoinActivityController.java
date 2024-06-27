@@ -91,4 +91,12 @@ public class ApiJoinActivityController {
             return new ResponseEntity<>(joinActivity, HttpStatus.OK);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+    
+    @GetMapping("/join-activity/activity/{activityId}/user/{userId}")
+    public ResponseEntity<JoinActivity> getJAByUserActivity(@PathVariable("userId") int userId, @PathVariable("activityId") int activityId){
+        JoinActivity joinActivity = this.joinActivityService.findByUserAndActivity(userId, activityId);
+        if(joinActivity != null)
+            return new ResponseEntity<>(joinActivity, HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 }

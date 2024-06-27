@@ -104,7 +104,7 @@ public class ApiActivityController {
                 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
                 User u = this.userService.getUserByUsername(auth.getName());
                 activities = this.activityService.getActivitiesJoined(u.getId(), semesterId, yearStudy);
-            } else if (studentId != null){
+            } else if (studentId != null) {
                 String yearStudy = params.get("yearStudy");
                 User u = this.userService.findByStudentId(studentId);
                 activities = this.activityService.getActivitiesJoined(u.getId(), 0, yearStudy);
@@ -124,7 +124,7 @@ public class ApiActivityController {
 
     @PostMapping(path = "/create", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createActivity(@RequestBody Map<String, String> data, @RequestPart MultipartFile file) throws ParseException {
+    public void createActivity(@RequestParam Map<String, String> data, @RequestPart MultipartFile file) throws ParseException {
         Semester semester = new Semester();
         Term term = new Term();
         Faculty faculty = new Faculty();

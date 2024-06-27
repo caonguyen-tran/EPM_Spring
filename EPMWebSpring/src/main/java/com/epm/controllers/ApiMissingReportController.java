@@ -156,4 +156,10 @@ public class ApiMissingReportController {
         List<Object[]> lists = this.missingReportService.getListMissingReports(facultyId);
         return new ResponseEntity(lists, HttpStatus.OK);
     }
+    
+    @GetMapping(path = "/{mrId}")
+    public ResponseEntity<List<Object[]>> getMRById(@PathVariable(value = "mrId") int mrId) {
+        Object[] missingReport = this.missingReportService.getMRById(mrId);
+        return new ResponseEntity(missingReport, HttpStatus.OK);
+    }
 }
