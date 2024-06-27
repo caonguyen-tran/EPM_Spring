@@ -167,14 +167,40 @@ public class ActivityRepositoryImp implements ActivityRepository {
     }
 
     @Override
-    public List<Object[]> getAllActivities() {
+    public List<Object[]> getAllActivities(int semesterId, String yearStudy) {
         Session s = this.sessionFactory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
         CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
         Root r = q.from(Activity.class);
         q.select(r);
         
+       
+
         q.multiselect(r, r.get("termId"), r.get("semesterId"), r.get("facultyId"));
+
+        Subquery<Integer> subqueryMaxSemesterId = q.subquery(Integer.class);
+        Root<Semester> rootSemesterSub = subqueryMaxSemesterId.from(Semester.class);
+        subqueryMaxSemesterId.select(b.max(rootSemesterSub.get("id")));
+
+        Predicate semesterIdPredicate = null;
+        if (semesterId > 0) {
+            semesterIdPredicate = b.equal(r.get("semesterId"), semesterId);
+        }
+
+        if (semesterId <= 0 && yearStudy.isEmpty()) {
+            semesterIdPredicate = b.equal(r.get("semesterId"), subqueryMaxSemesterId);
+        }
+
+        if (semesterId <= 0 && !yearStudy.isEmpty()) {
+            Subquery<Integer> subquerySemesterIdByYearStudy = q.subquery(Integer.class);
+            Root<Semester> rootSemesterByYearStudy = subquerySemesterIdByYearStudy.from(Semester.class);
+            subquerySemesterIdByYearStudy.select(rootSemesterByYearStudy.get("id"));
+            subquerySemesterIdByYearStudy.where(b.equal(rootSemesterByYearStudy.get("yearStudy"), yearStudy));
+
+            semesterIdPredicate = b.in(r.get("semesterId")).value(subquerySemesterIdByYearStudy);
+        }
+
+        q.where(b.and(semesterIdPredicate));
 
         try {
             return s.createQuery(q).getResultList();

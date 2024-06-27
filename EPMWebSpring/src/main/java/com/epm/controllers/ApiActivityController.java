@@ -74,44 +74,57 @@ public class ApiActivityController {
     private ActivityMapper activityMapper;
 
     @GetMapping(path = "/joined", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Object[]>> listActivityJoining(@RequestParam Map<String, String> params) {     
-        List<Semester> s = this.semesterService.findBySemesterName(params.get("semester"));
-        String yearStudy = params.get("yearStudy");
-        int semesterId = 0;
-        for (Semester semester : s) {
-            if (semester.getYearStudy().equals(yearStudy)) {
-                semesterId = semester.getId();
-                break;
-            }
-        }
-
+    public ResponseEntity<List<Object[]>> listActivityJoining(@RequestParam Map<String, String> params) {
+        Integer semesterId = null;
         Integer studentId = null;
-
         try {
-            studentId = Integer.parseInt(params.get("studentId"));
+            if (params.containsKey("semesterId") && params.get("semesterId") != null && !params.get("semesterId").isEmpty()) {
+                semesterId = Integer.parseInt(params.get("semesterId"));
+            }
+            if (params.containsKey("studentId") && params.get("studentId") != null && !params.get("studentId").isEmpty()) {
+                studentId = Integer.parseInt(params.get("studentId"));
+            }
+
+            List<Object[]> activities;
+
+            Semester s = this.semesterService.findById(semesterId);
+            String yearStudy = s.getYearStudy();
+            User u = this.userService.findByStudentId(studentId);
+            activities = this.activityService.getActivitiesJoined(u.getId(), semesterId, yearStudy);
+
+            if (!activities.isEmpty()) {
+                return new ResponseEntity<>(activities, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (NumberFormatException | NullPointerException e) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            User u = this.userService.getUserByUsername(auth.getName());
-            List<Object[]> activities = this.activityService.getActivitiesJoined(u.getId(), semesterId, yearStudy);
+            List<Object[]> activities;
+            if (semesterId != null) {
+                Semester s = this.semesterService.findById(semesterId);
+                String yearStudy = s.getYearStudy();
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                User u = this.userService.getUserByUsername(auth.getName());
+                activities = this.activityService.getActivitiesJoined(u.getId(), semesterId, yearStudy);
+            } else if (studentId != null) {
+                String yearStudy = params.get("yearStudy");
+                User u = this.userService.findByStudentId(studentId);
+                activities = this.activityService.getActivitiesJoined(u.getId(), 0, yearStudy);
+            } else {
+                String yearStudy = params.get("yearStudy");
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                User u = this.userService.getUserByUsername(auth.getName());
+                activities = this.activityService.getActivitiesJoined(u.getId(), 0, yearStudy);
+            }
+
             if (!activities.isEmpty()) {
                 return new ResponseEntity<>(activities, HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-
-        User u = this.userService.findByStudentId(studentId);
-        List<Object[]> activities = this.activityService.getActivitiesJoined(u.getId(), semesterId, yearStudy);
-        if (!activities.isEmpty()) {
-            return new ResponseEntity<>(activities, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
     }
-
 
     @PostMapping(path = "/create", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createActivity(@RequestBody Map<String, String> data, @RequestPart MultipartFile file) throws ParseException {
+    public void createActivity(@RequestParam Map<String, String> data, @RequestPart MultipartFile file) throws ParseException {
         Semester semester = new Semester();
         Term term = new Term();
         Faculty faculty = new Faculty();
@@ -143,7 +156,6 @@ public class ApiActivityController {
 //        List<Activity> lists = this.activityService.getActivities();
 //        return lists.stream().map(activity -> activityMapper.toActivityResponse(activity)).collect(Collectors.toList());
 //    }
-
     @GetMapping("/{id}")
     public ResponseStruct<ActivityResponse> getActivityDetail(@PathVariable int id) {
         Activity activity = this.activityService.findById(id);
@@ -156,7 +168,7 @@ public class ApiActivityController {
 
     @PostMapping(path = "/update/{id}", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateActivity(@PathVariable int id, @RequestBody Map<String, String> data, @RequestPart(required = false) MultipartFile file) throws ParseException {
+    public void updateActivity(@PathVariable int id, @RequestParam Map<String, String> data, @RequestPart(required = false) MultipartFile file) throws ParseException {
         Activity activity = this.activityService.findById(id);
 
         if (activity == null) {
@@ -204,7 +216,27 @@ public class ApiActivityController {
     }
 
     @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Object[]>> listAll() {
-        return new ResponseEntity<>(this.activityService.getAllActivities(), HttpStatus.OK);
+    @CrossOrigin
+    public ResponseEntity<List<Object[]>> listAll(@RequestParam Map<String, String> params) {
+        Integer semesterId = null;
+        try {
+            semesterId = Integer.parseInt(params.get("semesterId"));
+            Semester s = this.semesterService.findById(semesterId);
+            String yearStudy = s.getYearStudy();
+            List<Object[]> activities = this.activityService.getAllActivities(semesterId, yearStudy);
+            if (!activities.isEmpty()) {
+                return new ResponseEntity<>(activities, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (NumberFormatException | NullPointerException e) {
+            String yearStudy = params.get("yearStudy");
+            semesterId = 0;
+            List<Object[]> activities = this.activityService.getAllActivities(semesterId, yearStudy);
+            if (!activities.isEmpty()) {
+                return new ResponseEntity<>(activities, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
     }
 }

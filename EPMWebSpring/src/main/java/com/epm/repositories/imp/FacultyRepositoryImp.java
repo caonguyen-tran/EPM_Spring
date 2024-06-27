@@ -30,4 +30,12 @@ public class FacultyRepositoryImp implements FacultyRepository{
         Query query = s.createNamedQuery("Faculty.findAll");
         return query.getResultList();
     }
+
+    @Override
+    public Faculty findById(int facultyId) {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+        Query query = s.createNamedQuery("Faculty.findById");
+        query.setParameter("id", facultyId);
+        return (Faculty) query.getSingleResult();
+    }
 }

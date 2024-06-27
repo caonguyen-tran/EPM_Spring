@@ -111,7 +111,8 @@ public class MissingReportRepositoryImp implements MissingReportRepository {
         Root<MissingReport> rootMissingReport = cq.from(MissingReport.class);
         Join<MissingReport, Activity> join = rootMissingReport.join("activityId");
 
-        cq.multiselect(rootMissingReport, join);
+        cq.multiselect(rootMissingReport, join, rootMissingReport.get("userId").get("student"), 
+                rootMissingReport.get("userId").get("student").get("classId"), rootMissingReport.get("userId").get("student").get("classId").get("facultyId"));
 
         List<Predicate> predicates = new ArrayList<>();
 
@@ -130,5 +131,24 @@ public class MissingReportRepositoryImp implements MissingReportRepository {
         cq.where(predicates.toArray(new Predicate[0]));
 
         return session.createQuery(cq).getResultList();
+    }
+    
+    @Override
+    public Object[] getMRById(int mrId) {
+        Session session = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
+
+        Root<MissingReport> rootMissingReport = cq.from(MissingReport.class);
+        Join<MissingReport, Activity> join = rootMissingReport.join("activityId");
+
+        cq.multiselect(rootMissingReport, join, rootMissingReport.get("userId").get("student"), 
+                rootMissingReport.get("userId").get("student").get("classId"), 
+                rootMissingReport.get("userId").get("student").get("classId").get("facultyId"),
+                rootMissingReport.get("userId"));
+        
+        cq.where(cb.equal(rootMissingReport.get("id"), mrId));
+        
+        return session.createQuery(cq).getSingleResult();
     }
 }

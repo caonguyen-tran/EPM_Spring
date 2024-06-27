@@ -77,6 +77,15 @@ public class ActivityServiceImp implements ActivityService {
 
     @Override
     public void update(Activity activity) {
+        if (!activity.getFile().isEmpty()) {
+            try {
+                Map res = this.cloudinary.uploader().upload(activity.getFile().getBytes(),
+                        ObjectUtils.asMap("resource_type", "auto"));
+                activity.setImage(res.get("secure_url").toString());
+            } catch (IOException ex) {
+                Logger.getLogger(ActivityServiceImp.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         this.activityRepo.update(activity);
     }
 
@@ -103,8 +112,8 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
-    public List<Object[]> getAllActivities() {
-        return this.activityRepo.getAllActivities();
+    public List<Object[]> getAllActivities(int semesterId, String yearStudy) {
+        return this.activityRepo.getAllActivities(semesterId, yearStudy);
     }
     
 
