@@ -32,4 +32,6 @@ public interface JoinActivityService {
     public List<JoinActivity> getJoinActivityByActivityId(int activityId);
     
     List<JoinActivity> getJoinActivityByUserAndSemester(int semesterId, int userId);
+    
+    Object[] getAcByJAId(int joinActivityId);
 }

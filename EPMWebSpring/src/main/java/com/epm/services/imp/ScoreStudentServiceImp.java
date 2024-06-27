@@ -132,4 +132,9 @@ public class ScoreStudentServiceImp implements ScoreStudentService {
     public List<Object[]> getScoreStudentByUserAndSemester(List<JoinActivity> listJoinActivity) {
         return this.scoreStudentRepository.getScoreStudentByUserAndSemester(listJoinActivity);
     }
+
+    @Override
+    public List<Object[]> getScoreByJoinActivity(int joinActivityId) {
+        return this.scoreStudentRepository.getScoreByJoinActivity(joinActivityId);
+    }
 }

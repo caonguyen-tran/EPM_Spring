@@ -88,11 +88,11 @@ public class Student implements Serializable {
     @Column(name = "email")
     private String email;
     @JoinColumn(name = "class_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JsonIgnore
     private Classes classId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JsonIgnore
     private User userId;
 

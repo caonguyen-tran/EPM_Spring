@@ -59,46 +59,55 @@ public class ApiActivityController {
 
     @Autowired
     private SemesterService semesterService;
-
+//    
 //    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @CrossOrigin
 //    public ResponseEntity<List<Activity>> list() {
 //        return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
 //    }
-  
+//    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @CrossOrigin
+//    public ResponseEntity<List<Activity>> list() {
+//        return new ResponseEntity<>(this.activityService.getActivities(), HttpStatus.OK);
+//    }
     @Autowired
     private ActivityMapper activityMapper;
 
     @GetMapping(path = "/joined", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Object[]>> listActivityJoining(@RequestParam Map<String, String> params) {
-        List<Semester> s = null;
-        String semesterName = params.get("semester");
+    public ResponseEntity<List<Object[]>> listActivityJoining(@RequestParam Map<String, String> params) {     
+        List<Semester> s = this.semesterService.findBySemesterName(params.get("semester"));
         String yearStudy = params.get("yearStudy");
         int semesterId = 0;
-
-        if (semesterName != null && !semesterName.isEmpty()) {
-            s = this.semesterService.findBySemesterName(semesterName);
-            if (s != null && yearStudy != null && !yearStudy.isEmpty()) {
-                for (Semester semester : s) {
-                    if (semester.getYearStudy().equals(yearStudy)) {
-                        semesterId = semester.getId();
-                        break;
-                    }
-                }
-            } else if (s != null) {
-                semesterId = s.get(0).getId();
+        for (Semester semester : s) {
+            if (semester.getYearStudy().equals(yearStudy)) {
+                semesterId = semester.getId();
+                break;
             }
         }
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User u = this.userService.getUserByUsername(auth.getName());
-        List<Object[]> activities = this.activityService.getActivitiesJoined(u.getId(), semesterId, yearStudy);
+        Integer studentId = null;
 
-        if (activities != null && !activities.isEmpty()) {
+        try {
+            studentId = Integer.parseInt(params.get("studentId"));
+        } catch (NumberFormatException | NullPointerException e) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User u = this.userService.getUserByUsername(auth.getName());
+            List<Object[]> activities = this.activityService.getActivitiesJoined(u.getId(), semesterId, yearStudy);
+            if (!activities.isEmpty()) {
+                return new ResponseEntity<>(activities, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        User u = this.userService.findByStudentId(studentId);
+        List<Object[]> activities = this.activityService.getActivitiesJoined(u.getId(), semesterId, yearStudy);
+        if (!activities.isEmpty()) {
             return new ResponseEntity<>(activities, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
+
 
     @PostMapping(path = "/create", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -134,11 +143,6 @@ public class ApiActivityController {
 //        List<Activity> lists = this.activityService.getActivities();
 //        return lists.stream().map(activity -> activityMapper.toActivityResponse(activity)).collect(Collectors.toList());
 //    }
-//    @GetMapping(path = "/{activityId}")
-//    public ActivityResponse getActivityById(@PathVariable("activityId") int activityId) {
-//        Activity activity = this.activityService.findById(activityId);
-//        return this.activityMapper.toActivityResponse(activity);
-//    }
 
     @GetMapping("/{id}")
     public ResponseStruct<ActivityResponse> getActivityDetail(@PathVariable int id) {
@@ -146,7 +150,7 @@ public class ApiActivityController {
         if (activity == null) {
             return new ResponseStruct(StatusResponse.FAIL_RESPONSE, null);
         }
-        
+
         return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, activityMapper.toActivityResponse(this.activityService.findById(id)));
     }
 

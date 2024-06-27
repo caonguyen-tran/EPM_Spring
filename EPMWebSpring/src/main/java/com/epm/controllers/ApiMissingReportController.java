@@ -91,7 +91,17 @@ public class ApiMissingReportController {
                 break;
             }
         }
+<<<<<<< HEAD
         Integer studentId = Integer.parseInt(params.get("studentId"));
+=======
+        Integer studentId = null;
+
+        try {
+            studentId = Integer.parseInt(params.get("studentId"));
+        } catch (NumberFormatException | NullPointerException e) {
+            // userId will remain null if there's an exception
+        }
+>>>>>>> 9b64754d06b78b3a0e99b880d33696f85fc49f99
 
         if (studentId != null) {
             User u = this.userService.findByStudentId(studentId);
@@ -128,7 +138,6 @@ public class ApiMissingReportController {
             return new ResponseEntity<>(listMROS, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
     }
 
     @GetMapping(path = "/faculty/{facultyId}")
