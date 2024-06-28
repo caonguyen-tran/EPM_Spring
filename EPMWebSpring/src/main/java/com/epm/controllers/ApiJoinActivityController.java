@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -85,8 +86,9 @@ public class ApiJoinActivityController {
         return new ResponseStruct(StatusResponse.FAIL_RESPONSE, null);
     }
 
-    @GetMapping("/join-activity/detail/{joinActivityId}")
-    public ResponseEntity<Object[]> getJoinActivity(@PathVariable("joinActivityId") int joinActivityId) {
+    
+    @GetMapping(path = "/join-activity/detail/{joinActivityId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object[]> getJoinActivity(@PathVariable("joinActivityId") int joinActivityId){
         Object[] joinActivity = this.joinActivityService.getAcByJAId(joinActivityId);
         if (joinActivity != null) {
             return new ResponseEntity<>(joinActivity, HttpStatus.OK);
@@ -94,8 +96,9 @@ public class ApiJoinActivityController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/join-activity/activity/{activityId}/user/{userId}")
-    public ResponseEntity<JoinActivity> getJAByUserActivity(@PathVariable("userId") int userId, @PathVariable("activityId") int activityId) {
+    
+    @GetMapping(path = "/join-activity/activity/{activityId}/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<JoinActivity> getJAByUserActivity(@PathVariable("userId") int userId, @PathVariable("activityId") int activityId){
         JoinActivity joinActivity = this.joinActivityService.findByUserAndActivity(userId, activityId);
         if (joinActivity != null) {
             return new ResponseEntity<>(joinActivity, HttpStatus.OK);

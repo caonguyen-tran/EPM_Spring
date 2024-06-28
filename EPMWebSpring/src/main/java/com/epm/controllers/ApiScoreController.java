@@ -158,15 +158,15 @@ public class ApiScoreController {
         Integer semesterId = null;
         List<Object[]> totalScores;
         try {
-            semesterId = Integer.parseInt(params.get("semesterId"));
-            Semester s = this.semesterService.findById(semesterId);
-            String yearStudy = s.getYearStudy();
-            List<Classes> classes = this.classService.getClasses();
+            semesterId = Integer.parseInt(params.get("semesterId")); // Potential NPE if params.get("semesterId") is null
+            Semester s = this.semesterService.findById(semesterId); // Potential NPE if semesterService.findById returns null
+            String yearStudy = s.getYearStudy(); // Potential NPE if s is null
+            List<Classes> classes = this.classService.getClasses(); // Potential NPE if classService.getClasses returns null
 
             List<Map<String, Object>> responseList = new ArrayList<>();
 
             for (Classes everyClass : classes) {
-                List<Object[]> students = this.studentService.getListStudents(everyClass.getId());
+                List<Object[]> students = this.studentService.getListStudents(everyClass.getId()); // Potential NPE if studentService.getListStudents returns null
 
                 if (students.isEmpty()) {
                     continue;
@@ -224,13 +224,16 @@ public class ApiScoreController {
 
                 for (Object[] studentEntry : students) {
                     Student student = (Student) studentEntry[0];
-                    int userId = (Integer) studentEntry[1];
+                    if (studentEntry.length < 2 || studentEntry[1] == null) {
+                        continue; // Skip this studentEntry if userId is null
+                    }
+                    Integer userId = (Integer) studentEntry[1];
 
                     totalScores = this.scoreService.getTotalScoresByTerm(userId, semesterId, yearStudy);
 
                     if (!totalScores.isEmpty()) {
                         for (Object[] result : totalScores) {
-                            totalScore += ((Number) result[1]).doubleValue();
+                            totalScore += ((Number) result[1]).doubleValue(); 
                         }
                     }
                 }

@@ -97,17 +97,14 @@ public class ScoreRepositoryImp implements ScoreRepository {
 
         if (semesterId > 0) {
             predicates.add(cb.equal(joinActivitySemester.get("id"), semesterId));
-        } else if (yearStudy != null && !yearStudy.isEmpty()) {
+        } else if (yearStudy != null && !yearStudy.isEmpty() && semesterId == 0) {
             Subquery<Integer> subquerySemesterIdByYearStudy = cq.subquery(Integer.class);
             Root<Semester> rootSemesterByYearStudy = subquerySemesterIdByYearStudy.from(Semester.class);
             subquerySemesterIdByYearStudy.select(rootSemesterByYearStudy.get("id"));
             subquerySemesterIdByYearStudy.where(cb.equal(rootSemesterByYearStudy.get("yearStudy"), yearStudy));
             predicates.add(cb.in(joinActivitySemester.get("id")).value(subquerySemesterIdByYearStudy));
         } else {
-            Subquery<Integer> subqueryMaxSemesterId = cq.subquery(Integer.class);
-            Root<Semester> rootSemesterSub = subqueryMaxSemesterId.from(Semester.class);
-            subqueryMaxSemesterId.select(cb.max(rootSemesterSub.get("id")));
-            predicates.add(cb.equal(joinActivitySemester.get("id"), subqueryMaxSemesterId));
+
         }
 
         cq.where(predicates.toArray(new Predicate[0]));
@@ -138,17 +135,14 @@ public class ScoreRepositoryImp implements ScoreRepository {
 
         if (semesterId > 0) {
             predicates.add(cb.equal(joinActivitySemester.get("id"), semesterId));
-        } else if (yearStudy != null && !yearStudy.isEmpty()) {
+        } else if (yearStudy != null && !yearStudy.isEmpty() && semesterId == 0) {
             Subquery<Integer> subquerySemesterIdByYearStudy = cq.subquery(Integer.class);
             Root<Semester> rootSemesterByYearStudy = subquerySemesterIdByYearStudy.from(Semester.class);
             subquerySemesterIdByYearStudy.select(rootSemesterByYearStudy.get("id"));
             subquerySemesterIdByYearStudy.where(cb.equal(rootSemesterByYearStudy.get("yearStudy"), yearStudy));
             predicates.add(cb.in(joinActivitySemester.get("id")).value(subquerySemesterIdByYearStudy));
         } else {
-            Subquery<Integer> subqueryMaxSemesterId = cq.subquery(Integer.class);
-            Root<Semester> rootSemesterSub = subqueryMaxSemesterId.from(Semester.class);
-            subqueryMaxSemesterId.select(cb.max(rootSemesterSub.get("id")));
-            predicates.add(cb.equal(joinActivitySemester.get("id"), subqueryMaxSemesterId));
+
         }
 
         cq.where(predicates.toArray(new Predicate[0]));

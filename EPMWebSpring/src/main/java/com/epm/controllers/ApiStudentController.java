@@ -4,6 +4,7 @@
  */
 package com.epm.controllers;
 
+import com.epm.pojo.Student;
 import com.epm.services.StudentService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,4 +33,15 @@ public class ApiStudentController {
     public ResponseEntity<List<Object[]>> getAllStudents(@PathVariable(value = "classId") int classId){
         return new ResponseEntity<>(this.studentService.getListStudents(classId), HttpStatus.OK);
     }
+    
+   @GetMapping(path = "/student-detail/{studentId}", produces = MediaType.APPLICATION_JSON_VALUE)
+   @CrossOrigin
+   public ResponseEntity<Student> getStudent(@PathVariable(value = "studentId") int studentId) {
+       Student student = studentService.findById(studentId);
+       if (student != null) {
+           return new ResponseEntity<>(student, HttpStatus.OK);
+       } else {
+           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+       }
+   }
 }
