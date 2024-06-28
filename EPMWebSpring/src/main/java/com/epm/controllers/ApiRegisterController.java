@@ -73,10 +73,10 @@ public class ApiRegisterController {
     }
     
     @DeleteMapping(path="/{registerId}")
-    public ResponseStruct<String> removeRegister(@PathVariable(value="registerId") int registerId, @RequestBody HashMap<String, String> data){
-        int userId = Integer.parseInt(data.get("userId"));
-        JoinActivity joinActivity = this.registerService.getRegisterById(registerId);
-        if(userId == joinActivity.getUserId().getId()){
+    public ResponseStruct<String> removeRegister(@PathVariable(value="registerId") int registerId, Principal principal){
+        User user = this.userService.getUserByUsername(principal.getName());
+        JoinActivity joinActivity = this.registerService.getRegisterById(registerId);this.registerService.removeRegister(joinActivity);
+        if(user.getId() == joinActivity.getUserId().getId()){
             this.registerService.removeRegister(joinActivity);
             return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, HttpStatus.NO_CONTENT);
         }

@@ -82,38 +82,15 @@ public class ApiMissingReportController {
     @GetMapping(path = "/get-missing-report-of-student/", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<List<Object[]>> getMissingReportsOfStudent(@RequestParam HashMap<String, String> params) {
-<<<<<<< HEAD
-        List<Semester> s = this.semesterService.findBySemesterName(params.get("semester"));
-        String yearStudy = params.get("yearStudy");
-        int semesterId = 0;
-        for (Semester semester : s) {
-            if (semester.getYearStudy().equals(yearStudy)) {
-                semesterId = semester.getId();
-                break;
-            }
-        }
-<<<<<<< HEAD
-        Integer studentId = Integer.parseInt(params.get("studentId"));
-=======
-=======
         Integer semesterId = null;
->>>>>>> aef560f2594dd87efb238173206c728edf40a62b
         Integer studentId = null;
-        try {
-<<<<<<< HEAD
-            studentId = Integer.parseInt(params.get("studentId"));
-        } catch (NumberFormatException | NullPointerException e) {
-            // userId will remain null if there's an exception
-        }
->>>>>>> 9b64754d06b78b3a0e99b880d33696f85fc49f99
-=======
+        try{
             if (params.containsKey("semesterId") && params.get("semesterId") != null && !params.get("semesterId").isEmpty()) {
                 semesterId = Integer.parseInt(params.get("semesterId"));
             }
             if (params.containsKey("studentId") && params.get("studentId") != null && !params.get("studentId").isEmpty()) {
                 studentId = Integer.parseInt(params.get("studentId"));
             }
->>>>>>> aef560f2594dd87efb238173206c728edf40a62b
 
             List<Object[]> listMROS;
 

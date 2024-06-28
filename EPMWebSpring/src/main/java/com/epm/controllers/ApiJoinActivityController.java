@@ -49,7 +49,7 @@ public class ApiJoinActivityController {
 
     @Autowired
     private RegisterService registerService;
-    
+
     @Autowired
     private UserService userService;
 
@@ -68,35 +68,46 @@ public class ApiJoinActivityController {
         return lists.stream().map(joinActivity -> joinActivityMapper.toJoinActivityResponse(joinActivity)).collect(Collectors.toList());
     }
 
-    @PostMapping(path = "/join-activity/{joinActivityId}")
-    public ResponseStruct<JoinActivityResponse> confirmJoin(@RequestParam Map<String, String> data, @RequestPart MultipartFile file, @PathVariable("joinActivityId") int joinActivityId, Principal principal) {
+    @PostMapping(path = "/join-activity")
+    public ResponseStruct<JoinActivityResponse> confirmJoin(@RequestParam Map<String, String> data, @RequestPart MultipartFile file, Principal principal) {
+        int joinActivityId = Integer.parseInt(data.get("joinActivityId"));
         JoinActivity joinActivity = this.registerService.getRegisterById(joinActivityId);
         User u = this.userService.getUserByUsername(principal.getName());
-        String note = data.get("note");
-        joinActivity.setFile(file);
-        joinActivity.setNote(note);
-        joinActivity.setRollup(true);
-
+       
         if (joinActivity.getUserId().getId() == u.getId()) {
+            String note = data.get("note");
+            joinActivity.setFile(file);
+            joinActivity.setNote(note);
+            joinActivity.setRollup(true);
             return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, joinActivityMapper.toJoinActivityResponse(this.joinActivityService.update(joinActivity)));
         }
 
         return new ResponseStruct(StatusResponse.FAIL_RESPONSE, null);
     }
-    
+
     @GetMapping("/join-activity/detail/{joinActivityId}")
-    public ResponseEntity<Object[]> getJoinActivity(@PathVariable("joinActivityId") int joinActivityId){
+    public ResponseEntity<Object[]> getJoinActivity(@PathVariable("joinActivityId") int joinActivityId) {
         Object[] joinActivity = this.joinActivityService.getAcByJAId(joinActivityId);
-        if(joinActivity != null)
+        if (joinActivity != null) {
             return new ResponseEntity<>(joinActivity, HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/join-activity/activity/{activityId}/user/{userId}")
+    public ResponseEntity<JoinActivity> getJAByUserActivity(@PathVariable("userId") int userId, @PathVariable("activityId") int activityId) {
+        JoinActivity joinActivity = this.joinActivityService.findByUserAndActivity(userId, activityId);
+        if (joinActivity != null) {
+            return new ResponseEntity<>(joinActivity, HttpStatus.OK);
+        }
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
     
-    @GetMapping("/join-activity/activity/{activityId}/user/{userId}")
-    public ResponseEntity<JoinActivity> getJAByUserActivity(@PathVariable("userId") int userId, @PathVariable("activityId") int activityId){
-        JoinActivity joinActivity = this.joinActivityService.findByUserAndActivity(userId, activityId);
-        if(joinActivity != null)
-            return new ResponseEntity<>(joinActivity, HttpStatus.OK);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    @GetMapping("/join-activity/personal/{semesterId}")
+    public ResponseStruct<List<JoinActivityResponse>> getJoinActivityByUser(@PathVariable(value="semesterId") int semesterId,Principal principal){
+        User user = this.userService.getUserByUsername(principal.getName());
+        List<JoinActivity> listJoinActivity = this.joinActivityService.getJoinActivityByUserAndSemester(user.getId(), semesterId, false);
+        List<JoinActivityResponse> jar = listJoinActivity.stream().map(joinActivity -> joinActivityMapper.toJoinActivityResponse(joinActivity)).collect(Collectors.toList());
+        return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, jar);
     }
 }

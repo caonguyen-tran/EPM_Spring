@@ -9,11 +9,14 @@ import com.epm.mapper.ScoreStudentMapper;
 import com.epm.pojo.JoinActivity;
 import com.epm.pojo.Score;
 import com.epm.pojo.ScoreStudent;
+import com.epm.pojo.User;
 import com.epm.services.JoinActivityService;
 import com.epm.services.ScoreService;
 import com.epm.services.ScoreStudentService;
+import com.epm.services.UserService;
 import com.epm.utils.StatusResponse;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +52,9 @@ public class ApiScoreStudentController {
 
     @Autowired
     private JoinActivityService joinActivityService;
+    
+    @Autowired
+    private UserService userService;
     
 
     @PostMapping(path = "/score-student/accept", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -87,12 +93,11 @@ public class ApiScoreStudentController {
 //        return (ResponseEntity<String>) listScoreStudents.stream().map(scoreStudentMapper::toScoreStudentResponse).collect(Collectors.toList());
 //    }
     
-    @GetMapping(path="/score-student/result")
-    public ResponseStruct<List<Object[]>> getResult(@RequestBody HashMap<String, String> data){
-        int userId = Integer.parseInt(data.get("userId"));
-        int semseterId = Integer.parseInt(data.get("semseterId"));
+    @GetMapping(path="/score-student/result/{semesterId}")
+    public ResponseStruct<List<Object[]>> getResult(@PathVariable(value="semesterId") int semesterId, Principal principal){
+        User user = this.userService.getUserByUsername(principal.getName());
         
-        return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, this.scoreStudentService.getScoreStudentByUserAndSemester(this.joinActivityService.getJoinActivityByUserAndSemester(semseterId, userId)));
+        return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, this.scoreStudentService.getScoreStudentByUserAndSemester(this.joinActivityService.getJoinActivityByUserAndSemester(semesterId, user.getId(), true)));
     }
     
     @GetMapping(path="/score-student/detail/{joinActivityId}")

@@ -66,7 +66,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/api/**");
-        
+
         http.authorizeRequests().antMatchers("/api/login/").permitAll()
                 .antMatchers("/api/user/login/").permitAll()
                 .antMatchers("/api/process_register/").permitAll()
@@ -76,14 +76,15 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/semesters/**").permitAll()
                 .antMatchers("/api/faculties/**").permitAll()
                 .antMatchers("/api/terms/**").permitAll();
-        
+
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/activities/joined", "/api/activities/", "/api/activities/{id}", "/api/activities/all").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/activities/create/", "/api/activities/update/{id}").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
                 .antMatchers(HttpMethod.DELETE, "/api/activities/delete/{id}").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
                 .antMatchers(HttpMethod.GET, "/api/join-activity/{activityId}").access("hasRole('ROLE_ADMIN')")
-                .antMatchers(HttpMethod.POST, "/api/join-activity/{joinActivityId}").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
+                .antMatchers(HttpMethod.GET, "/api/join-activity/personal/{semesterId}").access("hasRole('ROLE_STUDENT')")
+                .antMatchers(HttpMethod.POST, "/api/join-activity").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
                 .antMatchers(HttpMethod.DELETE, "/api/join-activity/{joinId}").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
                 .antMatchers(HttpMethod.GET, "/api/missing-report/get-missing-report-of-student/", "/api/missing-report/faculty/{facultyId}").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
                 .antMatchers(HttpMethod.POST, "/api/missing-report/create").access("hasRole('ROLE_STUDENT')")
@@ -93,7 +94,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/api/register/{registerId}").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
                 .antMatchers("/api/report/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
                 .antMatchers("/api/score/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
-                .antMatchers(HttpMethod.GET, "/api/score-student/result").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
+                .antMatchers(HttpMethod.GET, "/api/score-student/result/{semesterId}").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
                 .antMatchers(HttpMethod.POST, "/api/score-student/accept", "/api/score-student/upload-csv").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
                 .antMatchers(HttpMethod.GET, "/api/user/verify").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/user/current-user").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
@@ -104,7 +105,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
     }
-    
+
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
@@ -117,5 +118,5 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
-    
+
 }

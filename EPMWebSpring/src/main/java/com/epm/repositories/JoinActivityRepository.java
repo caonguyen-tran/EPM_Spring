@@ -31,7 +31,7 @@ public interface JoinActivityRepository {
   
     public List<JoinActivity> getJoinActivityByActivityId(int activityId);
 
-    public List<JoinActivity> getJoinActivityByUserAndSemester(int semesterId, int userId);
+    public List<JoinActivity> getJoinActivityByUserAndSemester(int semesterId, int userId, boolean accept);
     
     Object[] getAcByJAId(int joinActivityId);
 }
