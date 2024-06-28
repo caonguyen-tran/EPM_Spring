@@ -84,7 +84,7 @@ public class ApiMissingReportController {
     public ResponseEntity<List<Object[]>> getMissingReportsOfStudent(@RequestParam HashMap<String, String> params) {
         Integer semesterId = null;
         Integer studentId = null;
-        try {
+        try{
             if (params.containsKey("semesterId") && params.get("semesterId") != null && !params.get("semesterId").isEmpty()) {
                 semesterId = Integer.parseInt(params.get("semesterId"));
             }

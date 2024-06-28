@@ -85,8 +85,8 @@ public class JoinActivitityServiceImp implements JoinActivityService{
     }
 
     @Override
-    public List<JoinActivity> getJoinActivityByUserAndSemester(int semesterId, int userId) {
-        return this.joinActivityRepository.getJoinActivityByUserAndSemester(semesterId, userId);
+    public List<JoinActivity> getJoinActivityByUserAndSemester(int semesterId, int userId, boolean accept) {
+        return this.joinActivityRepository.getJoinActivityByUserAndSemester(semesterId, userId, accept);
     }
 
     @Override

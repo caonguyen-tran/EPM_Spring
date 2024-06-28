@@ -121,7 +121,7 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
         CriteriaBuilder b = s.getCriteriaBuilder();
         CriteriaQuery<JoinActivity> q = b.createQuery(JoinActivity.class);
         Root<JoinActivity> r = q.from(JoinActivity.class);
-        
+
         q.select(r);
 
         Predicate userPredicate = b.equal(r.get("userId"), userId);
@@ -141,28 +141,28 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
         s.update(joinActivity);
         return joinActivity;
     }
-  
+
     @Override
     public List<JoinActivity> getJoinActivityByActivityId(int activityId) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder criteriaBuilder = s.getCriteriaBuilder();
         CriteriaQuery<JoinActivity> criteriaQuery = criteriaBuilder.createQuery(JoinActivity.class);
         Root root = criteriaQuery.from(JoinActivity.class);
-        
+
         criteriaQuery.select(root);
-        
+
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(criteriaBuilder.equal(root.get("rollup"), true));
         predicates.add(criteriaBuilder.equal(root.get("accept"), false));
         predicates.add(criteriaBuilder.equal(root.get("activityId"), activityId));
-                
+
         criteriaQuery.where(predicates.toArray(Predicate[]::new));
         Query query = s.createQuery(criteriaQuery);
         return query.getResultList();
     }
 
     @Override
-    public List<JoinActivity> getJoinActivityByUserAndSemester(int semesterId, int userId) {
+    public List<JoinActivity> getJoinActivityByUserAndSemester(int semesterId, int userId, boolean accept) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder criteriaBuilder = s.getCriteriaBuilder();
         CriteriaQuery<JoinActivity> criteriaQuery = criteriaBuilder.createQuery(JoinActivity.class);
@@ -174,9 +174,9 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
         Join<Activity, Semester> semester = activity.join("semesterId", JoinType.INNER);
 
         predicates.add(criteriaBuilder.equal(join.get("userId"), userId));
-        predicates.add(criteriaBuilder.equal(join.get("accept"), true));
+        predicates.add(criteriaBuilder.equal(join.get("accept"), accept));
         predicates.add(criteriaBuilder.equal(semester.get("id"), semesterId));
-        
+
         criteriaQuery.where(predicates.toArray(Predicate[]::new));
         Query query = s.createQuery(criteriaQuery);
         return query.getResultList();
@@ -188,11 +188,35 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
         CriteriaBuilder b = s.getCriteriaBuilder();
         CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
         Root r = q.from(JoinActivity.class);
-        
+
         q.multiselect(r, r.get("activityId"));
-        
+
         q.where(b.equal(r.get("id"), joinActivityId));
-        
+
         return s.createQuery(q).getSingleResult();
     }
+//
+//    @Override
+//    public List<JoinActivity> getJoinActivityByUser(int userId) {
+//        Session s = this.factory.getObject().getCurrentSession();
+//        CriteriaBuilder b = s.getCriteriaBuilder();
+//        CriteriaQuery<JoinActivity> q = b.createQuery(JoinActivity.class);
+//        Root r = q.from(JoinActivity.class);
+//        q.select(r);
+//
+//        List<Predicate> predicates = new ArrayList();
+//        predicates.add(b.equal(r.get("userId"), userId));
+//        predicates.add(b.equal(r.get("rollup"), true));
+//        predicates.add(b.equal(r.get("accept"), false));
+//
+//        q.where(predicates.toArray(Predicate[]::new));
+//        Query query = s.createQuery(q);
+//
+//        try{
+//            return query.getResultList();
+//        }
+//        catch(Exception ex){
+//            return null;
+//        }
+//    }
 }
