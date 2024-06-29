@@ -22,4 +22,6 @@ public interface MissingReportService {
     List<Object[]> listMissingReport(int semesterId, String yearStudy);
     
     Object[] getMRById(int mrId);
+    
+    MissingReport rejectMR(int missingReportId);
 }

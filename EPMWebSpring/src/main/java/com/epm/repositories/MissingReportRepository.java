@@ -22,4 +22,8 @@ public interface MissingReportRepository {
     List<Object[]> listMissingReport(int semesterId, String yearStudy);
     
     Object[] getMRById(int mrId);
+    
+    MissingReport update(MissingReport mr);
+    
+    MissingReport findById(int mrId);
 }

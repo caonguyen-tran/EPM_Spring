@@ -64,4 +64,11 @@ public class MissingReportServiceImp implements MissingReportService {
     public Object[] getMRById(int mrId) {
         return this.missingReportRepo.getMRById(mrId);
     }
+
+    @Override
+    public MissingReport rejectMR(int missingReportId) {
+        MissingReport missingReport = this.missingReportRepo.findById(missingReportId);
+        missingReport.setStatus("Rejected");
+        return this.missingReportRepo.update(missingReport);
+    }
 }

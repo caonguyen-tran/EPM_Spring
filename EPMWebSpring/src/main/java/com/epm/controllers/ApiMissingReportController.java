@@ -15,6 +15,7 @@ import com.epm.services.UserService;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -84,7 +85,7 @@ public class ApiMissingReportController {
     public ResponseEntity<List<Object[]>> getMissingReportsOfStudent(@RequestParam HashMap<String, String> params) {
         Integer semesterId = null;
         Integer studentId = null;
-        try{
+        try {
             if (params.containsKey("semesterId") && params.get("semesterId") != null && !params.get("semesterId").isEmpty()) {
                 semesterId = Integer.parseInt(params.get("semesterId"));
             }
@@ -110,7 +111,7 @@ public class ApiMissingReportController {
                 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
                 User u = this.userService.getUserByUsername(auth.getName());
                 listMROS = this.missingReportService.getListMRByStudent(u.getId(), semesterId, yearStudy);
-            } else if (studentId != null){
+            } else if (studentId != null) {
                 User u = this.userService.findByStudentId(studentId);
                 listMROS = this.missingReportService.getListMRByStudent(u.getId(), 0, yearStudy);
             } else {
@@ -124,7 +125,7 @@ public class ApiMissingReportController {
             }
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        
+
     }
 
     @GetMapping(path = "/get-list", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -156,10 +157,17 @@ public class ApiMissingReportController {
         List<Object[]> lists = this.missingReportService.getListMissingReports(facultyId);
         return new ResponseEntity(lists, HttpStatus.OK);
     }
-    
+
     @GetMapping(path = "/{mrId}")
     public ResponseEntity<List<Object[]>> getMRById(@PathVariable(value = "mrId") int mrId) {
         Object[] missingReport = this.missingReportService.getMRById(mrId);
         return new ResponseEntity(missingReport, HttpStatus.OK);
     }
+
+    @PostMapping(path = "/reject/{mrId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MissingReport> rejectScoreStudent(@PathVariable("mrId") int mrId) {
+        MissingReport updatedMr = this.missingReportService.rejectMR(mrId);
+        return new ResponseEntity<>(updatedMr, HttpStatus.OK);
+    }
+
 }

@@ -151,4 +151,20 @@ public class MissingReportRepositoryImp implements MissingReportRepository {
         
         return session.createQuery(cq).getSingleResult();
     }
+
+    @Override
+    public MissingReport update(MissingReport mr) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.update(mr);
+        return mr;
+    }
+
+    @Override
+    public MissingReport findById(int mrId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("MissingReport.findById");
+        q.setParameter("id", mrId);
+        
+        return (MissingReport) q.getSingleResult();
+    }
 }
