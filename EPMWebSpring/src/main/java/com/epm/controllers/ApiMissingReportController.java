@@ -4,6 +4,9 @@
  */
 package com.epm.controllers;
 
+import com.epm.dto.response.MissingReportResponse;
+import com.epm.dto.response.ResponseStruct;
+import com.epm.mapper.MissingReportMapper;
 import com.epm.pojo.Activity;
 import com.epm.pojo.MissingReport;
 import com.epm.pojo.Semester;
@@ -12,9 +15,12 @@ import com.epm.services.ActivityService;
 import com.epm.services.MissingReportService;
 import com.epm.services.SemesterService;
 import com.epm.services.UserService;
+import com.epm.utils.StatusResponse;
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -51,6 +57,9 @@ public class ApiMissingReportController {
 
     @Autowired
     private SemesterService semesterService;
+    
+    @Autowired
+    private MissingReportMapper missingReportMapper;
 
     @PostMapping(value = "/create", consumes = {
         MediaType.MULTIPART_FORM_DATA_VALUE,
@@ -161,5 +170,24 @@ public class ApiMissingReportController {
     public ResponseEntity<List<Object[]>> getMRById(@PathVariable(value = "mrId") int mrId) {
         Object[] missingReport = this.missingReportService.getMRById(mrId);
         return new ResponseEntity(missingReport, HttpStatus.OK);
+    }
+    
+    @GetMapping(path="/personal/{semesterId}")
+    public ResponseStruct<List<MissingReportResponse>> getListMissingReportByUserAndSemester(@PathVariable(value="semesterId") int semesterId, Principal principal){
+        User user = this.userService.getUserByUsername(principal.getName());
+        List<MissingReport> lists = this.missingReportService.getListMissingReportByUser(user.getId(), semesterId);
+        List<MissingReportResponse> listMrr = lists.stream().map(item -> this.missingReportMapper.toMissingReportReponse(item)).collect(Collectors.toList());
+        return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, listMrr);
+    }
+    
+    @GetMapping(path="/get-exist-report/{activityId}")
+    public ResponseStruct<MissingReportResponse> getMissingReportByUserAndActivity(@PathVariable(value="activityId") int activityId, Principal principal){
+        User user = this.userService.getUserByUsername(principal.getName());
+        MissingReport mr = this.missingReportService.getMissingReportByUserAndActivity(user.getId(), activityId);
+        if(mr != null){
+            return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, this.missingReportMapper.toMissingReportReponse(mr));
+        }
+        
+        return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, null);
     }
 }

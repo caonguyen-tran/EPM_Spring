@@ -64,4 +64,14 @@ public class MissingReportServiceImp implements MissingReportService {
     public Object[] getMRById(int mrId) {
         return this.missingReportRepo.getMRById(mrId);
     }
+
+    @Override
+    public List<MissingReport> getListMissingReportByUser(int userId, int semesterId) {
+        return this.missingReportRepo.getListMissingReportByUser(userId, semesterId);
+    }
+
+    @Override
+    public MissingReport getMissingReportByUserAndActivity(int userId, int activityId) {
+        return this.missingReportRepo.getMissingReportByUserAndActivity(userId, activityId);
+    }
 }

@@ -45,19 +45,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Student.findByEmail", query = "SELECT s FROM Student s WHERE s.email = :email")})
 public class Student implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "firstname")
     private String firstname;
     @Basic(optional = false)
-    @NotNull
+    @NotNull()
     @Size(min = 1, max = 45)
     @Column(name = "lastname")
     private String lastname;
@@ -79,7 +73,7 @@ public class Student implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 120)
-    @Column(name = "address")
+    @Column(name="address")
     private String address;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
@@ -87,6 +81,12 @@ public class Student implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "email")
     private String email;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     @JsonIgnore
@@ -122,29 +122,6 @@ public class Student implements Serializable {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
 
     public Date getDayOfBirth() {
         return dayOfBirth;
@@ -162,21 +139,6 @@ public class Student implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public Classes getClassId() {
         return classId;
@@ -217,6 +179,46 @@ public class Student implements Serializable {
     @Override
     public String toString() {
         return "com.epm.pojo.Student[ id=" + id + " ]";
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     
 }

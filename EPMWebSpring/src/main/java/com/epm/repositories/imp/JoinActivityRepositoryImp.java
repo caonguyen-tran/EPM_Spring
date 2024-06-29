@@ -8,8 +8,6 @@ import com.epm.pojo.Activity;
 import com.epm.pojo.Classes;
 import com.epm.pojo.Faculty;
 import com.epm.pojo.JoinActivity;
-import com.epm.pojo.Score;
-import com.epm.pojo.ScoreStudent;
 import com.epm.pojo.Semester;
 import com.epm.pojo.Student;
 import com.epm.pojo.Term;
@@ -174,9 +172,10 @@ public class JoinActivityRepositoryImp implements JoinActivityRepository {
         Join<Activity, Semester> semester = activity.join("semesterId", JoinType.INNER);
 
         predicates.add(criteriaBuilder.equal(join.get("userId"), userId));
+        predicates.add(criteriaBuilder.equal(join.get("rollup"), true));
         predicates.add(criteriaBuilder.equal(join.get("accept"), accept));
         predicates.add(criteriaBuilder.equal(semester.get("id"), semesterId));
-
+        
         criteriaQuery.where(predicates.toArray(Predicate[]::new));
         Query query = s.createQuery(criteriaQuery);
         return query.getResultList();

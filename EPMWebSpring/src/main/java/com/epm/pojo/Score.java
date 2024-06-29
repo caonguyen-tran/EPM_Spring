@@ -41,12 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Score.findByNumberOfScore", query = "SELECT s FROM Score s WHERE s.numberOfScore = :numberOfScore")})
 public class Score implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -65,6 +59,13 @@ public class Score implements Serializable {
     @NotNull
     @Column(name = "number_of_score")
     private int numberOfScore;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @JoinColumn(name = "activity_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     @JsonIgnore
@@ -104,13 +105,6 @@ public class Score implements Serializable {
         this.scoreName = scoreName;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public int getScoreValue() {
         return scoreValue;
@@ -169,5 +163,12 @@ public class Score implements Serializable {
     public String toString() {
         return "com.epm.pojo.Score[ id=" + id + " ]";
     }
-    
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

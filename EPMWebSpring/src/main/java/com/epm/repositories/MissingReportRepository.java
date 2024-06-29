@@ -22,4 +22,8 @@ public interface MissingReportRepository {
     List<Object[]> listMissingReport(int semesterId, String yearStudy);
     
     Object[] getMRById(int mrId);
+
+    public List<MissingReport> getListMissingReportByUser(int userId, int semesterId);
+
+    public MissingReport getMissingReportByUserAndActivity(int userId, int activityId);
 }

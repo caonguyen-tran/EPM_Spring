@@ -87,6 +87,8 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/join-activity").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT') or hasRole('ROLE_STUDENT')")
                 .antMatchers(HttpMethod.DELETE, "/api/join-activity/{joinId}").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
                 .antMatchers(HttpMethod.GET, "/api/missing-report/get-missing-report-of-student/", "/api/missing-report/faculty/{facultyId}").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_ASSISTANT')")
+                .antMatchers(HttpMethod.GET, "/api/missing-report/personal/{semesterId}").access("hasRole('ROLE_STUDENT')")
+                .antMatchers(HttpMethod.GET, "/api/missing-report/get-exist-report/{activityId}").access("hasRole('ROLE_STUDENT') or hasRole('ROLE_ASSISTANT')")
                 .antMatchers(HttpMethod.POST, "/api/missing-report/create").access("hasRole('ROLE_STUDENT')")
                 .antMatchers(HttpMethod.GET, "/api/register/personal-register").access("hasRole('ROLE_STUDENT') or hasRole('ROLE_ASSISTANT')")
                 .antMatchers(HttpMethod.GET, "/api/register/user-and-activity/activity/{activityId}").access("hasRole('ROLE_STUDENT') or hasRole('ROLE_ASSISTANT')")

@@ -39,13 +39,20 @@ public class UserRepositoryImp implements UserRepository {
         Query q = s.createNamedQuery("User.findByUsername");
         q.setParameter("username", username);
 
-        return (User) q.getSingleResult();
+        try {
+            return (User) q.getSingleResult();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     @Override
     public boolean authUser(String username, String password) {
         User u = this.getUserByUsername(username);
-        
+
+        if (u == null) {
+            return false;
+        }
         return this.passEncoder.matches(password, u.getPassword());
     }
 

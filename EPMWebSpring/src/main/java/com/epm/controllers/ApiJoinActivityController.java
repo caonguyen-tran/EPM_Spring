@@ -106,7 +106,7 @@ public class ApiJoinActivityController {
     @GetMapping("/join-activity/personal/{semesterId}")
     public ResponseStruct<List<JoinActivityResponse>> getJoinActivityByUser(@PathVariable(value="semesterId") int semesterId,Principal principal){
         User user = this.userService.getUserByUsername(principal.getName());
-        List<JoinActivity> listJoinActivity = this.joinActivityService.getJoinActivityByUserAndSemester(user.getId(), semesterId, false);
+        List<JoinActivity> listJoinActivity = this.joinActivityService.getJoinActivityByUserAndSemester( semesterId,user.getId(), false);
         List<JoinActivityResponse> jar = listJoinActivity.stream().map(joinActivity -> joinActivityMapper.toJoinActivityResponse(joinActivity)).collect(Collectors.toList());
         return new ResponseStruct(StatusResponse.SUCCESS_RESPONSE, jar);
     }

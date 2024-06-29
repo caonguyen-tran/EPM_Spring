@@ -51,26 +51,12 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "Activity.findByClose", query = "SELECT a FROM Activity a WHERE a.close = :close")})
 public class Activity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @Size(max = 255)
     @Column(name = "name")
     private String name;
-    @Column(name = "start_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startDate;
-    @Column(name = "end_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date endDate;
     @Size(max = 255)
     @Column(name = "description")
     private String description;
-    @Column(name = "active")
-    private Boolean active = false;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -80,6 +66,21 @@ public class Activity implements Serializable {
     @NotNull
     @Column(name = "slots")
     private int slots;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "start_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startDate;
+    @Column(name = "end_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endDate;
+    @Column(name = "active")
+    private Boolean active = false;
     @Column(name = "close")
     private Boolean close = false;
     @JoinColumn(name = "faculty_id", referencedColumnName = "id")
@@ -149,13 +150,6 @@ public class Activity implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Date getStartDate() {
         return startDate;
@@ -173,13 +167,6 @@ public class Activity implements Serializable {
         this.endDate = endDate;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public Boolean getActive() {
         return active;
@@ -189,21 +176,6 @@ public class Activity implements Serializable {
         this.active = active;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public int getSlots() {
-        return slots;
-    }
-
-    public void setSlots(int slots) {
-        this.slots = slots;
-    }
 
     public Boolean getClose() {
         return close;
@@ -327,6 +299,38 @@ public class Activity implements Serializable {
      */
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getSlots() {
+        return slots;
+    }
+
+    public void setSlots(int slots) {
+        this.slots = slots;
     }
     
 }

@@ -35,12 +35,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Assistant.findByEmail", query = "SELECT a FROM Assistant a WHERE a.email = :email")})
 public class Assistant implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @Size(max = 45)
     @Column(name = "firstname")
     private String firstname;
@@ -51,6 +45,13 @@ public class Assistant implements Serializable {
     @Size(max = 45)
     @Column(name = "email")
     private String email;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @OneToOne(optional = false, fetch = FetchType.LAZY)
     private User userId;
@@ -70,29 +71,6 @@ public class Assistant implements Serializable {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public User getUserId() {
         return userId;
@@ -125,6 +103,30 @@ public class Assistant implements Serializable {
     @Override
     public String toString() {
         return "com.epm.pojo.Assistant[ id=" + id + " ]";
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     
 }

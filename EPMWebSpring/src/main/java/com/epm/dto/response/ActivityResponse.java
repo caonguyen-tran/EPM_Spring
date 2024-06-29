@@ -4,12 +4,10 @@
  */
 package com.epm.dto.response;
 
-import com.epm.pojo.Activity;
 import com.epm.pojo.Faculty;
 import com.epm.pojo.Semester;
 import com.epm.pojo.Term;
 import java.util.Date;
-import java.util.Set;
 import lombok.Data;
 
 /**

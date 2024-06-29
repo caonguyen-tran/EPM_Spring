@@ -41,12 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Faculty.findByCreatedDate", query = "SELECT f FROM Faculty f WHERE f.createdDate = :createdDate")})
 public class Faculty implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 120)
@@ -57,6 +51,12 @@ public class Faculty implements Serializable {
     @Column(name = "created_date")
     @Temporal(TemporalType.DATE)
     private Date createdDate;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "facultyId")
     @JsonIgnore
     private Set<Activity> activitySet;
@@ -85,13 +85,6 @@ public class Faculty implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Date getCreatedDate() {
         return createdDate;
@@ -143,5 +136,12 @@ public class Faculty implements Serializable {
     public String toString() {
         return "com.epm.pojo.Faculty[ id=" + id + " ]";
     }
-    
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

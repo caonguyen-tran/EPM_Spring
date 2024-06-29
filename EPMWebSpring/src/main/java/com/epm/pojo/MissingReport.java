@@ -45,12 +45,6 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "MissingReport.findByUserId", query = "SELECT m FROM MissingReport m WHERE m.userId = :userId")})
 public class MissingReport implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -59,12 +53,19 @@ public class MissingReport implements Serializable {
     @Size(max = 45)
     @Column(name = "status")
     private String status;
-    @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
     @Size(max = 120)
     @Column(name = "note")
     private String note;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "created_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     @JsonIgnore
@@ -112,14 +113,6 @@ public class MissingReport implements Serializable {
         this.proofJoining = proofJoining;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -128,13 +121,6 @@ public class MissingReport implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
 
     public User getUserId() {
         return userId;
@@ -189,6 +175,22 @@ public class MissingReport implements Serializable {
      */
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
 }
